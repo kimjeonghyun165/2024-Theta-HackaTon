@@ -1,0 +1,8 @@
+.bg-gradient-radial {
+  position: absolute;
+  width: 1412px; /* 기본값 */
+  height: 1412px; /* 기본값 */
+  left: 147px; /* 기본값 */
+  top: 492px; /* 기본값 */
+  background: radial-gradient(50% 50% at 50% 50%, #2A2B71 0%, #001B48 49.6%, #000000 100%);
+}

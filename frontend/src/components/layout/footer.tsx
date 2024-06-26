@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="footer p-10 flex justify-center">
+    <footer className="footer p-10 flex justify-center z-10">
       <div className="flex w-full max-w-6xl flex-col items-center justify-between gap-6 sm:flex-row">
         <aside className="flex items-center">
           <p className="text-xs text-center md:text-sm md:text-start">
