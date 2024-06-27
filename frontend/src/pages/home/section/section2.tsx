@@ -1,4 +1,5 @@
 import Carousel from "../../../components/carousel/carousel";
+import { marketImgs } from "../../../constant/home";
 
 const Section2 = () => {
   return (
@@ -8,7 +9,7 @@ const Section2 = () => {
         <p className="text-xs md:text-lg lg:text-xl">Featured IMAGINATION</p>
       </h1>
       <div className="flex justify-around items-center">
-        <Carousel />
+        <Carousel images={marketImgs} />
       </div>
     </section>
   );

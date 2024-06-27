@@ -5,7 +5,7 @@ const Section1 = () => {
     <section className="flex flex-col gap-24 h-full">
       <div className="flex justify-around items-center">
         <div className="w-full">
-          <h1 className="flex flex-col font-bold gap-6 pl-12">
+          <h1 className="flex flex-col font-bold gap-6 md:ml-12 md:pl-24">
             <p className="text-4xl md:text-5xl lg:text-6xl tracking-[.17em]">
               SMITH ALL
               <br />
