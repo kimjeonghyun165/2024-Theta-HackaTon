@@ -5,7 +5,7 @@ import Avatar from "../common/avatar";
 
 export const Header = () => {
   const [account, setAccount] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null);
 
   const handleConnect = async () => {
     await connectToMetaMask({
