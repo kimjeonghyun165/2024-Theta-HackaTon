@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileCard from "../../../components/common/home/profileCard";
+import ProfileCard from "../../../components/home/profileCard";
 import { profiles } from "../../../constant/home";
 
 const Section4: React.FC = () => {

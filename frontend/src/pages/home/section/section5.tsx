@@ -1,5 +1,5 @@
 import React from "react";
-import PriceCard from "../../../components/common/home/priceCard";
+import PriceCard from "../../../components/home/priceCard";
 import { plans } from "../../../constant/home";
 
 const Section5: React.FC = () => {

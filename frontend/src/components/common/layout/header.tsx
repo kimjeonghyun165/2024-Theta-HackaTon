@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Logo from "../../assets/logo";
-import { connectToMetaMask } from "../../utils/metamask";
-import Avatar from "../common/avatar";
+import Logo from "../../../assets/logo";
+import { connectToMetaMask } from "../../../utils/metamask";
+import Avatar from "../avatar";
+import { Link } from "react-scroll";
 
 export const Header = () => {
   const [account, setAccount] = useState<string | null>(null);
@@ -30,10 +31,33 @@ export const Header = () => {
         </div>
         <div className="flex items-center gap-6">
           <div className="hidden md:block gap-12">
-            <a className="btn btn-ghost text-xl">About</a>
-            <a className="btn btn-ghost text-xl">Market</a>
+            <Link
+              to="about-section"
+              smooth={true}
+              duration={500}
+              offset={-75}
+              className="btn btn-ghost text-xl"
+            >
+              About
+            </Link>
+            <Link
+              className="btn btn-ghost text-xl"
+              to="market-section"
+              smooth={true}
+              duration={500}
+              offset={-75}
+            >
+              Market
+            </Link>
             <a className="btn btn-ghost text-xl">Pricing</a>
-            <a className="btn btn-ghost text-xl">Contact</a>
+            <Link
+              to="contact-section"
+              smooth={true}
+              duration={500}
+              className="btn btn-ghost text-xl"
+            >
+              Contact
+            </Link>
           </div>
           {account ? (
             <div className="btn btn-ghost">

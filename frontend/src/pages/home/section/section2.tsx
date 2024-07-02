@@ -1,9 +1,9 @@
-import Carousel from "../../../components/carousel/carousel";
+import Carousel from "../../../components/home/carousel";
 import { marketImgs } from "../../../constant/home";
 
 const Section2 = () => {
   return (
-    <section className="flex flex-col gap-12">
+    <section id="market-section" className="flex flex-col gap-12">
       <h1 className="italic">
         <p className="font-semibold text-4xl md:text-5xl lg:text-6xl">Market</p>
         <p className="text-xs md:text-lg lg:text-xl">Featured IMAGINATION</p>

@@ -1,14 +1,20 @@
-import { Layout } from "../../components/layout/layout";
-import Section1 from "./section/section1";
-import Section2 from "./section/section2";
-import Section3 from "./section/section3";
-import Section4 from "./section/section4";
-import Section5 from "./section/section5";
-import Section6 from "./section/section6";
+import { Layout } from "../../components/common/layout/home/layout";
+import {
+  Section1,
+  Section2,
+  Section3,
+  Section4,
+  Section5,
+  Section6,
+} from "./section/index";
+import "./home.css";
 
 const Home = () => {
   return (
     <Layout>
+      <div className="relative w-full h-full">
+        <div className="absolute w-[80vw] h-[80vw] left-[10vw] top-[20vh] bg-gradient-radial"></div>
+      </div>
       <div className="relative min-h-screen">
         <div className="relative mt-24 z-10 h-[80vh]">
           <Section1 />

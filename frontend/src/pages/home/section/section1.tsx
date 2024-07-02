@@ -27,9 +27,12 @@ const Section1 = () => {
             placeholder="Key In Prompt:"
             className="grow focus:outline-none rounded-full pl-4"
           />
-          <div className="btn btn-ghost btn-lg rounded-full text-white focus:none px-4 mr-2">
+          <a
+            className="btn btn-ghost btn-lg rounded-full text-white focus:none px-4 mr-2"
+            href="/model/create"
+          >
             Generate
-          </div>
+          </a>
         </label>
       </div>
     </section>

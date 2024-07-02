@@ -2,7 +2,7 @@ import Anvil2 from "../../../assets/anvil2";
 
 const Section3 = () => {
   return (
-    <section className="flex flex-col gap-12">
+    <section id="about-section" className="flex flex-col gap-12">
       <div className="flex w-full">
         <h1 className="italic text-wrap w-3/4 flex flex-col gap-12 z-10">
           <p className="font-semibold text-4xl md:text-5xl lg:text-6xl">

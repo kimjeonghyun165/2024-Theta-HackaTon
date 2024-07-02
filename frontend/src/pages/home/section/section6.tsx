@@ -7,7 +7,7 @@ import Twitter from "../../../assets/twiiter";
 const Section6 = () => {
   return (
     <section className="flex flex-col gap-24 pl-24">
-      <h1 className="italic text-white">
+      <h1 id="contact-section" className="italic text-white">
         <p className="font-extralight text-4xl md:text-5xl lg:text-6xl">
           Contact Us
         </p>
