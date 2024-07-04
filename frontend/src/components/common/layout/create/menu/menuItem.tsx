@@ -16,7 +16,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   Icon,
 }) => {
   const isSelected = selectedOption === value;
-
+  console.log(selectedOption);
   return (
     <li
       className={`w-16 m-2 menu-item ${

@@ -7,7 +7,17 @@ import setupScene from "./setupScene";
 import setupLights from "./setupLights";
 import loadModel from "./loadModel";
 
-const ThreeScene: React.FC = () => {
+interface ThreeSceneProps {
+  backgroundColor: number;
+  backgroundOpacity: number;
+  showGrid: boolean;
+}
+
+const ThreeScene: React.FC<ThreeSceneProps> = ({
+  backgroundColor,
+  backgroundOpacity,
+  showGrid,
+}: ThreeSceneProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,18 +28,15 @@ const ThreeScene: React.FC = () => {
 
     if (containerRef.current) {
       container = containerRef.current;
-
-      // Set renderer size to match the container size
       renderer = setupRenderer(container);
       renderer.setSize(container.clientWidth, container.clientHeight);
 
-      // Set up the camera with the aspect ratio of the container
       camera = setupCamera();
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
 
-      scene = setupScene(renderer);
-      setupLights(scene);
+      scene = setupScene({ renderer, backgroundColor, backgroundOpacity });
+      setupLights({ scene, showGrid });
 
       const controls = new OrbitControls(camera, renderer.domElement);
       controls.minDistance = 400;

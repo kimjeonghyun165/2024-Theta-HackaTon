@@ -1,12 +1,14 @@
-import RefreshArrow from "../../../assets/imgSelect/refreshArrow";
-import CreditLabel from "../creditLabel";
-import Balloon from "./balloon";
-import Mirror from "./mirror";
-import Shape from "./shape";
-import Stretch from "./stretch";
-import Surface from "./surface";
+import { RefreshArrow } from "../../../assets/imgSelect";
+import {
+  Balloon,
+  CreditLabel,
+  Mirror,
+  Shape,
+  Stretch,
+  Surface,
+} from "../../../components/create";
 
-export const Customization = () => {
+const Customization = ({ onPostBtnClick }: any) => {
   return (
     <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl">
       <div className="w-full flex flex-col items-center gap-3">
@@ -28,7 +30,12 @@ export const Customization = () => {
         </div>
       </div>
       <div className="flex w-3/4 justify-around gap-1 items-center">
-        <div className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full">Post</div>
+        <div
+          className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full"
+          onClick={onPostBtnClick}
+        >
+          Post
+        </div>
         <div className="btn btn-sm btn-circle p-1 bg-fifth/[.13]">
           <RefreshArrow />
         </div>

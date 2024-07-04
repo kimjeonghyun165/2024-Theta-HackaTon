@@ -1,4 +1,4 @@
-import Check from "../../../assets/customization/check";
+import { Check } from "../../../assets/icons";
 import { SimpleRange } from "../range/range";
 
 const stretchs = ["Wider", "Thicker", "Taller"];

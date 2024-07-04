@@ -1,5 +1,9 @@
-import { Body_1, Body_2 } from "../../../assets/customization/body";
-import { Dumbbell_1, Dumbbell_2 } from "../../../assets/customization/dumbbell";
+import {
+  Body_1,
+  Body_2,
+  Dumbbell_1,
+  Dumbbell_2,
+} from "../../../assets/customization";
 import { Range } from "../range/range";
 
 const Shape = () => {

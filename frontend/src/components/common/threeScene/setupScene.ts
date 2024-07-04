@@ -1,9 +1,17 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment';
 
-const setupScene = (renderer: THREE.WebGLRenderer): THREE.Scene => {
+interface SetupSceneOptions {
+    backgroundColor: number;
+    backgroundOpacity: number;
+    renderer: THREE.WebGLRenderer;
+}
+
+const setupScene = ({ renderer, backgroundColor, backgroundOpacity }: SetupSceneOptions): THREE.Scene => {
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+
+    // Configure renderer to support transparency
+    renderer.setClearColor(new THREE.Color(backgroundColor), backgroundOpacity / 100);
 
     const environment = new RoomEnvironment(renderer);
     const pmremGenerator = new THREE.PMREMGenerator(renderer);

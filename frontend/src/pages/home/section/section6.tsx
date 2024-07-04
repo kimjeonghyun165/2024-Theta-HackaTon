@@ -1,8 +1,10 @@
-import Band from "../../../assets/band";
-import Discord from "../../../assets/discord";
-import Facebook from "../../../assets/facebook";
-import Instagram from "../../../assets/instagram";
-import Twitter from "../../../assets/twiiter";
+import {
+  Band,
+  Discord,
+  Facebook,
+  Instagram,
+  Twitter,
+} from "../../../assets/sns";
 
 const Section6 = () => {
   return (

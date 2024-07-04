@@ -1,14 +1,27 @@
-import React from "react";
-import { ImgSelection } from "../../../components/create/imgSelection";
-import Prompt from "../../../components/create/prompt";
+import React, { useState } from "react";
 import { Layout } from "../../../components/common/layout/create/layout";
 import ThreeScene from "../../../components/common/threeScene/main";
-import useStore from "../../../store/useStore";
-import AnimatedContent from "../../../components/create/animatedContent";
-import Customization from "../../../components/create/\bcustomization/customization";
+import { useOptionStore } from "../../../store/useStore";
+import ImgSelection from "./imgSelection";
+import Customization from "./customization";
+import Prompt from "./prompt";
+import {
+  AnimatedContent,
+  FirstModal,
+  SecondModal,
+} from "../../../components/create";
 
 const Create3DModel: React.FC = () => {
-  const selectedOption = useStore((state) => state.selectedOption);
+  const selectedOption = useOptionStore((state) => state.selectedOption);
+
+  const [isFirstModalVisible, setFirstModalVisible] = useState(false);
+  const [isSecondModalVisible, setSecondModalVisible] = useState(false);
+
+  const handleOpenFirstModal = () => setFirstModalVisible(true);
+  const handleCloseFirstModal = () => setFirstModalVisible(false);
+
+  const handleOpenSecondModal = () => setSecondModalVisible(true);
+  const handleCloseSecondModal = () => setSecondModalVisible(false);
 
   return (
     <Layout>
@@ -21,12 +34,25 @@ const Create3DModel: React.FC = () => {
             <ImgSelection />
           </AnimatedContent>
           <AnimatedContent isVisible={selectedOption === "option3"}>
-            <Customization />
+            <Customization onPostBtnClick={handleOpenFirstModal} />
           </AnimatedContent>
         </div>
         <div className="w-3/5">
-          <ThreeScene />
+          <ThreeScene
+            backgroundColor={0x000000}
+            backgroundOpacity={100}
+            showGrid={true}
+          />
         </div>
+        <FirstModal
+          isVisible={isFirstModalVisible}
+          onClose={handleCloseFirstModal}
+          onOpenNextModal={handleOpenSecondModal}
+        />
+        <SecondModal
+          isVisible={isSecondModalVisible}
+          onClose={handleCloseSecondModal}
+        />
       </div>
     </Layout>
   );

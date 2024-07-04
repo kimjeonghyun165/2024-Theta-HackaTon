@@ -1,11 +1,11 @@
 import { ChangeEvent } from "react";
 import { First, Second, Third } from "../../../../../assets/menu";
-import useStore from "../../../../../store/useStore";
+import { useOptionStore } from "../../../../../store/useStore";
 import MenuItem from "./menuItem";
 
 const Menu = () => {
-  const selectedOption = useStore((state) => state.selectedOption);
-  const setSelectedOption = useStore((state) => state.setSelectedOption);
+  const selectedOption = useOptionStore((state) => state.selectedOption);
+  const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
 
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);

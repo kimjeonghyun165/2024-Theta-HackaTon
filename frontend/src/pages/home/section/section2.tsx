@@ -1,4 +1,4 @@
-import Carousel from "../../../components/home/carousel";
+import { Carousel } from "../../../components/home";
 import { marketImgs } from "../../../constant/home";
 
 const Section2 = () => {
