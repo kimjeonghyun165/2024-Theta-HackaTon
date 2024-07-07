@@ -15,7 +15,7 @@ export const connectToMetaMask = async ({ onConnect, onError }: MetaMaskConnectO
 
         const web3 = new Web3(window.ethereum);
         onConnect(accounts);
-        console.log(web3)
+
     } catch (error: any) {
         onError(error);
     }

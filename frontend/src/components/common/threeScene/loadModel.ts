@@ -6,12 +6,12 @@ const loadModel = (
     scene: THREE.Scene,
     camera: THREE.PerspectiveCamera,
     renderer: THREE.WebGLRenderer,
-    controls: OrbitControls
+    controls: OrbitControls,
+    modelPath: any
 ): void => {
     const loader = new FBXLoader();
-    loader.setPath('/models/fbx/');
     loader.load(
-        'Base_Mesh_LowPoly.fbx',
+        modelPath,
         (fbx) => {
             fbx.traverse((child) => {
                 if ((child as THREE.Mesh).isMesh) {

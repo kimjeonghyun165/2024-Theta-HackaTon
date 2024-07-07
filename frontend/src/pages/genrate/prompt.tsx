@@ -1,5 +1,5 @@
-import { CreditLabel } from "../../../components/create";
-import { useOptionStore, usePromptStore } from "../../../store/useStore";
+import { CreditLabel } from "../../components/create";
+import { useOptionStore, usePromptStore } from "../../store/useStore";
 
 const Prompt = () => {
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);

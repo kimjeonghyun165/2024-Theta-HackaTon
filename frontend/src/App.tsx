@@ -1,16 +1,16 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/home/home";
-import Create from "./pages/model/create/create";
-
-// import Preview from "./pages/model/preview";
+import Generate from "./pages/genrate/generate";
+import Edit from "./pages/myPage/edit";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/model/create" element={<Create />} />
+        <Route path="/model/generate" element={<Generate />} />
+        <Route path="/model/nft" element={<Edit />} />
       </Routes>
     </Router>
   );

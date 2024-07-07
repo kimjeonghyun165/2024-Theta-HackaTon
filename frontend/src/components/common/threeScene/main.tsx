@@ -11,12 +11,14 @@ interface ThreeSceneProps {
   backgroundColor: number;
   backgroundOpacity: number;
   showGrid: boolean;
+  modelPath: any;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
   backgroundColor,
   backgroundOpacity,
   showGrid,
+  modelPath,
 }: ThreeSceneProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +46,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
       controls.target.set(0, 0, 0);
       controls.update();
 
-      loadModel(scene, camera, renderer, controls);
+      loadModel(scene, camera, renderer, controls, modelPath);
 
       const onWindowResize = () => {
         if (container) {

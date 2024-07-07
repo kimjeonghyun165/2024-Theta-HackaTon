@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Layout } from "../../../components/common/layout/create/layout";
-import ThreeScene from "../../../components/common/threeScene/main";
-import { useOptionStore } from "../../../store/useStore";
+import { Layout } from "../../components/common/layout/create/layout";
+import ThreeScene from "../../components/common/threeScene/main";
+import { useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";
 import Customization from "./customization";
 import Prompt from "./prompt";
@@ -9,9 +9,9 @@ import {
   AnimatedContent,
   FirstModal,
   SecondModal,
-} from "../../../components/create";
+} from "../../components/create";
 
-const Create3DModel: React.FC = () => {
+const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
 
   const [isFirstModalVisible, setFirstModalVisible] = useState(false);
@@ -42,6 +42,9 @@ const Create3DModel: React.FC = () => {
             backgroundColor={0x000000}
             backgroundOpacity={100}
             showGrid={true}
+            modelPath={
+              "https://gateway.pinata.cloud/ipfs/Qmbj6DwoZkKi9RkphF18ZyjGXYFs3AR2RKKNGN9gZe1LRg"
+            }
           />
         </div>
         <FirstModal
@@ -58,4 +61,4 @@ const Create3DModel: React.FC = () => {
   );
 };
 
-export default Create3DModel;
+export default Generate3DModel;

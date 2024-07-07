@@ -1,4 +1,4 @@
-import { RefreshArrow } from "../../../assets/imgSelect";
+import { RefreshArrow } from "../../assets/imgSelect";
 import {
   Balloon,
   CreditLabel,
@@ -6,7 +6,7 @@ import {
   Shape,
   Stretch,
   Surface,
-} from "../../../components/create";
+} from "../../components/create";
 
 const Customization = ({ onPostBtnClick }: any) => {
   return (

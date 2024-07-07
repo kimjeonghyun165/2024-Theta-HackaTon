@@ -7,14 +7,10 @@ import {
   Section5,
   Section6,
 } from "./section/index";
-import "./home.css";
-
 const Home = () => {
   return (
     <Layout>
-      <div className="relative w-full h-full">
-        <div className="absolute w-[80vw] h-[80vw] left-[10vw] top-[20vh] bg-gradient-radial"></div>
-      </div>
+      <div className="relative w-full h-full"></div>
       <div className="relative min-h-screen">
         <div className="relative mt-24 z-10 h-[80vh]">
           <Section1 />

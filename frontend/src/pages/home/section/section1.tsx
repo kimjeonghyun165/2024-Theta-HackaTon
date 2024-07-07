@@ -1,22 +1,21 @@
 import Anvil from "../../../assets/anvil";
+import TypingEffect from "../../../components/home/typingEffect";
 
 const Section1 = () => {
   return (
     <section className="flex flex-col gap-24 h-full">
       <div className="flex justify-around items-center">
         <div className="w-full">
-          <h1 className="flex flex-col font-bold gap-6 md:ml-12 md:pl-24">
-            <p className="text-4xl md:text-5xl lg:text-6xl tracking-[.17em]">
+          <h1 className="flex flex-col font-bold gap-6 ml-6 2xl:ml-12 md:pl-16">
+            <p className="text-4xl lg:text-5xl xl:text-6xl tracking-[.3em]">
               SMITH ALL
               <br />
-              <p className="tracking-tighter">IMAGINATION</p>
+              <p className="mt-4 tracking-[.05em]">IMAGINATION</p>
             </p>
-            <p className="text-lg md:text-xl lg:text-2xl">
-              THE BEST CUSTOMIZING 3D GENERATIVE AI
-            </p>
+            <TypingEffect />
           </h1>
         </div>
-        <div className="w-full hidden md:block">
+        <div className="w-full">
           <Anvil />
         </div>
       </div>
@@ -29,7 +28,7 @@ const Section1 = () => {
           />
           <a
             className="btn btn-ghost btn-lg rounded-full text-white focus:none px-4 mr-2"
-            href="/model/create"
+            href="/model/generate"
           >
             Generate
           </a>

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import Web3 from 'web3';
 
 interface TypeState {
     selectedOption: string;
@@ -15,11 +16,16 @@ interface ImageState {
     setImage: (newImage: number) => void;
 }
 
-// interface isPostPopupVisibleState {
-//     isPostPopupVisible: boolean
-//     setPostPopupVisible: (isVisible: boolean) => void;
-// }
-
+interface AppState {
+    account: string | null;
+    setAccount: (account: string | null) => void;
+    contract: any;
+    setContract: (contract: any) => void;
+    web3: Web3 | null;
+    setWeb3: (web3: Web3 | null) => void;
+    file: File | null;
+    setFile: (file: File | null) => void;
+}
 
 export const useOptionStore = create<TypeState>((set) => ({
     selectedOption: "option1",
@@ -36,8 +42,14 @@ export const useImgStore = create<ImageState>((set) => ({
     setImage: (newImage) => set({ image: newImage }),
 }));
 
-// export const usePostPopupStore = create<isPostPopupVisibleState>((set) => ({
-//     isPostPopupVisible: false,
-//     setPostPopupVisible: (isVisible) => set({ isPostPopupVisible: isVisible }),
-// }));
 
+export const useWeb3Store = create<AppState>((set) => ({
+    account: null,
+    setAccount: (account) => set({ account }),
+    contract: null,
+    setContract: (contract) => set({ contract }),
+    web3: null,
+    setWeb3: (web3) => set({ web3 }),
+    file: null,
+    setFile: (file) => set({ file }),
+}));

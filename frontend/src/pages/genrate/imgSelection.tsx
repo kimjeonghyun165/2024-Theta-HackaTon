@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { DownArrow } from "../../../assets/icons";
-import { Ex1, RefreshArrow } from "../../../assets/imgSelect";
-import { CreditLabel } from "../../../components/create";
-import { useOptionStore } from "../../../store/useStore";
+import { DownArrow } from "../../assets/icons";
+import { Ex1, RefreshArrow } from "../../assets/imgSelect";
+import { CreditLabel } from "../../components/create";
+import { useOptionStore } from "../../store/useStore";
 
 const images = [
   { id: 1, component: Ex1 },
