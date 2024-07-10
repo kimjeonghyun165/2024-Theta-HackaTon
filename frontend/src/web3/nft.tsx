@@ -6,10 +6,10 @@ import { useWeb3Store } from "../store/useStore";
 import ThreeScene from "../components/common/threeScene/main";
 
 // Pinata API 설정
-const PINATA_API_KEY = "3fe677405847438bd167";
-const PINATA_SECRET_API_KEY =
-  "2b6d60daf60bab839be4bcd3534b9c2caae009713ffdce0c09eeb6f2103dc186";
-const PINATA_API_URL = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+const PINATA_API_KEY = process.env.REACT_APP_PINATA_API_KEY;
+const PINATA_SECRET_API_KEY = process.env.REACT_APP_PINATA_SECRET_API_KEY;
+
+const PINATA_API_URL = process.env.REACT_APP_PINATA_API_URL;
 
 const Web3Info: React.FC = () => {
   const {
