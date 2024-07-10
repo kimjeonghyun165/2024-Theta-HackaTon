@@ -3,8 +3,6 @@ import Web3 from "web3";
 import axios from "axios";
 import FBXNFT from "../../build/contracts/FBXNFT.json";
 import { useWeb3Store } from "../store/useStore";
-
-import { useFBX } from "@react-three/drei";
 import ThreeScene from "../components/common/threeScene/main";
 
 // Pinata API 설정

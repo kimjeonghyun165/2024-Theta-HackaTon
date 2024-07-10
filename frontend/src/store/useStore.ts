@@ -16,7 +16,7 @@ interface ImageState {
     setImage: (newImage: number) => void;
 }
 
-interface AppState {
+interface Web3State {
     account: string | null;
     setAccount: (account: string | null) => void;
     contract: any;
@@ -42,8 +42,7 @@ export const useImgStore = create<ImageState>((set) => ({
     setImage: (newImage) => set({ image: newImage }),
 }));
 
-
-export const useWeb3Store = create<AppState>((set) => ({
+export const useWeb3Store = create<Web3State>((set) => ({
     account: null,
     setAccount: (account) => set({ account }),
     contract: null,

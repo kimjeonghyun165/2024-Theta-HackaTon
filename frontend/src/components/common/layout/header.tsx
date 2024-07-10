@@ -1,24 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../../../assets/logo";
-import { connectToMetaMask } from "../../../utils/metamask";
+import connectAndSignMessage from "../../../utils/metamask";
 import Avatar from "../avatar";
 import { Link } from "react-scroll";
+import { useUserStore } from "../../../store/useUserStore";
 
 export const Header = () => {
-  const [account, setAccount] = useState<string | null>(null);
-  const [_error, setError] = useState<string | null>(null);
+  const { user, setJwtToken, fetchUser } = useUserStore();
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setJwtToken(token);
+    if (token) {
+      const fetchUserData = async () => {
+        try {
+          await fetchUser();
+        } catch (error) {
+          console.error(error);
+          setError("Failed to fetch user data");
+        }
+      };
+      fetchUserData();
+    }
+  }, [fetchUser]);
 
   const handleConnect = async () => {
-    await connectToMetaMask({
-      onConnect: (accounts: string[]) => {
-        setAccount(accounts[0]);
-        setError(null);
-      },
-      onError: (error: Error) => {
-        setError(error.message);
-        setAccount(null);
-      },
-    });
+    try {
+      await connectAndSignMessage();
+      setError(null);
+    } catch (error: any) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -30,7 +43,7 @@ export const Header = () => {
           </a>
         </div>
         <div className="flex items-center gap-6">
-          <div className="hidden md:block gap-12">
+          <div className="hidden md:flex gap-12">
             <Link
               to="about-section"
               smooth={true}
@@ -59,7 +72,7 @@ export const Header = () => {
               Contact
             </Link>
           </div>
-          {account ? (
+          {user ? (
             <div className="btn btn-ghost">
               <Avatar />
             </div>
