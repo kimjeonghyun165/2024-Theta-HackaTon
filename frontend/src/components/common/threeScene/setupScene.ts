@@ -9,8 +9,6 @@ interface SetupSceneOptions {
 
 const setupScene = ({ renderer, backgroundColor, backgroundOpacity }: SetupSceneOptions): THREE.Scene => {
     const scene = new THREE.Scene();
-
-    // Configure renderer to support transparency
     renderer.setClearColor(new THREE.Color(backgroundColor), backgroundOpacity / 100);
 
     const environment = new RoomEnvironment(renderer);

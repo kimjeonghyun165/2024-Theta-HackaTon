@@ -15,6 +15,7 @@ interface useUserState {
     setJwtToken: (token: string | null) => void;
     fetchUser: () => Promise<void>;
     addUser: (user: User) => Promise<void>;
+    clearUser: () => void
 }
 
 export const useUserStore = create<useUserState>((set) => ({
@@ -58,4 +59,5 @@ export const useUserStore = create<useUserState>((set) => ({
             throw new Error(errorText || 'Failed to save user');
         }
     },
+    clearUser: () => set({ user: null }),
 }));

@@ -4,26 +4,13 @@ import connectAndSignMessage from "../../../utils/metamask";
 import Avatar from "../avatar";
 import { Link } from "react-scroll";
 import { useUserStore } from "../../../store/useUserStore";
+import logout from "../../../utils/logout";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
-  const { user, setJwtToken, fetchUser } = useUserStore();
+  const { user } = useUserStore();
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setJwtToken(token);
-    if (token) {
-      const fetchUserData = async () => {
-        try {
-          await fetchUser();
-        } catch (error) {
-          console.error(error);
-          setError("Failed to fetch user data");
-        }
-      };
-      fetchUserData();
-    }
-  }, [fetchUser]);
+  const navigate = useNavigate();
 
   const handleConnect = async () => {
     try {
@@ -32,6 +19,11 @@ export const Header = () => {
     } catch (error: any) {
       setError(error.message);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
   };
 
   return (
@@ -73,9 +65,14 @@ export const Header = () => {
             </Link>
           </div>
           {user ? (
-            <div className="btn btn-ghost">
-              <Avatar />
-            </div>
+            <>
+              <div className="btn btn-ghost">
+                <Avatar />
+              </div>
+              <div className="btn btn-ghost text-xl" onClick={handleLogout}>
+                Log-Out
+              </div>
+            </>
           ) : (
             <div className="btn btn-ghost text-xl" onClick={handleConnect}>
               Log-In

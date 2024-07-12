@@ -29,12 +29,15 @@ const connectAndSignMessage = async () => {
         }
 
         const data = await response.json();
-        localStorage.setItem('token', data.access_token); // JWT 토큰 저장
+        localStorage.setItem('token', data.access_token);
         setJwtToken(data.access_token);
 
         await fetchUser();
 
-        const { user } = useUserStore.getState();
+        const { user } = useUserStore.getState()
+
+        console.log(user)
+
         if (!user) {
             await addUser({
                 address, signature, message,
