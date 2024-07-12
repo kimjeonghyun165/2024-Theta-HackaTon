@@ -7,7 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 @Injectable()
 export class AuthService {
     private web3: Web3;
-
+    //test
     constructor(
         private readonly usersService: UsersService,
         private readonly jwtService: JwtService,
