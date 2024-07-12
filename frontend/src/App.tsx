@@ -2,7 +2,7 @@ import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/home/home";
 import Generate from "./pages/genrate/generate";
-import Edit from "./pages/myPage/edit";
+import MyPage from "./pages/myPage/myPage";
 
 const App: React.FC = () => {
   return (
@@ -10,7 +10,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/model/generate" element={<Generate />} />
-        <Route path="/model/nft" element={<Edit />} />
+        <Route path="/model/nft" element={<MyPage />} />
       </Routes>
     </Router>
   );

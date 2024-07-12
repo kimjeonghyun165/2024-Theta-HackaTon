@@ -5,11 +5,9 @@ import { useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";
 import Customization from "./customization";
 import Prompt from "./prompt";
-import {
-  AnimatedContent,
-  FirstModal,
-  SecondModal,
-} from "../../components/create";
+import { AnimatedContent } from "../../components/generate";
+import SecondModal from "../../components/common/modal/successModal/secondModal";
+import FirstModal from "../../components/common/modal/editModal/editModal";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);

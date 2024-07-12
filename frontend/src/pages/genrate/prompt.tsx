@@ -1,4 +1,4 @@
-import { CreditLabel } from "../../components/create";
+import { CreditLabel } from "../../components/generate";
 import { useOptionStore, usePromptStore } from "../../store/useStore";
 
 const Prompt = () => {
@@ -15,7 +15,7 @@ const Prompt = () => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-between py-10 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl">
+    <div className="flex h-full flex-col items-center justify-between py-10 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
       <div className="w-full flex flex-col items-center gap-6 px-16">
         <div className="flex w-full justify-end">
           <CreditLabel />
@@ -31,7 +31,7 @@ const Prompt = () => {
         </div>
       </div>
       <div
-        className="btn btn-lg bg-fifth/[.13] rounded-3xl w-1/2"
+        className="btn btn-lg bg-fifth/[.13] mt-4 rounded-3xl w-1/2"
         onClick={handleGenerate}
       >
         Generate

@@ -6,11 +6,11 @@ import {
   Shape,
   Stretch,
   Surface,
-} from "../../components/create";
+} from "../../components/generate";
 
 const Customization = ({ onPostBtnClick }: any) => {
   return (
-    <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl">
+    <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
       <div className="w-full flex flex-col items-center gap-3">
         <div className="flex w-full justify-end">
           <CreditLabel />
@@ -29,7 +29,7 @@ const Customization = ({ onPostBtnClick }: any) => {
           <Balloon />
         </div>
       </div>
-      <div className="flex w-3/4 justify-around gap-1 items-center">
+      <div className="flex w-3/4 justify-around gap-1 items-center mt-4">
         <div
           className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full"
           onClick={onPostBtnClick}

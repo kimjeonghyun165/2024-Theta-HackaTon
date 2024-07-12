@@ -1,10 +1,10 @@
 import React from "react";
 import Web3Info from "../../web3/nft";
 
-const Edit: React.FC = () => {
+const MyPage: React.FC = () => {
   return (
     <div>
-      <h1>프로필 수정 페이지</h1>
+      <h1>내 페이지</h1>
       <div>
         <Web3Info />
       </div>
@@ -12,4 +12,4 @@ const Edit: React.FC = () => {
   );
 };
 
-export default Edit;
+export default MyPage;

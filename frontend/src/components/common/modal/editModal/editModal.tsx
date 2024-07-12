@@ -7,10 +7,10 @@ import {
   Market,
   Question,
 } from "../../../../assets/icons";
-import IconBtn from "../../../common/iconBtn";
-import SwapIconBtn from "../../../common/swapIconBtn";
-import ThreeScene from "../../../common/threeScene/main";
-import InputField from "./inputField";
+import IconBtn from "../../iconBtn";
+import SwapIconBtn from "../../swapIconBtn";
+import ThreeScene from "../../threeScene/main";
+import InputField from "../inputField";
 
 interface PostPopupProps {
   isVisible: boolean;
@@ -18,7 +18,7 @@ interface PostPopupProps {
   onOpenNextModal: () => void;
 }
 
-const FirstModal: React.FC<PostPopupProps> = ({
+const EditModal: React.FC<PostPopupProps> = ({
   isVisible,
   onClose,
   onOpenNextModal,
@@ -62,6 +62,7 @@ const FirstModal: React.FC<PostPopupProps> = ({
               backgroundColor={0xffffff}
               backgroundOpacity={0}
               showGrid={false}
+              modelPath="https://gateway.pinata.cloud/ipfs/Qmbj6DwoZkKi9RkphF18ZyjGXYFs3AR2RKKNGN9gZe1LRg"
             />
           </div>
           <div className="w-1/2 flex flex-col gap-6 px-6">
@@ -107,4 +108,4 @@ const FirstModal: React.FC<PostPopupProps> = ({
   );
 };
 
-export default FirstModal;
+export default EditModal;

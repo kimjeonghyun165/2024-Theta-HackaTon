@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DownArrow } from "../../assets/icons";
 import { Ex1, RefreshArrow } from "../../assets/imgSelect";
-import { CreditLabel } from "../../components/create";
+import { CreditLabel } from "../../components/generate";
 import { useOptionStore } from "../../store/useStore";
 
 const images = [
@@ -26,7 +26,7 @@ const ImgSelection = () => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl">
+    <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
       <div className="w-full flex flex-col items-center gap-6">
         <div className="flex w-full justify-end">
           <CreditLabel />
@@ -54,7 +54,7 @@ const ImgSelection = () => {
       </div>
       <div className="flex w-3/4 justify-around gap-1 items-center">
         <div
-          className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full"
+          className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full mt-4"
           onClick={handleSelect}
         >
           Select

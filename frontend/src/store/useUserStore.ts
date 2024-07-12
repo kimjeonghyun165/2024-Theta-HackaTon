@@ -16,8 +16,6 @@ interface useUserState {
     addUser: (user: User) => Promise<void>;
 }
 
-
-
 export const useUserStore = create<useUserState>((set) => ({
     user: null,
     jwtToken: null,

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ModelsModule } from './models/models.module';
+import { PinataModule } from './pinata/pinata.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ModelsModule } from './models/models.module';
     UsersModule,
     AuthModule,
     ModelsModule,
+    PinataModule,
   ],
   controllers: [],
   providers: [],
