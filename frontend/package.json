@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@metamask/providers": "^17.1.0",
     "@openzeppelin/contracts": "^4.9.6",
     "@pinata/sdk": "^2.1.0",
     "@react-three/drei": "^9.107.0",
