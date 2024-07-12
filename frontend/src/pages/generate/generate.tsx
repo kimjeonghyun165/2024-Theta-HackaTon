@@ -6,8 +6,7 @@ import ImgSelection from "./imgSelection";
 import Customization from "./customization";
 import Prompt from "./prompt";
 import { AnimatedContent } from "../../components/generate";
-import SecondModal from "../../components/common/modal/successModal/secondModal";
-import FirstModal from "../../components/common/modal/editModal/editModal";
+import { EditModal, SuccessModal } from "../../components/common/modal";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
@@ -45,12 +44,12 @@ const Generate3DModel: React.FC = () => {
             }
           />
         </div>
-        <FirstModal
+        <EditModal
           isVisible={isFirstModalVisible}
           onClose={handleCloseFirstModal}
           onOpenNextModal={handleOpenSecondModal}
         />
-        <SecondModal
+        <SuccessModal
           isVisible={isSecondModalVisible}
           onClose={handleCloseSecondModal}
         />
