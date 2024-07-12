@@ -3,6 +3,7 @@ import { create } from 'zustand';
 interface User {
     _id?: string;
     address: string;
+    porfile: string;
     signature: string;
     message: string;
 }

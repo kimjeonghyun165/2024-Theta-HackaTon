@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout } from "../../components/common/layout/create/layout";
+import { Layout } from "../../components/common/layout/generate/layout";
 import ThreeScene from "../../components/common/threeScene/main";
 import { useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";

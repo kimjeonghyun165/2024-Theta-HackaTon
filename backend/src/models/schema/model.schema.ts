@@ -23,5 +23,8 @@ export class Model extends Document {
 
     @Prop({ required: true, default: 0 })
     like: number
+
+    @Prop()
+    price: number | null
 }
 export const UserSchema = SchemaFactory.createForClass(Model);

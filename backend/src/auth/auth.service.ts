@@ -18,7 +18,7 @@ export class AuthService {
     async validateUser(address: string, signature: string, message: string): Promise<any> {
         const recoveredAddress = this.web3.eth.accounts.recover(message, signature);
         if (recoveredAddress.toLowerCase() === address.toLowerCase()) {
-            const user = await this.usersService.findOrCreateUser(address);
+            const user = await this.usersService.findOrCreateUser({ address });
             return user;
         }
         return null;

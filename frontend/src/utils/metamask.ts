@@ -36,7 +36,10 @@ const connectAndSignMessage = async () => {
 
         const { user } = useUserStore.getState();
         if (!user) {
-            await addUser({ address, signature, message });
+            await addUser({
+                address, signature, message,
+                porfile: ''
+            });
         }
 
     } catch (error: any) {
