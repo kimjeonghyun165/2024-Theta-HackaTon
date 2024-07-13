@@ -1,0 +1,24 @@
+.myPage-scrollbar::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+  height: 10px; 
+  max-height:50%;
+}
+
+.myPage-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px; /* 스크롤바 트랙의 둥근 모서리 */
+  height: 50%;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.myPage-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+.myPage-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #fff; /* 스크롤바 핸들의 hover 색상 */
+  
+}
+
