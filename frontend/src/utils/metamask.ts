@@ -40,8 +40,7 @@ const connectAndSignMessage = async () => {
 
         if (!user) {
             await addUser({
-                address, signature, message,
-                porfile: ''
+                address, signature, message
             });
         }
 

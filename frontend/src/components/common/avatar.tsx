@@ -1,12 +1,16 @@
-const Avatar = () => {
+import React from "react";
+
+interface AvatarProps {
+  img: string | undefined;
+}
+
+const Avatar: React.FC<AvatarProps> = ({ img }) => {
   return (
-    <>
-      <div className="avatar">
-        <div className="w-12 rounded-full">
-          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-        </div>
+    <div className="avatar">
+      <div className="w-12 rounded-full">
+        <img src={img} alt="Profile" />
       </div>
-    </>
+    </div>
   );
 };
 

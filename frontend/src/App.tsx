@@ -43,7 +43,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/model/generate" element={<Generate />} />
-        <Route path="/model/nft" element={<MyPage />} />
+        <Route path="/myPage" element={<MyPage />} />
       </Routes>
     </Router>
   );
