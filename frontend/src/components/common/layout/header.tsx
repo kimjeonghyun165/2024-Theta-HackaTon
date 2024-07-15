@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Logo from "../../../assets/logo";
-import connectAndSignMessage from "../../../utils/metamask";
 import Avatar from "../avatar";
 import { Link } from "react-scroll";
 import { useUserStore } from "../../../store/useUserStore";
+import logout from "../../../utils/logout";
+import connectAndSignMessage from "../../../utils/web3/setWeb3/connectAndSignMessage";
 import DropDown from "../dropdown";
 
 export const Header = () => {
@@ -17,6 +18,10 @@ export const Header = () => {
     } catch (error: any) {
       setError(error.message);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -58,9 +63,13 @@ export const Header = () => {
             </Link>
           </div>
           {user ? (
-            <DropDown>
-              <Avatar img={user.profileImg} />
-            </DropDown>
+            <DropDown
+              buttonContent={<Avatar img={user.profileImg} />}
+              items={[
+                { label: "Profile", href: "/mypage" },
+                { label: "Logout", onClick: handleLogout },
+              ]}
+            />
           ) : (
             <div className="btn btn-ghost text-xl" onClick={handleConnect}>
               Log-In

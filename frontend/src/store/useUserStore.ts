@@ -8,7 +8,7 @@ interface User {
     plan?: string;
     profileImg?: string;
     username?: string;
-    assets?: string[];
+    models?: string[]
 }
 
 

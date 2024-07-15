@@ -9,7 +9,7 @@ export class User extends Document {
     @Prop()
     createdAt: Date;
 
-    @Prop({ required: true, default: "FREE" })
+    @Prop({ required: true, default: "BRONZE" })
     plan: string;
 
     @Prop({ default: "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" })
@@ -19,6 +19,6 @@ export class User extends Document {
     username: string;
 
     @Prop({ type: [{ type: Types.ObjectId, ref: 'Models' }] })
-    assets: Types.ObjectId[];
+    models: Types.ObjectId[];
 }
 export const UserSchema = SchemaFactory.createForClass(User);

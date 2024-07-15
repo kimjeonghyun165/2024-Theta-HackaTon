@@ -6,25 +6,26 @@ export class Model extends Document {
     @Prop({ default: Date.now })
     createdAt: Date;
 
-    @Prop({ required: true, unique: true })
-    file: string;
-
-    @Prop({ required: true, unique: true })
+    @Prop({ required: true })
     title: string;
 
-    @Prop({ required: true, unique: true })
+    @Prop({ required: true })
     description: string;
 
-    @Prop({ required: true, unique: true })
+    @Prop({ required: true })
     prompt: string;
 
     @Prop({ required: true, unique: true })
     preview: string
 
+    @Prop({ required: true, unique: true })
+    file: string;
+
     @Prop({ required: true, default: 0 })
     like: number
 
-    @Prop()
-    price: number | null
+    @Prop({ required: true, default: 'public' })
+    visibility: 'private' | 'public';
+
 }
-export const UserSchema = SchemaFactory.createForClass(Model);
+export const Modelschema = SchemaFactory.createForClass(Model);
