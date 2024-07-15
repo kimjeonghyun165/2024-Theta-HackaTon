@@ -7,6 +7,7 @@ import ModelBox from "../../components/myPage/modelBox";
 import "../../components/myPage/scrollbarStyle.css"
 import Edit from "../../assets/icons/edit";
 import Search from "../../assets/icons/search";
+import SettingButton from "../../components/myPage/settingButton";
 
 const MyPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -47,9 +48,9 @@ const MyPage: React.FC = () => {
                 <button className="bg-[#777]/[0.2] rounded-[30px] w-full py-7 text-2xl">
                   Management
                 </button>
-                <button className="bg-[#777]/[0.2] rounded-[30px] w-full py-7 text-2xl">
+                <SettingButton>
                   Setting
-                </button>
+                </SettingButton>
               </div>
             </div>
           </section>
@@ -71,7 +72,11 @@ const MyPage: React.FC = () => {
             </div>
             <div className="max-h-[500px] overflow-y-scroll grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 4xl:grid-cols-5 gap-4 mt-10 myPage-scrollbar">
               {new Array(12).fill(0).map((_, index) => {
-                return <ModelBox key={index}><Ex1 /></ModelBox>
+                return (
+                  <ModelBox key={index}>
+                    <Ex1 />
+                  </ModelBox>
+                );
               })}
             </div>
           </section>

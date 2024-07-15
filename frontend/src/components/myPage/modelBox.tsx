@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import {
   Check,
   DownArrow,
@@ -45,8 +45,9 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
             "linear-gradient(180deg, rgba(208, 208, 208, 0.25) 0%, rgba(106, 106, 106, 0.5) 100%)",
         }}
         className="backdrop:backdrop-blur-md rounded-3xl"
+        onClick={(e) => { if (e.target === modalRef.current) closeModal() }}
       >
-        <div className="flex w-[1000px] h-3/5 p-10 items-center bg-gradient-1 bg-opacity-50">
+        <div className="flex w-[1000px] p-10 items-center bg-gradient-1 bg-opacity-50">
           <div className="w-1/2 h-full">
             <ThreeScene
               backgroundColor={0xffffff}
