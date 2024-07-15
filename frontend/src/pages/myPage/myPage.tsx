@@ -8,6 +8,7 @@ import "../../components/myPage/scrollbarStyle.css"
 import Edit from "../../assets/icons/edit";
 import Search from "../../assets/icons/search";
 import SettingButton from "../../components/myPage/settingButton";
+import EditMyModelButton from "../../components/myPage/editProfileModelButton";
 
 const MyPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -16,7 +17,7 @@ const MyPage: React.FC = () => {
       <section className="mx-auto w-4/5 bg-[#D0D0D0]/[.07] rounded-3xl flex flex-col">
         <div className="flex flex-col w-full h-full gap-20 pt-10 px-14">
           <section className="flex gap-14 h-[666px]">
-            <div className="flex-1 border-2 rounded-[30px] relative" style={{ background: 'linear-gradient(135deg, rgba(36, 72, 98, 0.09) 0%, rgba(255, 255, 255, 0.27) 55.1%, rgba(255, 255, 255, 0.27) 63.6%, rgba(36, 72, 98, 0.3) 100%)' }}><Ex1 /><button className="w-[33px] h-[33px] absolute top-3 right-6"><Edit /></button></div>
+            <div className="flex-1 border-2 rounded-[30px] relative" style={{ background: 'linear-gradient(135deg, rgba(36, 72, 98, 0.09) 0%, rgba(255, 255, 255, 0.27) 55.1%, rgba(255, 255, 255, 0.27) 63.6%, rgba(36, 72, 98, 0.3) 100%)' }}><Ex1 /><EditMyModelButton/></div>
 
             <div className="flex flex-col justify-between flex-1">
               <div className="flex flex-col gap-3">
