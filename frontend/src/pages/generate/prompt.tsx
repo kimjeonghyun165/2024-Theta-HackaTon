@@ -1,17 +1,37 @@
+import { useEffect } from "react";
 import { CreditLabel } from "../../components/generate";
-import { useOptionStore, usePromptStore } from "../../store/useStore";
+import { useModelStore } from "../../store/useModelStore";
+import { useOptionStore } from "../../store/useStore";
 
 const Prompt = () => {
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
-  const { prompt, setPrompt } = usePromptStore((state) => ({
-    prompt: state.prompt,
-    setPrompt: state.setPrompt,
+  const { model, setModel } = useModelStore((state) => ({
+    model: state.model,
+    setModel: state.setModel,
   }));
 
-  const handleGenerate = () => {
-    if (prompt !== "") {
-      setSelectedOption("option2");
+  const savePromptToSessionStorage = (value: any) => {
+    sessionStorage.setItem("prompt", value);
+  };
+
+  useEffect(() => {
+    const savedPrompt = sessionStorage.getItem("prompt");
+    if (savedPrompt) {
+      setModel({ prompt: savedPrompt });
     }
+  }, [setModel]);
+
+  const handleGenerate = () => {
+    if (model?.prompt !== "") {
+      setSelectedOption("option2");
+      savePromptToSessionStorage(prompt);
+    }
+  };
+
+  const handlePromptChange = (e: any) => {
+    const value = e.target.value;
+    setModel({ prompt: value });
+    savePromptToSessionStorage(value);
   };
 
   return (
@@ -23,8 +43,8 @@ const Prompt = () => {
         <textarea
           className="textarea textarea-bordered textarea-lg w-full h-96 resize-none bg-[#777777]/[.13] rounded-3xl"
           placeholder="EX. a blacksmith bear with elk horn"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
+          value={model?.prompt}
+          onChange={handlePromptChange}
         ></textarea>
         <div className="text-sm text-second/[.49]">
           TIP: try to include keyword ‘isolate’ to create outstanding results

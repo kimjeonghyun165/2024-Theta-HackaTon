@@ -16,6 +16,7 @@ interface Model {
 interface useModelState {
     model: Model | null;
     models: Model[];
+    setModel: (model: Partial<Model>) => void;
     fetchModel: (id: string) => Promise<void>;
     fetchModels: () => Promise<void>;
     addModel: (model: Model) => Promise<void>;
@@ -24,6 +25,9 @@ interface useModelState {
 export const useModelStore = create<useModelState>((set) => ({
     model: null,
     models: [],
+    setModel: (model) => set((state) => ({
+        model: { ...state.model, ...model } as Model
+    })),
 
     fetchModel: async (id: string) => {
         const response = await fetch(`http://localhost:3000/models/getmodel/${id}`, {

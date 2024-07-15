@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import { Check } from "../../../../assets/icons";
 import IconBtn from "../../iconBtn";
 
-interface SecondModalProps {
+interface SuccessModalProps {
   isVisible: boolean;
   onClose: () => void;
 }
 
-const SuccessModal: React.FC<SecondModalProps> = ({ isVisible, onClose }) => {
+const SuccessModal: React.FC<SuccessModalProps> = ({ isVisible, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   if (!isVisible) return null;
