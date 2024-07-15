@@ -3,9 +3,12 @@ import { create } from 'zustand';
 interface User {
     _id?: string;
     address: string;
-    porfile: string;
     signature: string;
     message: string;
+    plan?: string;
+    profileImg?: string;
+    username?: string;
+    models?: string[]
 }
 
 interface useUserState {

@@ -7,6 +7,7 @@ import {
   Section5,
   Section6,
 } from "./section/index";
+
 const Home = () => {
   return (
     <Layout>

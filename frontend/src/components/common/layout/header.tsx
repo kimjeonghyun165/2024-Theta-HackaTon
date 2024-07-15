@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import Logo from "../../../assets/logo";
-import connectAndSignMessage from "../../../utils/metamask";
 import Avatar from "../avatar";
 import { Link } from "react-scroll";
 import { useUserStore } from "../../../store/useUserStore";
 import logout from "../../../utils/logout";
-import { useNavigate } from "react-router-dom";
+import connectAndSignMessage from "../../../utils/web3/setWeb3/connectAndSignMessage";
+import DropDown from "../dropdown";
 
 export const Header = () => {
   const { user } = useUserStore();
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const handleConnect = async () => {
     try {
@@ -23,7 +22,6 @@ export const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
   };
 
   return (
@@ -65,14 +63,13 @@ export const Header = () => {
             </Link>
           </div>
           {user ? (
-            <>
-              <div className="btn btn-ghost">
-                <Avatar />
-              </div>
-              <div className="btn btn-ghost text-xl" onClick={handleLogout}>
-                Log-Out
-              </div>
-            </>
+            <DropDown
+              buttonContent={<Avatar />}
+              items={[
+                { label: "Profile", href: "/mypage" },
+                { label: "Logout", onClick: handleLogout },
+              ]}
+            />
           ) : (
             <div className="btn btn-ghost text-xl" onClick={handleConnect}>
               Log-In
