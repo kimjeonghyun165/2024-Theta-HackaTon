@@ -4,8 +4,9 @@ import Home from "./pages/home/home";
 import Generate from "./pages/generate/generate";
 import MyPage from "./pages/myPage/myPage";
 import { useUserStore } from "./store/useUserStore";
-import connectAndSignMessage from "./utils/metamask";
+
 import logout from "./utils/logout";
+import connectAndSignMessage from "./utils/web3/setWeb3/connectAndSignMessage";
 
 const App: React.FC = () => {
   const { setUser, fetchUser, setJwtToken } = useUserStore();

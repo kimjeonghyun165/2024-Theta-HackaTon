@@ -17,8 +17,6 @@ interface ImageState {
 }
 
 interface Web3State {
-    account: string | null;
-    setAccount: (account: string | null) => void;
     contract: any;
     setContract: (contract: any) => void;
     web3: Web3 | null;
@@ -43,8 +41,6 @@ export const useImgStore = create<ImageState>((set) => ({
 }));
 
 export const useWeb3Store = create<Web3State>((set) => ({
-    account: null,
-    setAccount: (account) => set({ account }),
     contract: null,
     setContract: (contract) => set({ contract }),
     web3: null,

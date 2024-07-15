@@ -3,5 +3,5 @@ export class CreateUserDto {
     readonly plan?: string;
     readonly profileImg?: string;
     readonly username?: string;
-    readonly assets?: string[];
+    readonly models?: string[];
 }
