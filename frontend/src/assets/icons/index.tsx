@@ -1,5 +1,5 @@
 import Check from "./check";
-import DownArrow from "./dwonArrow";
+import DownArrow from "./downArrow";
 import Earth from "./earth";
 import Lock from "./lock";
 import Market from "./market";
