@@ -61,7 +61,7 @@ function SettingButton({ children }: { children: React.ReactNode }) {
             <h3 className="text-2xl font-extralight">Notification Setting</h3>
             <ul className="flex flex-col gap-7">
               <SettingInformBox>
-                License: Commercial,
+                Notification: Comment,
                  : Like,
                  : Tag
               </SettingInformBox>

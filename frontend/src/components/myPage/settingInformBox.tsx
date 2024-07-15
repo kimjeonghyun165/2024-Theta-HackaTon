@@ -18,7 +18,7 @@ function SettingInformBox({ children }: { children: string }) {
       {sentenceArr.map(([title, content], index) => (
         <li className="flex items-center gap-4 py-1" key={index}>
           <span className="w-48 font-bold">{title}</span>
-          <span className="bg-[#777777] text-second rounded-[30px] px-10 flex items-center py-3">
+          <span className="bg-[#777777] text-second rounded-[30px] px-10 flex items-center py-3 min-w-48 justify-center">
             {content}
           </span>
           {icons[title as IconKeys] && <IconBtn icon={icons[title as IconKeys]} bgColor='bg-[#777777]'/>}
