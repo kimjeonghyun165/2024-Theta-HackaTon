@@ -6,11 +6,6 @@ interface TypeState {
     setSelectedOption: (option: string) => void;
 }
 
-interface PromptState {
-    prompt: string;
-    setPrompt: (newPrompt: string) => void;
-}
-
 interface ImageState {
     image: number | null;
     setImage: (newImage: number) => void;
@@ -30,10 +25,6 @@ export const useOptionStore = create<TypeState>((set) => ({
     setSelectedOption: (option) => set({ selectedOption: option }),
 }));
 
-export const usePromptStore = create<PromptState>((set) => ({
-    prompt: '',
-    setPrompt: (newPrompt) => set({ prompt: newPrompt }),
-}));
 
 export const useImgStore = create<ImageState>((set) => ({
     image: null,

@@ -7,6 +7,7 @@ import {
   Market,
   Question,
 } from "../../../../assets/icons";
+import { useModelStore } from "../../../../store/useModelStore";
 import IconBtn from "../../iconBtn";
 import SwapIconBtn from "../../swapIconBtn";
 import ThreeScene from "../../threeScene/main";
@@ -24,6 +25,11 @@ const EditModal: React.FC<PostPopupProps> = ({
   onOpenNextModal,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { model, setModel, addModel } = useModelStore((state) => ({
+    model: state.model,
+    setModel: state.setModel,
+    addModel: state.addModel,
+  }));
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -45,9 +51,22 @@ const EditModal: React.FC<PostPopupProps> = ({
 
   if (!isVisible) return null;
 
-  const handlePostClick = () => {
+  const handlePostClick = async () => {
+    if (model) {
+      await addModel(model);
+    }
     onClose();
     onOpenNextModal();
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setModel({ title: e.target.value });
+  };
+
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setModel({ description: e.target.value });
   };
 
   return (
@@ -66,19 +85,22 @@ const EditModal: React.FC<PostPopupProps> = ({
             />
           </div>
           <div className="w-1/2 flex flex-col gap-6 px-6">
-            <InputField type="text" placeholder="Title :" />
+            <InputField
+              type="text"
+              placeholder="Title :"
+              value={model?.title || ""}
+              onChange={handleTitleChange}
+            />
             <textarea
               className="textarea w-full resize-none rounded-3xl h-48 bg-[#1C1C1C]/[.53]"
               placeholder="Description: Strong muscular human statue. #statue, #muscular, #strong"
+              value={model?.description || ""}
+              onChange={handleDescriptionChange}
             ></textarea>
-            <label className="input flex items-center justify-around border-none bg-[#1C1C1C]/[.53] rounded-full pr-0">
-              <input
-                type="text"
-                placeholder="Make as NFT?"
-                className="grow focus:outline-none rounded-full"
-              />
+            <div className="w-full flex justify-between items-center bg-[#1C1C1C]/[.53] pl-4 rounded-full">
+              <p className="">Make as NFT?</p>
               <IconBtn icon={Check} bgColor="bg-[#1C1C1C]/[.53]" />
-            </label>
+            </div>
             <div className="flex justify-around gap-3">
               <InputField type="text" placeholder="Price: 0.792 ETH" />
               <IconBtn icon={Market} bgColor="bg-[#1C1C1C]/[.53]" />

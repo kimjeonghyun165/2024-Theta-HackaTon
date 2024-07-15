@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Logo from "../../../assets/logo";
 import Avatar from "../avatar";
 import { Link } from "react-scroll";
@@ -64,7 +64,7 @@ export const Header = () => {
           </div>
           {user ? (
             <DropDown
-              buttonContent={<Avatar />}
+              buttonContent={<Avatar img={user.profileImg} />}
               items={[
                 { label: "Profile", href: "/mypage" },
                 { label: "Logout", onClick: handleLogout },
