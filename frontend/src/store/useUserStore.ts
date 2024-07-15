@@ -11,6 +11,7 @@ interface User {
     models?: string[]
 }
 
+
 interface useUserState {
     user: User | null;
     jwtToken: string | null;
