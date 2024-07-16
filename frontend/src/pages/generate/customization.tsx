@@ -10,14 +10,8 @@ import {
 import { useModelStore } from "../../store/useModelStore";
 
 const Customization = ({ onPostBtnClick }: any) => {
-  // const { model, addModel } = useModelStore.getState();
-
-  // const handleAddModel = async () => {
-  //   await addModel(model)
-  // }
-
   return (
-    <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
+    <div className="flex h-full flex-col items-center justify-between py-4 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
       <div className="w-full flex flex-col items-center gap-3">
         <div className="flex w-full justify-end">
           <CreditLabel />

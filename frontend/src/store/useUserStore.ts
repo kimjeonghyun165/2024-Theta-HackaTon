@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface User {
     _id?: string;
@@ -21,46 +22,54 @@ interface useUserState {
     clearUser: () => void
 }
 
-export const useUserStore = create<useUserState>((set) => ({
-    user: null,
-    jwtToken: null,
-    setUser: (user) => set({ user }),
-    setJwtToken: (token) => set({ jwtToken: token }),
+export const useUserStore = create<useUserState>()(
+    persist(
+        (set, get) => ({
+            user: null,
+            jwtToken: null,
+            setUser: (user) => set({ user }),
+            setJwtToken: (token) => set({ jwtToken: token }),
 
-    fetchUser: async () => {
-        const { jwtToken } = useUserStore.getState();
-        const response = await fetch('http://localhost:3000/users/me', {
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`,
+            fetchUser: async () => {
+                const { jwtToken } = get();
+                const response = await fetch('http://localhost:3000/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`,
+                    },
+                });
+                if (response.ok) {
+                    const user = await response.json();
+                    set({
+                        user,
+                    });
+                } else {
+                    set({ user: null });
+                }
             },
-        });
-        if (response.ok) {
-            const user = await response.json();
-            set({
-                user,
-            });
-        } else {
-            set({ user: null });
-        }
-    },
 
-    addUser: async (user) => {
-        const { jwtToken } = useUserStore.getState();
-        const response = await fetch('http://localhost:3000/users/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
+            addUser: async (user) => {
+                const { jwtToken } = get();
+                const response = await fetch('http://localhost:3000/users/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`,
+                    },
+                    body: JSON.stringify(user),
+                });
+                if (response.ok) {
+                    const newUser = await response.json();
+                    set({ user: newUser });
+                } else {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Failed to save user');
+                }
             },
-            body: JSON.stringify(user),
-        });
-        if (response.ok) {
-            const newUser = await response.json();
-            set({ user: newUser });
-        } else {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Failed to save user');
+
+            clearUser: () => set({ user: null, jwtToken: null }),
+        }),
+        {
+            name: 'user-storage',
         }
-    },
-    clearUser: () => set({ user: null }),
-}));
+    )
+);

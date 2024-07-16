@@ -5,7 +5,6 @@ interface DropDownItem {
   onClick?: () => void;
   href?: string;
 }
-
 interface DropDownProps {
   buttonContent: React.ReactNode;
   items: DropDownItem[];
@@ -27,7 +26,7 @@ const DropDown: React.FC<DropDownProps> = ({
 
   return (
     <div className={`dropdown dropdown-${position} dropdown-end`}>
-      <div tabIndex={0} role="button" className="btn m-1">
+      <div tabIndex={0} role="button" className="btn btn-ghost">
         {buttonContent}
       </div>
       <ul
