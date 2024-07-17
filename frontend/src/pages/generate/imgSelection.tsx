@@ -2,7 +2,11 @@ import { useState } from "react";
 import { DownArrow } from "../../assets/icons";
 import { Ex1, RefreshArrow } from "../../assets/imgSelect";
 import { CreditLabel } from "../../components/generate";
-import { useOptionStore } from "../../store/useStore";
+import {
+  useFileStore,
+  useOptionStore,
+  useWeb3Store,
+} from "../../store/useStore";
 
 const images = [
   { id: 1, component: Ex1 },
@@ -14,13 +18,14 @@ const images = [
 const ImgSelection = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
-
+  const fetchFileUrl = useFileStore((state) => state.fetchFileUrl);
   const handleImageSelect = (id: number) => {
     setSelectedImage(id);
   };
 
-  const handleSelect = () => {
+  const handleSelect = async () => {
     if (selectedImage !== null) {
+      await fetchFileUrl("Base_Mesh_LowPoly.fbx");
       setSelectedOption("option3");
     }
   };

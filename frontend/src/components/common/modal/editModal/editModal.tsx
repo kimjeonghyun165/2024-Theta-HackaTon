@@ -1,17 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import {
-  Check,
-  DownArrow,
-  Earth,
-  Lock,
-  Market,
-  Question,
-} from "../../../../assets/icons";
+import { Check, Market, Question } from "../../../../assets/icons";
 import { useModelStore } from "../../../../store/useModelStore";
 import IconBtn from "../../iconBtn";
-import SwapIconBtn from "../../swapIconBtn";
 import ThreeScene from "../../threeScene/main";
+import ActionField from "./actionField";
 import InputField from "../inputField";
+import TextAreaField from "../textAreaField";
+import { mintNFT } from "../../../../utils/web3/nft";
+import { useFileStore } from "../../../../store/useStore";
+import { initializeWeb3 } from "../../../../utils/web3/setWeb3/initializeWeb3";
+import { initializeContract } from "../../../../utils/web3/setWeb3/setContract";
 
 interface PostPopupProps {
   isVisible: boolean;
@@ -31,6 +29,8 @@ const EditModal: React.FC<PostPopupProps> = ({
     addModel: state.addModel,
   }));
 
+  const fileUrl = useFileStore((state) => state.fileUrl);
+
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       onClose();
@@ -49,10 +49,25 @@ const EditModal: React.FC<PostPopupProps> = ({
     };
   }, [isVisible]);
 
+  useEffect(() => {
+    if (isVisible) {
+      initializeWeb3();
+    }
+  }, [isVisible]);
+
   if (!isVisible) return null;
 
   const handlePostClick = async () => {
     if (model) {
+      await mintNFT({
+        fileName: "Base_Mesh_LowPoly.fbx",
+        prompt: model.prompt,
+        title: model.title,
+        description: model.description,
+        model: model.file,
+        preview: model.preview,
+      });
+
       await addModel(model);
     }
     onClose();
@@ -81,22 +96,20 @@ const EditModal: React.FC<PostPopupProps> = ({
               backgroundColor={0xffffff}
               backgroundOpacity={0}
               showGrid={false}
-              modelPath="https://gateway.pinata.cloud/ipfs/Qmbj6DwoZkKi9RkphF18ZyjGXYFs3AR2RKKNGN9gZe1LRg"
+              modelPath={fileUrl}
             />
           </div>
           <div className="w-1/2 flex flex-col gap-6 px-6">
             <InputField
-              type="text"
-              placeholder="Title :"
               value={model?.title || ""}
               onChange={handleTitleChange}
+              type={"text"}
+              placeholder={"Title : "}
             />
-            <textarea
-              className="textarea w-full resize-none rounded-3xl h-48 bg-[#1C1C1C]/[.53]"
-              placeholder="Description: Strong muscular human statue. #statue, #muscular, #strong"
+            <TextAreaField
               value={model?.description || ""}
               onChange={handleDescriptionChange}
-            ></textarea>
+            />
             <div className="w-full flex justify-between items-center bg-[#1C1C1C]/[.53] pl-4 rounded-full">
               <p className="">Make as NFT?</p>
               <IconBtn icon={Check} bgColor="bg-[#1C1C1C]/[.53]" />
@@ -106,22 +119,7 @@ const EditModal: React.FC<PostPopupProps> = ({
               <IconBtn icon={Market} bgColor="bg-[#1C1C1C]/[.53]" />
               <IconBtn icon={Question} bgColor="bg-[#1C1C1C]/[.53]" />
             </div>
-            <div className="flex items-center justify-around gap-6">
-              <SwapIconBtn
-                swapOnIcon={Lock}
-                swapOffIcon={Earth}
-                bgColor={"bg-black/[.53]"}
-              />
-              <IconBtn icon={DownArrow} bgColor="bg-black/[.53]" />
-              <div className="modal-action w-full mt-0">
-                <button
-                  className="btn w-full bg-black/[.53] rounded-full"
-                  onClick={handlePostClick}
-                >
-                  Post
-                </button>
-              </div>
-            </div>
+            <ActionField onPostClick={handlePostClick} />
           </div>
         </div>
       </div>

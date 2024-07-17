@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useModelStore } from "../../store/useModelStore";
 import { useWeb3Store } from "../../store/useStore";
 import { useUserStore } from "../../store/useUserStore";
 
 interface Metadata {
+  fileName: string | null
   prompt: string | null
   title: string | null;
   description: string | null;
@@ -10,8 +11,24 @@ interface Metadata {
   preview: string | null;
 }
 
-const { contract, web3, file, setFile } = useWeb3Store();
-const { user } = useUserStore.getState();
+const uploadFileToPinata = async (fileName: string) => {
+  try {
+    const { setModel } = useModelStore.getState()
+    const response = await fetch(`http://localhost:3000/pinata/upload/${fileName}`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    setModel({ file: data.url, preview: "preview Img2" })
+  } catch (error) {
+    console.error("Pinata upload error: ", error);
+    return null;
+  }
+};
 
 const uploadToPinata = async (file: File) => {
   try {
@@ -36,13 +53,15 @@ const uploadToPinata = async (file: File) => {
 };
 
 const createNFT = async (metadataURI: string) => {
+  const { contract, web3 } = useWeb3Store.getState()
+  const { user } = useUserStore.getState();
+  console.log(contract, web3)
   if (contract && user) {
     try {
       const gasPrice = await web3?.eth.getGasPrice();
       await contract.methods
         .createNFT(metadataURI)
         .send({ from: user.address, gasPrice });
-      alert("NFT created successfully!");
     } catch (error) {
       console.error("Error creating NFT: ", error);
     } finally {
@@ -51,9 +70,9 @@ const createNFT = async (metadataURI: string) => {
   }
 };
 
-const mintNFT = async ({ prompt, title, description, model, preview }: Metadata) => {
-  if (file) {
-    model = await uploadToPinata(file);
+export const mintNFT = async ({ fileName, prompt, model, title, description, preview }: Metadata) => {
+  if (fileName) {
+    await uploadFileToPinata(fileName);
     if (model) {
       const metadata = {
         prompt: prompt,
@@ -74,32 +93,32 @@ const mintNFT = async ({ prompt, title, description, model, preview }: Metadata)
   }
 };
 
-const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  if (event.target.files && event.target.files[0]) {
-    setFile(event.target.files[0]);
-  }
-};
+// const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   if (event.target.files && event.target.files[0]) {
+//     setFile(event.target.files[0]);
+//   }
+// };
 
-const fetchNFTMetadata = async (tokenId: number) => {
-  try {
-    const tokenURI = await contract.methods.tokenURI(tokenId).call();
+// const fetchNFTMetadata = async (tokenId: number) => {
+//   try {
+//     const tokenURI = await contract.methods.tokenURI(tokenId).call();
 
-    const gatewayURL = tokenURI.replace(
-      "ipfs://",
-      "https://gateway.pinata.cloud/ipfs/"
-    );
-    const response = await fetch(gatewayURL);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+//     const gatewayURL = tokenURI.replace(
+//       "ipfs://",
+//       "https://gateway.pinata.cloud/ipfs/"
+//     );
+//     const response = await fetch(gatewayURL);
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
 
-    const metadata = await response.json();
-    return metadata.model;
-  } catch (error) {
-    console.error("Error fetching metadata: ", error);
-    return null;
-  }
-};
+//     const metadata = await response.json();
+//     return metadata.model;
+//   } catch (error) {
+//     console.error("Error fetching metadata: ", error);
+//     return null;
+//   }
+// };
 
 // const displayNFTModel = async (tokenId: number) => {
 //   const modelURL = await fetchNFTMetadata(tokenId);
