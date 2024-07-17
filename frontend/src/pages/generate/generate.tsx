@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Layout } from "../../components/common/layout/generate/layout";
 import ThreeScene from "../../components/common/threeScene/main";
-import { useOptionStore } from "../../store/useStore";
+import { useFileStore, useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";
 import Customization from "./customization";
 import Prompt from "./prompt";
@@ -10,6 +10,7 @@ import { EditModal, SuccessModal } from "../../components/common/modal";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
+  const fileUrl = useFileStore((state) => state.fileUrl);
 
   const [isFirstModalVisible, setFirstModalVisible] = useState(false);
   const [isSecondModalVisible, setSecondModalVisible] = useState(false);
@@ -35,14 +36,14 @@ const Generate3DModel: React.FC = () => {
           </AnimatedContent>
         </div>
         <div className="w-3/5">
-          <ThreeScene
-            backgroundColor={0x000000}
-            backgroundOpacity={100}
-            showGrid={true}
-            modelPath={
-              "https://gateway.pinata.cloud/ipfs/Qmbj6DwoZkKi9RkphF18ZyjGXYFs3AR2RKKNGN9gZe1LRg"
-            }
-          />
+          {fileUrl && (
+            <ThreeScene
+              backgroundColor={0x000000}
+              backgroundOpacity={100}
+              showGrid={true}
+              modelPath={fileUrl}
+            />
+          )}
         </div>
         <EditModal
           isVisible={isFirstModalVisible}
