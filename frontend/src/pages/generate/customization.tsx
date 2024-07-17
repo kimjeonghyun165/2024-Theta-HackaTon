@@ -7,7 +7,6 @@ import {
   Stretch,
   Surface,
 } from "../../components/generate";
-import { useModelStore } from "../../store/useModelStore";
 
 const Customization = ({ onPostBtnClick }: any) => {
   return (
