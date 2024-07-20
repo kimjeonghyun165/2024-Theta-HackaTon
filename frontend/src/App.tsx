@@ -4,13 +4,35 @@ import Home from "./pages/home/home";
 import Generate from "./pages/generate/generate";
 import MyPage from "./pages/myPage/myPage";
 import { useUserStore } from "./store/useUserStore";
-
-import logout from "./utils/logout";
 import connectAndSignMessage from "./utils/web3/setWeb3/connectAndSignMessage";
+import { isTokenExpired } from "./utils/auth";
+import { useLogout } from "./hooks/useLogout";
+import ProtectedRoute from "./components/common/protectedRoute";
 
 const App: React.FC = () => {
-  const { setUser, fetchUser, setJwtToken } = useUserStore();
   const [error, setError] = useState<string | null>(null);
+  const logout = useLogout();
+  const { jwtToken, setUser, fetchUser, setJwtToken } = useUserStore(
+    (state) => ({
+      jwtToken: state.jwtToken,
+      setUser: state.setUser,
+      fetchUser: state.fetchUser,
+      setJwtToken: state.setJwtToken,
+    })
+  );
+
+  useEffect(() => {
+    const checkTokenExpiration = () => {
+      if (jwtToken) {
+        if (isTokenExpired(jwtToken)) {
+          logout();
+        }
+      }
+    };
+    checkTokenExpiration();
+    const intervalId = setInterval(checkTokenExpiration, 600000);
+    return () => clearInterval(intervalId);
+  }, [jwtToken, logout]);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -27,9 +49,7 @@ const App: React.FC = () => {
           logout();
         }
       };
-
       window.ethereum.on("accountsChanged", handleAccountsChanged);
-
       return () => {
         window.ethereum.removeListener(
           "accountsChanged",
@@ -37,17 +57,24 @@ const App: React.FC = () => {
         );
       };
     }
-  }, [fetchUser, setJwtToken, setUser]);
+  }, [fetchUser, setJwtToken, setUser, jwtToken, logout]);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/model/generate" element={<Generate />} />
-        <Route path="/myPage" element={<MyPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route
+        path="/model/generate"
+        element={<ProtectedRoute element={Generate} />}
+      />
+      <Route path="/myPage" element={<ProtectedRoute element={MyPage} />} />
+    </Routes>
   );
 };
 
-export default App;
+const AppWrapper: React.FC = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;

@@ -1,7 +1,5 @@
-// src/utils/authUtils.ts
 import Web3 from 'web3';
 import { useUserStore } from '../../../store/useUserStore';
-
 
 const SignatureMessage = (address: string) => {
     const uri = "https://griel.ai";

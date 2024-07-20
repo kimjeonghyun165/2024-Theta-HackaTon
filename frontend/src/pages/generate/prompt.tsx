@@ -10,28 +10,15 @@ const Prompt = () => {
     setModel: state.setModel,
   }));
 
-  const savePromptToSessionStorage = (value: any) => {
-    sessionStorage.setItem("prompt", value);
-  };
-
-  useEffect(() => {
-    const savedPrompt = sessionStorage.getItem("prompt");
-    if (savedPrompt) {
-      setModel({ prompt: savedPrompt });
-    }
-  }, [setModel]);
-
   const handleGenerate = () => {
     if (model?.prompt !== "") {
       setSelectedOption("option2");
-      savePromptToSessionStorage(prompt);
     }
   };
 
   const handlePromptChange = (e: any) => {
     const value = e.target.value;
     setModel({ prompt: value });
-    savePromptToSessionStorage(value);
   };
 
   return (

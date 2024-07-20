@@ -1,34 +1,37 @@
 import { useModelStore } from "../../store/useModelStore";
 import { useWeb3Store } from "../../store/useStore";
 import { useUserStore } from "../../store/useUserStore";
+import { initializeWeb3 } from "./setWeb3/initializeWeb3";
 
 interface Metadata {
-  fileName: string | null
   prompt: string | null
   title: string | null;
   description: string | null;
-  model: string | null;
+  model?: string | null;
   preview: string | null;
 }
 
-const uploadFileToPinata = async (fileName: string) => {
+const uploadFileToPinata = async (fileUrl: string) => {
   try {
-    const { setModel } = useModelStore.getState()
-    const response = await fetch(`http://localhost:3000/pinata/upload/${fileName}`, {
-      method: "GET",
+    const response = await fetch('http://localhost:3000/pinata/uploadFromUrl', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fileUrl }),
     });
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const data = await response.json();
-    setModel({ file: data.url, preview: "preview Img2" })
+    return data.url;
   } catch (error) {
-    console.error("Pinata upload error: ", error);
+    console.error('Pinata upload error: ', error);
     return null;
   }
 };
+
+
 
 const uploadToPinata = async (file: File) => {
   try {
@@ -53,9 +56,9 @@ const uploadToPinata = async (file: File) => {
 };
 
 const createNFT = async (metadataURI: string) => {
+  await initializeWeb3()
   const { contract, web3 } = useWeb3Store.getState()
   const { user } = useUserStore.getState();
-  console.log(contract, web3)
   if (contract && user) {
     try {
       const gasPrice = await web3?.eth.getGasPrice();
@@ -70,28 +73,29 @@ const createNFT = async (metadataURI: string) => {
   }
 };
 
-export const mintNFT = async ({ fileName, prompt, model, title, description, preview }: Metadata) => {
-  if (fileName) {
-    await uploadFileToPinata(fileName);
-    if (model) {
-      const metadata = {
-        prompt: prompt,
-        title: title,
-        description: description,
-        model: model,
-        preview: preview,
-      };
-      const metadataBlob = new Blob([JSON.stringify(metadata)], {
-        type: "application/json",
-      });
-      const metadataFile = new File([metadataBlob], "metadata.json");
-      const metadataURI = await uploadToPinata(metadataFile);
-      if (metadataURI) {
-        await createNFT(metadataURI);
-      }
+export const mintNFT = async ({ prompt, title, description, preview }: Metadata) => {
+  const { model, setModel } = useModelStore.getState()
+  if (model) {
+    const ipfsFileUrl = await uploadFileToPinata(model?.file);
+    const metadata = {
+      prompt: prompt,
+      title: title,
+      description: description,
+      model: model,
+      preview: preview,
+    };
+    const metadataBlob = new Blob([JSON.stringify(metadata)], {
+      type: "application/json",
+    });
+    const metadataFile = new File([metadataBlob], "metadata.json");
+    const metadataURI = await uploadToPinata(metadataFile);
+    if (metadataURI) {
+      await createNFT(metadataURI);
+      setModel({ nftDetails: { ...model?.nftDetails, ipfsFile: ipfsFileUrl, ipfsMetadata: metadataURI } })
     }
   }
-};
+}
+
 
 // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 //   if (event.target.files && event.target.files[0]) {
