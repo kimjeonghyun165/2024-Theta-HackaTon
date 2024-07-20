@@ -11,9 +11,12 @@ const Menu = () => {
     setSelectedOption(event.target.value);
   };
 
+  console.log(selectedOption);
+
   return (
     <ul className="menu menu-lg bg-base-500 gap-6">
       <MenuItem
+        id="prompt"
         name="option"
         value="option1"
         selectedOption={selectedOption}
@@ -21,6 +24,7 @@ const Menu = () => {
         Icon={First}
       />
       <MenuItem
+        id="imgSelection"
         name="option"
         value="option2"
         selectedOption={selectedOption}
@@ -28,6 +32,7 @@ const Menu = () => {
         Icon={Second}
       />
       <MenuItem
+        id="customization"
         name="option"
         value="option3"
         selectedOption={selectedOption}

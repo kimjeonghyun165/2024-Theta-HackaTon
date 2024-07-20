@@ -10,7 +10,7 @@ import {
 import IconBtn from "../common/iconBtn";
 import InputField from "../common/modal/inputField";
 import SwapIconBtn from "../common/swapIconBtn";
-import ThreeScene from "../common/threeScene/main";
+import ThreeScene from "../common/threeScene/threeScene";
 
 interface ModelBoxProps {
   key: number;
@@ -45,7 +45,9 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
             "linear-gradient(180deg, rgba(208, 208, 208, 0.25) 0%, rgba(106, 106, 106, 0.5) 100%)",
         }}
         className="backdrop:backdrop-blur-md rounded-3xl"
-        onClick={(e) => { if (e.target === modalRef.current) closeModal() }}
+        onClick={(e) => {
+          if (e.target === modalRef.current) closeModal();
+        }}
       >
         <div className="flex w-[1000px] p-10 items-center bg-gradient-1 bg-opacity-50">
           <div className="w-1/2 h-full">

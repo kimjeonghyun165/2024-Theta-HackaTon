@@ -29,7 +29,7 @@ export class PinataService {
             if (response.status !== 200) {
                 throw new HttpException('Failed to upload file to Pinata', HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return response.data.IpfsHash
+            return response.data.IpfsHash;
         } catch (error) {
             console.error('Pinata upload error:', error);
             throw new HttpException('Failed to upload file to Pinata', HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,7 +55,28 @@ export class PinataService {
             maxBodyLength: Infinity,
         });
 
-
         return response.data;
+    }
+
+    async uploadFromUrlToPinata(fileUrl: string): Promise<string> {
+        try {
+            const response = await axios.get(fileUrl, { responseType: 'stream' });
+            const formData = new FormData();
+            formData.append('file', response.data, 'file.fbx');
+            const pinataResponse = await axios.post(this.PINATA_API_URL, formData, {
+                headers: {
+                    ...formData.getHeaders(),
+                    pinata_api_key: this.PINATA_API_KEY,
+                    pinata_secret_api_key: this.PINATA_SECRET_API_KEY,
+                },
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity,
+            });
+
+            return pinataResponse.data.IpfsHash;
+        } catch (error) {
+            console.error('Pinata upload error:', error);
+            throw new HttpException('Failed to upload file to Pinata', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

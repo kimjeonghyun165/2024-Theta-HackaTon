@@ -1,6 +1,8 @@
 import { ChangeEvent } from "react";
+import { useModelStore } from "../../../../../store/useModelStore";
 
 interface MenuItemProps {
+  id: string;
   name: string;
   value: string;
   selectedOption: string | null;
@@ -9,27 +11,40 @@ interface MenuItemProps {
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({
+  id,
   name,
   value,
   selectedOption,
   onChange,
   Icon,
 }) => {
+  const model = useModelStore((state) => state.model);
   const isSelected = selectedOption === value;
-  console.log(selectedOption);
+
+  let isDisabled = false;
+  if (value === "option2" && !model?.prompt) {
+    isDisabled = true;
+  }
+  if (value === "option3" && (!model?.prompt || !model?.imgSelection)) {
+    isDisabled = true;
+  }
+
   return (
-    <li
-      className={`w-16 m-2 menu-item ${
-        selectedOption === value ? "active" : ""
-      }`}
-    >
-      <label className={`p-3 ${isSelected ? "bg-sixth/[.12]" : "bg-none"}`}>
+    <li className={`w-16 m-2 menu-item ${isSelected ? "active" : ""}`}>
+      <label
+        className={`p-3 ${isSelected ? "bg-sixth/[.12]" : "bg-none"} ${
+          isDisabled ? "cursor-not-allowed opacity-50" : ""
+        }`}
+      >
         <input
+          id={id}
           name={name}
           value={value}
           type="radio"
           onChange={onChange}
           className="hidden"
+          disabled={isDisabled}
+          checked={isSelected}
         />
         <Icon selected={isSelected} />
       </label>

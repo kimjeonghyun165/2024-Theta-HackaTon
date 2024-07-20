@@ -6,11 +6,6 @@ interface TypeState {
     setSelectedOption: (option: string) => void;
 }
 
-interface ImageState {
-    image: number | null;
-    setImage: (newImage: number) => void;
-}
-
 interface Web3State {
     contract: any;
     setContract: (contract: any) => void;
@@ -19,8 +14,8 @@ interface Web3State {
 }
 
 interface FileState {
-    fileUrl: string | null;
-    setFileUrl: (fileUrl: string | null) => void;
+    fileUrl: string | '';
+    setFileUrl: (fileUrl: string | undefined) => void;
     fetchFileUrl: (filename: string) => void;
 }
 
@@ -28,13 +23,6 @@ export const useOptionStore = create<TypeState>((set) => ({
     selectedOption: "option1",
     setSelectedOption: (option) => set({ selectedOption: option }),
 }));
-
-
-export const useImgStore = create<ImageState>((set) => ({
-    image: null,
-    setImage: (newImage) => set({ image: newImage }),
-}));
-
 
 export const useWeb3Store = create<Web3State>((set) => ({
     contract: null,
@@ -44,9 +32,8 @@ export const useWeb3Store = create<Web3State>((set) => ({
 }),
 );
 
-
 export const useFileStore = create<FileState>((set) => ({
-    fileUrl: null,
+    fileUrl: '',
     setFileUrl: (fileUrl) => set({ fileUrl }),
     fetchFileUrl: async (filename: string) => {
         try {

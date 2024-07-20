@@ -1,15 +1,24 @@
 interface IconButtonProps {
   icon: React.FC;
   bgColor: string;
+  onClick?: () => void;
+  size?: string;
+  shape?: string;
 }
 
 const IconBtn: React.FC<IconButtonProps> = ({
   icon: IconComponent,
   bgColor,
+  onClick,
+  size = "p-4",
+  shape = "btn-circle",
 }) => (
-  <div className={`btn btn-circle border-none p-4 ${bgColor}`}>
+  <button
+    className={`btn ${shape} border-none ${size} ${bgColor}`}
+    onClick={onClick}
+  >
     <IconComponent />
-  </div>
+  </button>
 );
 
 export default IconBtn;

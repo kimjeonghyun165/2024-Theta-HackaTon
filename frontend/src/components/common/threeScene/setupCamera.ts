@@ -7,7 +7,7 @@ const setupCamera = (): THREE.PerspectiveCamera => {
         1,
         2000
     );
-    camera.position.set(0, 200, 0);
+    camera.position.set(450, 300, 450);
     return camera;
 };
 
