@@ -14,7 +14,7 @@ export class ModelsController {
         @Request() req,
         @Body() createModelDto: CreateModelDto,
     ) {
-        const userId = req.user.sub;
+        const userId = req.user.userId
         return this.modelsService.createModel(createModelDto, userId);
     }
 

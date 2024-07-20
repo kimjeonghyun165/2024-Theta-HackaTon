@@ -1,4 +1,4 @@
-import { Controller, Get, Param, HttpException, HttpStatus, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, HttpException, HttpStatus, Post, UploadedFile, UseInterceptors, Body } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PinataService } from './pinata.service';
 
@@ -10,6 +10,17 @@ export class PinataController {
     async uploadFile(@Param('filename') filename: string) {
         try {
             const ipfsHash = await this.pinataService.uploadFileToPinata(filename);
+            return { url: `https://gateway.pinata.cloud/ipfs/${ipfsHash}` };
+        } catch (error) {
+            throw new HttpException('Failed to upload file to Pinata', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @Post('uploadFromUrl')
+    async uploadFromUrl(@Body('fileUrl') fileUrl: string) {
+        try {
+            const ipfsHash = await this.pinataService.uploadFromUrlToPinata(fileUrl);
             return { url: `https://gateway.pinata.cloud/ipfs/${ipfsHash}` };
         } catch (error) {
             throw new HttpException('Failed to upload file to Pinata', HttpStatus.INTERNAL_SERVER_ERROR);

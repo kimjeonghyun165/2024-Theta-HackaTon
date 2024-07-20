@@ -18,7 +18,7 @@ export class User extends Document {
     @Prop({ required: true, default: function () { return this.address; } })
     username: string;
 
-    @Prop({ type: [{ type: Types.ObjectId, ref: 'Models' }] })
+    @Prop({ type: [{ type: Types.ObjectId, ref: 'Model' }] })
     models: Types.ObjectId[];
 }
 export const UserSchema = SchemaFactory.createForClass(User);

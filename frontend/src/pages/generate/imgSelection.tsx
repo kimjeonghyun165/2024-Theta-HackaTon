@@ -1,30 +1,30 @@
-import { useState } from "react";
 import { DownArrow } from "../../assets/icons";
 import { Ex1, RefreshArrow } from "../../assets/imgSelect";
 import { CreditLabel } from "../../components/generate";
-import {
-  useFileStore,
-  useOptionStore,
-  useWeb3Store,
-} from "../../store/useStore";
+import { useModelStore } from "../../store/useModelStore";
+import { useFileStore, useOptionStore } from "../../store/useStore";
 
 const images = [
-  { id: 1, component: Ex1 },
-  { id: 2, component: Ex1 },
-  { id: 3, component: Ex1 },
-  { id: 4, component: Ex1 },
+  { id: 1, component: Ex1, url: "http:output1.png" },
+  { id: 2, component: Ex1, url: "http:output2.png" },
+  { id: 3, component: Ex1, url: "http:output3.png" },
+  { id: 4, component: Ex1, url: "http:output4.png" },
 ];
 
 const ImgSelection = () => {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
   const fetchFileUrl = useFileStore((state) => state.fetchFileUrl);
-  const handleImageSelect = (id: number) => {
-    setSelectedImage(id);
+  const { model, setModel } = useModelStore((state) => ({
+    model: state.model,
+    setModel: state.setModel,
+  }));
+
+  const handleImageSelect = (url: string) => {
+    setModel({ imgSelection: url });
   };
 
   const handleSelect = async () => {
-    if (selectedImage !== null) {
+    if (model?.imgSelection !== null) {
       await fetchFileUrl("Base_Mesh_LowPoly.fbx");
       setSelectedOption("option3");
     }
@@ -43,12 +43,12 @@ const ImgSelection = () => {
                 type="radio"
                 name="image"
                 className="radio hidden"
-                checked={selectedImage === image.id}
-                onChange={() => handleImageSelect(image.id)}
+                checked={model?.imgSelection === image.url}
+                onChange={() => handleImageSelect(image.url)}
               />
               <div
                 className={`p-2 rounded-3xl ${
-                  selectedImage === image.id ? "ring" : ""
+                  model?.imgSelection === image.url ? "ring" : ""
                 }`}
               >
                 <image.component />
@@ -59,7 +59,7 @@ const ImgSelection = () => {
       </div>
       <div className="flex w-3/4 justify-around gap-1 items-center">
         <div
-          className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full mt-4"
+          className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full"
           onClick={handleSelect}
         >
           Select

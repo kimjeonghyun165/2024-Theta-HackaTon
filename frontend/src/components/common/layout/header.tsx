@@ -3,12 +3,12 @@ import Logo from "../../../assets/logo";
 import Avatar from "../avatar";
 import { Link } from "react-scroll";
 import { useUserStore } from "../../../store/useUserStore";
-import logout from "../../../utils/logout";
 import connectAndSignMessage from "../../../utils/web3/setWeb3/connectAndSignMessage";
 import DropDown from "../dropdown";
+import { useLogout } from "../../../hooks/useLogout";
 
 export const Header = () => {
-  const { user } = useUserStore();
+  const { user, jwtToken } = useUserStore();
   const [error, setError] = useState<string | null>(null);
 
   const handleConnect = async () => {
@@ -20,9 +20,7 @@ export const Header = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-  };
+  const logout = useLogout();
 
   return (
     <header className="sticky top-0 left-0 right-0 z-30 bg-opacity-95 backdrop-blur-[1px]">
@@ -62,12 +60,12 @@ export const Header = () => {
               Contact
             </Link>
           </div>
-          {user ? (
+          {user && jwtToken ? (
             <DropDown
               buttonContent={<Avatar img={user.profileImg} />}
               items={[
                 { label: "Profile", href: "/mypage" },
-                { label: "Logout", onClick: handleLogout },
+                { label: "Logout", onClick: () => logout() },
               ]}
             />
           ) : (

@@ -1,16 +1,26 @@
 import { create } from 'zustand';
 import { useUserStore } from './useUserStore';
 
+interface NFTDetails {
+    isNft: boolean;
+    ipfsFile?: string;
+    ipfsMetadata?: string;
+    isListed?: boolean;
+    price?: number;
+}
+
 interface Model {
     _id?: string;
     createdAt?: Date;
-    file: string;
+    prompt: string;
+    imgSelection: string;
     title: string;
     description: string;
-    prompt: string;
+    file: string;
     preview: string;
     like?: number;
     visibility?: 'private' | 'public';
+    nftDetails: NFTDetails;
 }
 
 interface useModelState {
@@ -18,12 +28,23 @@ interface useModelState {
     models: Model[];
     setModel: (model: Partial<Model>) => void;
     fetchModel: (id: string) => Promise<void>;
-    fetchModels: () => Promise<void>;
+    fetchModels: (offset?: number, limit?: number) => Promise<void>;
     addModel: (model: Model) => Promise<void>;
 }
 
 export const useModelStore = create<useModelState>((set) => ({
-    model: null,
+    model: {
+        prompt: '',
+        imgSelection: '',
+        title: '',
+        description: '',
+        file: 'https://cdn.discordapp.com/attachments/995628070595743796/1264157388605362236/Base_Mesh_LowPoly.fbx?ex=669cd9d0&is=669b8850&hm=b39df3f27302bbab704a3ff80cd606e123a4e5f8bae114a40802dd40257d960b&',
+        preview: 'AI Model 2d Link',
+        visibility: 'public',
+        nftDetails: {
+            isNft: false,
+        },
+    },
     models: [],
     setModel: (model) => set((state) => ({
         model: { ...state.model, ...model } as Model

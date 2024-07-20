@@ -10,8 +10,8 @@ import {
 
 const Customization = ({ onPostBtnClick }: any) => {
   return (
-    <div className="flex h-full flex-col items-center justify-between py-4 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
-      <div className="w-full flex flex-col items-center gap-3">
+    <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
+      <div className="w-full flex flex-col items-center gap-2">
         <div className="flex w-full justify-end">
           <CreditLabel />
         </div>
@@ -21,7 +21,7 @@ const Customization = ({ onPostBtnClick }: any) => {
         <div className="flex flex-col gap-4 w-full">
           <Stretch />
         </div>
-        <div className="flex justify-around gap-4 w-full">
+        <div className="flex justify-between gap-4 w-full">
           <Surface />
           <Mirror />
         </div>

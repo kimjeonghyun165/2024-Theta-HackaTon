@@ -8,7 +8,7 @@ const Surface = () => {
         {surfaces.map((component, index) => (
           <div
             key={index}
-            className="btn btn-ghost px-1 text-lg rounded-full w-1/2 gap-2"
+            className="btn p-1 btn-ghost text-lg rounded-full w-1/2 gap-2"
           >
             {component}
           </div>

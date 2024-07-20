@@ -1,25 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout } from "../../components/common/layout/generate/layout";
-import ThreeScene from "../../components/common/threeScene/main";
+import ThreeScene from "../../components/common/threeScene/threeScene";
 import { useFileStore, useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";
 import Customization from "./customization";
 import Prompt from "./prompt";
 import { AnimatedContent } from "../../components/generate";
 import { EditModal, SuccessModal } from "../../components/common/modal";
+import { useNavigate } from "react-router-dom";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
   const fileUrl = useFileStore((state) => state.fileUrl);
-
   const [isFirstModalVisible, setFirstModalVisible] = useState(false);
   const [isSecondModalVisible, setSecondModalVisible] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const editModal = document.getElementById(
+      "edit_modal"
+    ) as HTMLDialogElement;
+    const successModal = document.getElementById(
+      "success_modal"
+    ) as HTMLDialogElement;
+
+    if (editModal) {
+      if (isFirstModalVisible) {
+        editModal.showModal();
+      } else {
+        editModal.close();
+      }
+    }
+
+    if (successModal) {
+      if (isSecondModalVisible) {
+        successModal.showModal();
+      } else {
+        successModal.close();
+      }
+    }
+
+    console.log(isSecondModalVisible);
+  }, [isFirstModalVisible, isSecondModalVisible]);
 
   const handleOpenFirstModal = () => setFirstModalVisible(true);
   const handleCloseFirstModal = () => setFirstModalVisible(false);
-
   const handleOpenSecondModal = () => setSecondModalVisible(true);
-  const handleCloseSecondModal = () => setSecondModalVisible(false);
+  const handleCloseSecondModal = () => {
+    setSecondModalVisible(false);
+    navigate("/model/generate");
+  };
+
+  const handlePostAndOpenNext = () => {
+    handleCloseFirstModal();
+    handleOpenSecondModal();
+  };
 
   return (
     <Layout>
@@ -35,20 +70,18 @@ const Generate3DModel: React.FC = () => {
             <Customization onPostBtnClick={handleOpenFirstModal} />
           </AnimatedContent>
         </div>
-        <div className="w-3/5">
-          {fileUrl && (
-            <ThreeScene
-              backgroundColor={0x000000}
-              backgroundOpacity={100}
-              showGrid={true}
-              modelPath={fileUrl}
-            />
-          )}
+        <div className="h-full w-1/2">
+          <ThreeScene
+            backgroundColor={0xffffff}
+            backgroundOpacity={0}
+            showGrid={true}
+            modelPath={fileUrl}
+          />
         </div>
         <EditModal
           isVisible={isFirstModalVisible}
           onClose={handleCloseFirstModal}
-          onOpenNextModal={handleOpenSecondModal}
+          onPostAndOpenNext={handlePostAndOpenNext}
         />
         <SuccessModal
           isVisible={isSecondModalVisible}

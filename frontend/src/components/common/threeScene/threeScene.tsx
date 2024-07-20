@@ -11,7 +11,7 @@ interface ThreeSceneProps {
   backgroundColor: number;
   backgroundOpacity: number;
   showGrid: boolean;
-  modelPath: any;
+  modelPath?: string;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
@@ -19,7 +19,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
   backgroundOpacity,
   showGrid,
   modelPath,
-}: ThreeSceneProps) => {
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,7 +46,11 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
       controls.target.set(0, 0, 0);
       controls.update();
 
-      loadModel(scene, camera, renderer, controls, modelPath);
+      if (modelPath) {
+        loadModel(scene, camera, renderer, controls, modelPath);
+      } else {
+        renderer.render(scene, camera);
+      }
 
       const onWindowResize = () => {
         if (container) {
@@ -73,7 +77,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         window.removeEventListener("resize", onWindowResize);
       };
     }
-  }, []);
+  }, [showGrid, modelPath]);
 
   return <div ref={containerRef} className="w-full h-full" />;
 };
