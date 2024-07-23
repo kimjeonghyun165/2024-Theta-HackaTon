@@ -4,7 +4,7 @@ import { plans } from "../../../constant/home";
 
 const Section5: React.FC = () => {
   return (
-    <section className="flex flex-col">
+    <section id="pricing-section" className="flex flex-col">
       <div className="text-center">
         <h1 className="italic text-6xl">
           Pricing

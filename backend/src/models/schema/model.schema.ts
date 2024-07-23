@@ -7,10 +7,7 @@ export class Model extends Document {
     createdAt: Date;
 
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-    createdBy: Types.ObjectId
-
-    @Prop({ required: true })
-    imgSelection: string;
+    createdBy: Types.ObjectId;
 
     @Prop({ required: true })
     prompt: string;
@@ -41,5 +38,12 @@ export class Model extends Document {
         isListed?: boolean,
         price?: number
     };
+
+    @Prop([{ url: String, selected: Boolean }])
+    imgSelection: { url: string; selected: boolean }[];
+
+    @Prop({ required: true })
+    selectedImage: string;
 }
+
 export const ModelSchema = SchemaFactory.createForClass(Model);

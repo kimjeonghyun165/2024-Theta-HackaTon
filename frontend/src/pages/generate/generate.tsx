@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { Layout } from "../../components/common/layout/generate/layout";
 import ThreeScene from "../../components/common/threeScene/threeScene";
-import { useFileStore, useOptionStore } from "../../store/useStore";
+import { useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";
-import Customization from "./customization";
+// import Customization from "./customization";
 import Prompt from "./prompt";
 import { AnimatedContent } from "../../components/generate";
-import { EditModal, SuccessModal } from "../../components/common/modal";
+import { SuccessModal } from "../../components/common/modal";
 import { useNavigate } from "react-router-dom";
+import Customization_Temporary from "./temporary/customization";
+import { useModelStore } from "../../store/useModelStore";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
-  const fileUrl = useFileStore((state) => state.fileUrl);
-  const [isFirstModalVisible, setFirstModalVisible] = useState(false);
+  // const fileUrl = useFileStore((state) => state.fileUrl);
+  // const [isFirstModalVisible, setFirstModalVisible] = useState(false);
   const [isSecondModalVisible, setSecondModalVisible] = useState(false);
+  const model = useModelStore((state) => state.model);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const editModal = document.getElementById(
-      "edit_modal"
-    ) as HTMLDialogElement;
+    // const editModal = document.getElementById(
+    //   "edit_modal"
+    // ) as HTMLDialogElement;
     const successModal = document.getElementById(
       "success_modal"
     ) as HTMLDialogElement;
 
-    if (editModal) {
-      if (isFirstModalVisible) {
-        editModal.showModal();
-      } else {
-        editModal.close();
-      }
-    }
+    // if (editModal) {
+    //   if (isFirstModalVisible) {
+    //     editModal.showModal();
+    //   } else {
+    //     editModal.close();
+    //   }
+    // }
 
     if (successModal) {
       if (isSecondModalVisible) {
@@ -39,12 +42,10 @@ const Generate3DModel: React.FC = () => {
         successModal.close();
       }
     }
+  }, [isSecondModalVisible]);
 
-    console.log(isSecondModalVisible);
-  }, [isFirstModalVisible, isSecondModalVisible]);
-
-  const handleOpenFirstModal = () => setFirstModalVisible(true);
-  const handleCloseFirstModal = () => setFirstModalVisible(false);
+  // const handleOpenFirstModal = () => setFirstModalVisible(true);
+  // const handleCloseFirstModal = () => setFirstModalVisible(false);
   const handleOpenSecondModal = () => setSecondModalVisible(true);
   const handleCloseSecondModal = () => {
     setSecondModalVisible(false);
@@ -52,7 +53,7 @@ const Generate3DModel: React.FC = () => {
   };
 
   const handlePostAndOpenNext = () => {
-    handleCloseFirstModal();
+    // handleCloseFirstModal();
     handleOpenSecondModal();
   };
 
@@ -67,7 +68,8 @@ const Generate3DModel: React.FC = () => {
             <ImgSelection />
           </AnimatedContent>
           <AnimatedContent isVisible={selectedOption === "option3"}>
-            <Customization onPostBtnClick={handleOpenFirstModal} />
+            {/* <Customization onPostBtnClick={handleOpenFirstModal} /> */}
+            <Customization_Temporary onPostBtnClick={handlePostAndOpenNext} />
           </AnimatedContent>
         </div>
         <div className="h-full w-1/2">
@@ -75,14 +77,14 @@ const Generate3DModel: React.FC = () => {
             backgroundColor={0xffffff}
             backgroundOpacity={0}
             showGrid={true}
-            modelPath={fileUrl}
+            modelPath={model?.file}
           />
         </div>
-        <EditModal
+        {/* <EditModal
           isVisible={isFirstModalVisible}
           onClose={handleCloseFirstModal}
           onPostAndOpenNext={handlePostAndOpenNext}
-        />
+        /> */}
         <SuccessModal
           isVisible={isSecondModalVisible}
           onClose={handleCloseSecondModal}

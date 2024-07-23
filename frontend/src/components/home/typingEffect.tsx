@@ -1,4 +1,4 @@
-import { useTypewriter, Cursor } from "react-simple-typewriter";
+import { useTypewriter } from "react-simple-typewriter";
 
 const TypingEffect = () => {
   const [text] = useTypewriter({
@@ -12,7 +12,6 @@ const TypingEffect = () => {
   return (
     <>
       <p className="mt-4 text-lg lg:text-xl xl:text-2xl">{text}</p>
-      {/* <Cursor /> */}
     </>
   );
 };

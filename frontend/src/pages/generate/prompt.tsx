@@ -1,18 +1,36 @@
-import { useEffect } from "react";
+import { useState } from "react";
+import { generateImage } from "../../api/useApi";
+import { Loading } from "../../components/common";
 import { CreditLabel } from "../../components/generate";
 import { useModelStore } from "../../store/useModelStore";
 import { useOptionStore } from "../../store/useStore";
 
 const Prompt = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
   const { model, setModel } = useModelStore((state) => ({
     model: state.model,
     setModel: state.setModel,
   }));
 
-  const handleGenerate = () => {
-    if (model?.prompt !== "") {
-      setSelectedOption("option2");
+  const handleGenerate = async () => {
+    setIsLoading(true);
+    if (model) {
+      if (model.prompt !== "") {
+        try {
+          const data = await generateImage(model.prompt);
+          const images = data.image_urls.map((url: any) => ({
+            url,
+            selected: false,
+          }));
+          setModel({ imgSelection: images });
+          setSelectedOption("option2");
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
     }
   };
 
@@ -37,12 +55,13 @@ const Prompt = () => {
           TIP: try to include keyword ‘isolate’ to create outstanding results
         </div>
       </div>
-      <div
+      <button
         className="btn btn-lg bg-fifth/[.13] mt-4 rounded-3xl w-1/2"
         onClick={handleGenerate}
+        disabled={isLoading}
       >
-        Generate
-      </div>
+        {isLoading ? <Loading size="sm" /> : "Generate"}
+      </button>
     </div>
   );
 };

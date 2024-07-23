@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import setupRenderer from "./setupRenderer";
@@ -6,6 +6,7 @@ import setupCamera from "./setupCamera";
 import setupScene from "./setupScene";
 import setupLights from "./setupLights";
 import loadModel from "./loadModel";
+import Loading from "../loading"; // 로딩 컴포넌트 경로에 맞게 수정
 
 interface ThreeSceneProps {
   backgroundColor: number;
@@ -21,6 +22,7 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
   modelPath,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let container: HTMLDivElement | null = null;
@@ -46,11 +48,22 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
       controls.target.set(0, 0, 0);
       controls.update();
 
-      if (modelPath) {
-        loadModel(scene, camera, renderer, controls, modelPath);
-      } else {
-        renderer.render(scene, camera);
-      }
+      const handleLoadModel = async () => {
+        if (modelPath) {
+          setIsLoading(true);
+          try {
+            await loadModel(scene, camera, renderer, controls, modelPath);
+          } catch (error) {
+            console.error("Error loading model:", error);
+          } finally {
+            setIsLoading(false);
+          }
+        } else {
+          renderer.render(scene, camera);
+        }
+      };
+
+      handleLoadModel();
 
       const onWindowResize = () => {
         if (container) {
@@ -77,9 +90,17 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         window.removeEventListener("resize", onWindowResize);
       };
     }
-  }, [showGrid, modelPath]);
+  }, [showGrid, modelPath, backgroundColor, backgroundOpacity]);
 
-  return <div ref={containerRef} className="w-full h-full" />;
+  return (
+    <div ref={containerRef} className="w-full h-full relative">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-950 bg-opacity-75 z-10">
+          <Loading type="dots" size="lg" />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default ThreeScene;
