@@ -3,11 +3,11 @@ import { useUserStore } from '../../../store/useUserStore';
 
 const SignatureMessage = (address: string) => {
     const uri = "https://griel.ai";
-    const chainId = 365
+    const chainId = 365;
     const nonce = "bez0awkg/추후생성예정";
     const issuedAt = new Date().toISOString();
 
-    return `Sign In\n\nURI: ${uri}\nChain ID: ${chainId}\nNonce: ${nonce}\nIssued At: ${issuedAt}`;
+    return `Sign In\n\nAddress: ${address}\nURI: ${uri}\nChain ID: ${chainId}\nNonce: ${nonce}\nIssued At: ${issuedAt}`;
 };
 
 export const signMessageAndAuthenticate = async (web3: Web3, address: string) => {

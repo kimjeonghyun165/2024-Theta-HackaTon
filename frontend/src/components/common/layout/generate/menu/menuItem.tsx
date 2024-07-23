@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useModelStore } from "../../../../../store/useModelStore";
 
 interface MenuItemProps {
@@ -20,14 +20,21 @@ const MenuItem: React.FC<MenuItemProps> = ({
 }) => {
   const model = useModelStore((state) => state.model);
   const isSelected = selectedOption === value;
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  let isDisabled = false;
-  if (value === "option2" && !model?.prompt) {
-    isDisabled = true;
-  }
-  if (value === "option3" && (!model?.prompt || !model?.imgSelection)) {
-    isDisabled = true;
-  }
+  useEffect(() => {
+    let disabled = false;
+    if (
+      value === "option2" &&
+      (!model?.imgSelection || model.imgSelection.length === 0)
+    ) {
+      disabled = true;
+    }
+    if (value === "option3" && !model?.file) {
+      disabled = true;
+    }
+    setIsDisabled(disabled);
+  }, [model, value]);
 
   return (
     <li className={`w-16 m-2 menu-item ${isSelected ? "active" : ""}`}>

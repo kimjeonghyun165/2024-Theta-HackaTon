@@ -9,11 +9,12 @@ interface NFTDetails {
     price?: number;
 }
 
-interface Model {
+export interface Model {
     _id?: string;
     createdAt?: Date;
     prompt: string;
-    imgSelection: string;
+    imgSelection: { url: string; selected: boolean }[];
+    selectedImage: string;
     title: string;
     description: string;
     file: string;
@@ -35,11 +36,12 @@ interface useModelState {
 export const useModelStore = create<useModelState>((set) => ({
     model: {
         prompt: '',
-        imgSelection: '',
+        imgSelection: [],
+        selectedImage: '',
         title: '',
         description: '',
-        file: 'https://cdn.discordapp.com/attachments/995628070595743796/1264157388605362236/Base_Mesh_LowPoly.fbx?ex=669cd9d0&is=669b8850&hm=b39df3f27302bbab704a3ff80cd606e123a4e5f8bae114a40802dd40257d960b&',
-        preview: 'AI Model 2d Link',
+        file: '',
+        preview: '',
         visibility: 'public',
         nftDetails: {
             isNft: false,

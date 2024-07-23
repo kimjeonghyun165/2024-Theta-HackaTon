@@ -9,7 +9,6 @@ import Edit from "../../assets/icons/edit";
 import Search from "../../assets/icons/search";
 import SettingButton from "../../components/myPage/settingButton";
 import EditMyModelButton from "../../components/myPage/editProfileModelButton";
-import InputField from "../../components/common/modal/inputField";
 
 const MyPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);

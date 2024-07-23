@@ -1,33 +1,103 @@
+import { useState } from "react";
+import { generate3DModel, generateImage } from "../../api/useApi";
 import { DownArrow } from "../../assets/icons";
-import { Ex1, RefreshArrow } from "../../assets/imgSelect";
+import { RefreshArrow } from "../../assets/imgSelect";
+import { Loading } from "../../components/common";
 import { CreditLabel } from "../../components/generate";
 import { useModelStore } from "../../store/useModelStore";
-import { useFileStore, useOptionStore } from "../../store/useStore";
+import { useOptionStore } from "../../store/useStore";
 
-const images = [
-  { id: 1, component: Ex1, url: "http:output1.png" },
-  { id: 2, component: Ex1, url: "http:output2.png" },
-  { id: 3, component: Ex1, url: "http:output3.png" },
-  { id: 4, component: Ex1, url: "http:output4.png" },
-];
+interface ImageLoadingState {
+  [url: string]: boolean;
+}
 
 const ImgSelection = () => {
+  const [superResolution, setSuperResolution] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [imageLoading, setImageLoading] = useState<ImageLoadingState>({});
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
-  const fetchFileUrl = useFileStore((state) => state.fetchFileUrl);
   const { model, setModel } = useModelStore((state) => ({
     model: state.model,
     setModel: state.setModel,
   }));
 
   const handleImageSelect = (url: string) => {
-    setModel({ imgSelection: url });
+    if (model) {
+      const updatedImages = model.imgSelection.map((img) =>
+        img.url === url
+          ? { ...img, selected: true }
+          : { ...img, selected: false }
+      );
+      setModel({
+        imgSelection: updatedImages,
+        selectedImage: url,
+        preview: url,
+      });
+    }
+  };
+
+  const handleImageLoad = (url: string) => {
+    setImageLoading((prevState) => ({ ...prevState, [url]: false }));
+  };
+
+  const handleRefreshGenerate = async () => {
+    setIsLoading2(true);
+    if (model) {
+      const initialLoadingState: ImageLoadingState = {};
+      model.imgSelection.forEach((image) => {
+        initialLoadingState[image.url] = true;
+      });
+      setImageLoading(initialLoadingState);
+      if (model.prompt !== "") {
+        try {
+          const data = await generateImage(model.prompt);
+          const images = data.image_urls.map((url: any) => ({
+            url,
+            selected: false,
+          }));
+          setModel({ imgSelection: images });
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading2(false);
+          model.imgSelection.forEach((image) => {
+            initialLoadingState[image.url] = false;
+          });
+        }
+      }
+    }
   };
 
   const handleSelect = async () => {
-    if (model?.imgSelection !== null) {
-      await fetchFileUrl("Base_Mesh_LowPoly.fbx");
-      setSelectedOption("option3");
+    setIsLoading(true);
+    if (model && model?.imgSelection !== null) {
+      try {
+        const data = await generate3DModel(
+          model?.selectedImage,
+          superResolution
+        );
+        setModel({ file: data.model_url });
+        setSelectedOption("option3");
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    if (model) {
+      link.href = model.selectedImage;
+      link.download = model.title + ".png";
+      link.click();
+    }
+  };
+
+  const handleSuperResolutionChange = () => {
+    setSuperResolution(!superResolution);
   };
 
   return (
@@ -37,39 +107,65 @@ const ImgSelection = () => {
           <CreditLabel />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {images.map((image) => (
-            <label key={image.id} className="cursor-pointer">
+          {model?.imgSelection.map((image, index) => (
+            <label key={index} className="cursor-pointer">
               <input
                 type="radio"
                 name="image"
                 className="radio hidden"
-                checked={model?.imgSelection === image.url}
+                checked={model?.selectedImage === image.url}
                 onChange={() => handleImageSelect(image.url)}
               />
               <div
                 className={`p-2 rounded-3xl ${
-                  model?.imgSelection === image.url ? "ring" : ""
+                  model?.selectedImage === image.url ? "ring" : ""
                 }`}
               >
-                <image.component />
+                {imageLoading[image.url] ? (
+                  <div className="skeleton w-36 h-36"></div>
+                ) : (
+                  <img
+                    src={image.url}
+                    alt={`Generated ${index}`}
+                    className="rounded-3xl"
+                    onLoad={() => handleImageLoad(image.url)}
+                  />
+                )}
               </div>
             </label>
           ))}
         </div>
       </div>
+      <div className="flex items-center gap-2">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={superResolution}
+            onChange={handleSuperResolutionChange}
+          />
+          Super Resolution
+        </label>
+      </div>
       <div className="flex w-3/4 justify-around gap-1 items-center">
-        <div
+        <button
           className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full"
           onClick={handleSelect}
+          disabled={isLoading}
         >
-          Select
-        </div>
+          {isLoading ? <Loading size="sm" /> : "Select"}
+        </button>
         <div className="flex flex-col gap-1">
-          <div className="btn btn-sm btn-circle p-1 bg-fifth/[.13]">
+          <div
+            className="btn btn-sm btn-circle p-1 bg-fifth/[.13]"
+            onClick={handleDownload}
+          >
             <DownArrow />
           </div>
-          <div className="btn btn-sm btn-circle p-1 bg-fifth/[.13]">
-            <RefreshArrow />
+          <div
+            className="btn btn-sm btn-circle p-1 bg-fifth/[.13]"
+            onClick={handleRefreshGenerate}
+          >
+            {isLoading2 ? <Loading size="xs" /> : <RefreshArrow />}
           </div>
         </div>
       </div>
