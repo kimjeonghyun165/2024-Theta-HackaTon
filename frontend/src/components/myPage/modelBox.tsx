@@ -7,6 +7,7 @@ import {
   Market,
   Question,
 } from "../../assets/icons";
+import { useModelStore } from "../../store/useModelStore";
 import IconBtn from "../common/iconBtn";
 import InputField from "../common/modal/inputField";
 import SwapIconBtn from "../common/swapIconBtn";
@@ -19,6 +20,11 @@ interface ModelBoxProps {
 
 const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
   const modalRef = useRef<HTMLDialogElement>(null);
+  console.log(key);
+  const { model, setModel } = useModelStore((state) => ({
+    model: state.model,
+    setModel: state.setModel,
+  }));
 
   const openModal = () => {
     if (modalRef.current === null) return;
@@ -28,6 +34,12 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
   const closeModal = () => {
     if (modalRef.current === null) return;
     modalRef.current.close();
+  };
+
+  const togglePublic = () => {
+    setModel({
+      visibility: model?.visibility === "public" ? "private" : "public",
+    });
   };
 
   return (
@@ -79,9 +91,11 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
             </div>
             <div className="flex items-center justify-around gap-6">
               <SwapIconBtn
-                swapOnIcon={Lock}
-                swapOffIcon={Earth}
+                swapOnIcon={Earth}
+                swapOffIcon={Lock}
                 bgColor={"bg-black/[.53]"}
+                isSwapped={model?.visibility === "public"}
+                onSwap={togglePublic}
               />
               <IconBtn icon={DownArrow} bgColor="bg-black/[.53]" />
               <div className="w-full mt-0 modal-action">

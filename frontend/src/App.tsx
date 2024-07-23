@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/home/home";
 import Generate from "./pages/generate/generate";
@@ -10,7 +10,6 @@ import { useLogout } from "./hooks/useLogout";
 import ProtectedRoute from "./components/common/protectedRoute";
 
 const App: React.FC = () => {
-  const [error, setError] = useState<string | null>(null);
   const logout = useLogout();
   const { jwtToken, setUser, fetchUser, setJwtToken } = useUserStore(
     (state) => ({
@@ -40,9 +39,7 @@ const App: React.FC = () => {
         if (accounts.length > 0) {
           try {
             await connectAndSignMessage();
-            setError(null);
           } catch (error: any) {
-            setError(error.message);
             setUser(null);
           }
         } else {

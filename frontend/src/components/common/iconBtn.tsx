@@ -14,7 +14,7 @@ const IconBtn: React.FC<IconButtonProps> = ({
   shape = "btn-circle",
 }) => (
   <button
-    className={`btn ${shape} border-none ${size} ${bgColor}`}
+    className={`btn ${shape} ${size} border-none ${bgColor}`}
     onClick={onClick}
   >
     <IconComponent />

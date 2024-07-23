@@ -1,6 +1,6 @@
 export class CreateModelDto {
     readonly prompt: string;
-    readonly imgSelection: string;
+    readonly imgSelection: { url: string; selected: boolean }[]; // 수정된 imgSelection 타입
     readonly title: string;
     readonly description: string;
     readonly file: string;
@@ -13,4 +13,5 @@ export class CreateModelDto {
         readonly isListed?: boolean;
         readonly price?: number;
     };
+    readonly selectedImage: string; // 새로운 필드 추가
 }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Logo from "../../../assets/logo";
 import Avatar from "../avatar";
 import { Link } from "react-scroll";
@@ -9,14 +8,12 @@ import { useLogout } from "../../../hooks/useLogout";
 
 export const Header = () => {
   const { user, jwtToken } = useUserStore();
-  const [error, setError] = useState<string | null>(null);
 
   const handleConnect = async () => {
     try {
       await connectAndSignMessage();
-      setError(null);
     } catch (error: any) {
-      setError(error.message);
+      console.error(error.message);
     }
   };
 
@@ -50,7 +47,14 @@ export const Header = () => {
             >
               Market
             </Link>
-            <a className="btn btn-ghost text-xl">Pricing</a>
+            <Link
+              to="pricing-section"
+              smooth={true}
+              duration={500}
+              className="btn btn-ghost text-xl"
+            >
+              Pricing
+            </Link>
             <Link
               to="contact-section"
               smooth={true}

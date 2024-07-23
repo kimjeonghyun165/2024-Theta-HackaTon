@@ -11,8 +11,6 @@ const Menu = () => {
     setSelectedOption(event.target.value);
   };
 
-  console.log(selectedOption);
-
   return (
     <ul className="menu menu-lg bg-base-500 gap-6">
       <MenuItem
