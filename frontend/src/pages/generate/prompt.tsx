@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { generateImage } from "../../api/useApi";
+import { generateImage } from "../../api/modelApi";
 import { Loading } from "../../components/common";
 import { CreditLabel } from "../../components/generate";
 import { useModelStore } from "../../store/useModelStore";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { generate3DModel, generateImage } from "../../api/useApi";
+import { generate3DModel, generateImage } from "../../api/modelApi";
 import { DownArrow } from "../../assets/icons";
 import { RefreshArrow } from "../../assets/imgSelect";
 import { Loading } from "../../components/common";
