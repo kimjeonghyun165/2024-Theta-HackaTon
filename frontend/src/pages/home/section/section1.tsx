@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { generateImage } from "../../../api/useApi";
+import { generateImage } from "../../../api/modelApi";
 import Anvil from "../../../assets/anvil";
 import { Loading } from "../../../components/common";
 import TypingEffect from "../../../components/home/typingEffect";

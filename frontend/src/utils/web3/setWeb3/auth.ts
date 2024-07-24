@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import { login } from '../../../api/userApi';
 import { useUserStore } from '../../../store/useUserStore';
 
 const SignatureMessage = (address: string) => {
@@ -15,20 +16,7 @@ export const signMessageAndAuthenticate = async (web3: Web3, address: string) =>
     const message = SignatureMessage(address);
     const signature = await web3.eth.personal.sign(message, address, '');
 
-    const response = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ address, signature, message }),
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to authenticate');
-    }
-
-    const data = await response.json();
+    const data = await login(address, signature, message);
     localStorage.setItem('token', data.access_token);
     setJwtToken(data.access_token);
 
