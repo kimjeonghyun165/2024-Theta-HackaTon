@@ -23,12 +23,13 @@ const MyPage: React.FC = () => {
     }
   };
   return (
+    //
     <Layout>
       <section className="mx-auto w-4/5 bg-[#D0D0D0]/[.07] rounded-3xl flex flex-col">
         <div className="flex flex-col w-full h-full gap-20 pt-10 px-14">
           <section className="flex gap-14 h-[666px]">
             <div
-              className="flex-1 border-2 rounded-[30px] relative"
+              className="flex-1 rounded-[30px] relative"
               style={{
                 background:
                   "linear-gradient(135deg, rgba(36, 72, 98, 0.09) 0%, rgba(255, 255, 255, 0.27) 55.1%, rgba(255, 255, 255, 0.27) 63.6%, rgba(36, 72, 98, 0.3) 100%)",

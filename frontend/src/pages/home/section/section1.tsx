@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { generateImage } from "../../../api/useApi";
+import { generateImage } from "../../../api/modelApi";
 import Anvil from "../../../assets/anvil";
 import { Loading } from "../../../components/common";
 import TypingEffect from "../../../components/home/typingEffect";
 import { useModelStore } from "../../../store/useModelStore";
 import { useOptionStore } from "../../../store/useStore";
 import { useUserStore } from "../../../store/useUserStore";
-import Toast from "../../../components/common/toast"; // Toast 컴포넌트 임포트
+import Toast from "../../../components/common/Toast";
+
 
 const Section1 = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Section1 = () => {
   };
 
   return (
-    <section className="flex flex-col gap-24 h-full">
+    <section className="flex flex-col h-full gap-24">
       {showToast && (
         <Toast
           message="You need to log in first. Please log in."
@@ -62,9 +63,9 @@ const Section1 = () => {
           onClose={() => setShowToast(false)}
         />
       )}
-      <div className="flex justify-around items-center">
+      <div className="flex items-center justify-around">
         <div className="w-full">
-          <h1 className="flex flex-col font-bold gap-6 ml-6 2xl:ml-12 md:pl-16">
+          <h1 className="flex flex-col gap-6 ml-6 font-bold 2xl:ml-12 md:pl-16">
             <p className="text-4xl lg:text-5xl xl:text-6xl tracking-[.3em]">
               SMITH ALL
               <br />
@@ -78,16 +79,16 @@ const Section1 = () => {
         </div>
       </div>
       <div className="flex justify-center">
-        <label className="input input-bordered input-lg input-ghost flex items-center justify-around max-w-xs border-2 border-white rounded-full w-full focus-within:outline-white px-0">
+        <label className="flex items-center justify-around w-full max-w-xs px-0 border-2 border-white rounded-full input input-bordered input-lg input-ghost focus-within:outline-white">
           <input
             type="text"
             placeholder="Key In Prompt:"
-            className="grow focus:outline-none rounded-full pl-4"
+            className="pl-4 rounded-full grow focus:outline-none"
             value={model?.prompt}
             onChange={handleGenerateChange}
           />
           <div
-            className="btn btn-ghost btn-lg rounded-full text-white focus:none px-4 mr-2"
+            className="px-4 mr-2 text-white rounded-full btn btn-ghost btn-lg focus:none"
             onClick={handleGenerate}
           >
             {isLoading ? <Loading size="sm" /> : "Generate"}

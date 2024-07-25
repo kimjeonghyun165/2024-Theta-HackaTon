@@ -1,4 +1,4 @@
-import AnimatedContent from "./animatedContent";
-import CreditLabel from "./creditLabel";
+import AnimatedContent from "./AnimatedContent";
+import CreditLabel from "./CreditLabel";
 
 export { AnimatedContent, CreditLabel };

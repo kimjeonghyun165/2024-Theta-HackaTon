@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { addUser, fetchUser } from '../api/userApi';
 
-interface User {
+export interface User {
     _id?: string;
     address: string;
     signature: string;
@@ -9,7 +10,7 @@ interface User {
     plan?: string;
     profileImg?: string;
     username?: string;
-    models?: string[]
+    models?: string[];
 }
 
 interface useUserState {
@@ -19,7 +20,7 @@ interface useUserState {
     setJwtToken: (token: string | null) => void;
     fetchUser: () => Promise<void>;
     addUser: (user: User) => Promise<void>;
-    clearUser: () => void
+    clearUser: () => void;
 }
 
 export const useUserStore = create<useUserState>()(
@@ -32,37 +33,23 @@ export const useUserStore = create<useUserState>()(
 
             fetchUser: async () => {
                 const { jwtToken } = get();
-                const response = await fetch('http://localhost:3000/users/me', {
-                    headers: {
-                        'Authorization': `Bearer ${jwtToken}`,
-                    },
-                });
-                if (response.ok) {
-                    const user = await response.json();
-                    set({
-                        user,
-                    });
-                } else {
+                try {
+                    const user = await fetchUser(jwtToken);
+                    set({ user });
+                } catch (error) {
                     set({ user: null });
+                    console.error(error);
                 }
             },
 
             addUser: async (user) => {
                 const { jwtToken } = get();
-                const response = await fetch('http://localhost:3000/users/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${jwtToken}`,
-                    },
-                    body: JSON.stringify(user),
-                });
-                if (response.ok) {
-                    const newUser = await response.json();
+                try {
+                    const newUser = await addUser(user, jwtToken);
                     set({ user: newUser });
-                } else {
-                    const errorText = await response.text();
-                    throw new Error(errorText || 'Failed to save user');
+                } catch (error) {
+                    console.error(error);
+                    throw error;
                 }
             },
 

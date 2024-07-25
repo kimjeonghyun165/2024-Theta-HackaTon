@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { useUserStore } from './useUserStore';
+import { fetchModel, fetchModels, addModel } from '../api/modelApi';
 
 interface NFTDetails {
     isNft: boolean;
@@ -53,49 +54,32 @@ export const useModelStore = create<useModelState>((set) => ({
     })),
 
     fetchModel: async (id: string) => {
-        const response = await fetch(`http://localhost:3000/models/getmodel/${id}`, {
-            method: 'GET',
-        });
-        if (response.ok) {
-            const model = await response.json();
+        try {
+            const model = await fetchModel(id);
             set({ model });
-        } else {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Failed to fetch model');
+        } catch (error) {
+            console.error(error);
         }
     },
 
     fetchModels: async (offset: number = 0, limit: number = 30) => {
-        const response = await fetch(`http://localhost:3000/models/getallmodels?offset=${offset}&limit=${limit}`, {
-            method: 'GET',
-        });
-        if (response.ok) {
-            const models = await response.json();
+        try {
+            const models = await fetchModels(offset, limit);
             set({ models });
-        } else {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Failed to fetch models');
+        } catch (error) {
+            console.error(error);
         }
     },
 
     addModel: async (model) => {
         const { jwtToken } = useUserStore.getState();
-        const response = await fetch('http://localhost:3000/models/postmodel', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
-            },
-            body: JSON.stringify(model),
-        });
-        if (response.ok) {
-            const newModel = await response.json();
+        try {
+            const newModel = await addModel(model, jwtToken);
             set((state) => ({
                 models: [...state.models, newModel],
             }));
-        } else {
-            const errorText = await response.text();
-            throw new Error(errorText || 'Failed to add model');
+        } catch (error) {
+            console.error(error);
         }
     },
 }));
