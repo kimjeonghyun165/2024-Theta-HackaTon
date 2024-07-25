@@ -23,6 +23,7 @@ const MyPage: React.FC = () => {
     }
   };
   return (
+    //
     <Layout>
       <section className="mx-auto w-4/5 bg-[#D0D0D0]/[.07] rounded-3xl flex flex-col">
         <div className="flex flex-col w-full h-full gap-20 pt-10 px-14">
