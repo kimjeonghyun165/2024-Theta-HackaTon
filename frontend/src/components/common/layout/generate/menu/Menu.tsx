@@ -10,7 +10,7 @@ const Menu = () => {
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
   };
-
+  //d
   return (
     <ul className="gap-6 menu menu-lg bg-base-500">
       <MenuItem
