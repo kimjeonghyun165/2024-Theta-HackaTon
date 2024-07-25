@@ -1,5 +1,5 @@
 import { Check } from "../../../assets/icons";
-import { SimpleRange } from "../common/range/range";
+import { SimpleRange } from "../common";
 
 const Balloon = () => {
   return (

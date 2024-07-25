@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
+import { Ex1 } from "../../../assets/generate/imgSelect";
 import Edit from "../../../assets/icons/edit";
 import Search from "../../../assets/icons/search";
-import { Ex1 } from "../../../assets/imgSelect";
 
 const EditProfileModelButton = () => {
   const [clickedBox, setClickedBox] = useState<number>(0);
@@ -82,4 +82,4 @@ const EditProfileModelButton = () => {
   );
 };
 
-export default EditMyModelButton;
+export default EditProfileModelButton;

@@ -1,19 +1,28 @@
-import { useTypewriter } from "react-simple-typewriter";
+import React from "react";
 
-const TypingEffect = () => {
-  const [text] = useTypewriter({
-    words: ["Welcome to ANVIL AI", "THE BEST CUSTOMIZING 3D GENERATIVE AI"],
-    loop: 1,
-    delaySpeed: 2000,
-    typeSpeed: 100,
-    deleteSpeed: 50,
-  });
+interface ProfileCardProps {
+  image: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  name: string;
+  title: string;
+  description: string;
+}
 
-  return (
-    <>
-      <p className="mt-4 text-lg lg:text-xl xl:text-2xl">{text}</p>
-    </>
-  );
-};
+const ProfileCard: React.FC<ProfileCardProps> = ({
+  image: Image,
+  name,
+  title,
+  description,
+}) => (
+  <div className="flex flex-col items-center my-4">
+    <Image />
+    <div className="text-left text-wrap my-4 flex flex-col w-4/5">
+      <p className="font-semibold">{name}</p>
+      <div>
+        <p>{title}</p>
+        <p className="text-sm mt-2 whitespace-pre-line">{description}</p>
+      </div>
+    </div>
+  </div>
+);
 
-export default TypingEffect;
+export default ProfileCard;
