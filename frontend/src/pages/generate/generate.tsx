@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Customization_Temporary from "./temporary/customization";
 import { useModelStore } from "../../store/useModelStore";
 import Style from "./style";
-import { Layout } from "../../components/common/layout/generate/layout";
+import { Layout } from "../../components/common/layout/generate/Layout";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
