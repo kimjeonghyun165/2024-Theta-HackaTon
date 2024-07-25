@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { generateImage } from "../../../api/modelApi";
 import Anvil from "../../../assets/anvil";
 import { Loading } from "../../../components/common";
-import TypingEffect from "../../../components/home/typingEffect";
 import { useModelStore } from "../../../store/useModelStore";
 import { useOptionStore } from "../../../store/useStore";
 import { useUserStore } from "../../../store/useUserStore";
 import Toast from "../../../components/common/Toast";
-
 
 const Section1 = () => {
   const navigate = useNavigate();
@@ -71,7 +69,7 @@ const Section1 = () => {
               <br />
               <p className="mt-4 tracking-[.05em]">IMAGINATION</p>
             </p>
-            <TypingEffect />
+            {/* <TypingEffect /> */}
           </h1>
         </div>
         <div className="w-full">

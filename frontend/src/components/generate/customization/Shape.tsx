@@ -4,7 +4,7 @@ import {
   Dumbbell_1,
   Dumbbell_2,
 } from "../../../assets/generate/customization";
-import { Range } from "../common/range/range";
+import { Range } from "../common";
 
 const Shape = () => {
   return (

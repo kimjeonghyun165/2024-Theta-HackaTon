@@ -1,5 +1,5 @@
-import Carousel from "./carousel";
-import PriceCard from "./priceCard"; 
-import ProfileCard from "./profileCard"; 
+import Carousel from "./Carousel";
+import PriceCard from "./PriceCard";
+import ProfileCard from "./ProfileCard";
 
 export { Carousel, PriceCard, ProfileCard };
