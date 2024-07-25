@@ -30,7 +30,12 @@ const MenuItem: React.FC<MenuItemProps> = ({
     ) {
       disabled = true;
     }
-    if (value === "option3" && !model?.file) {
+
+    if (value === "option3" && !model?.selectedImage) {
+      disabled = true;
+    }
+
+    if (value === "option4" && !model?.file) {
       disabled = true;
     }
     setIsDisabled(disabled);

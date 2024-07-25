@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { generate3DModel, generateImage } from "../../api/modelApi";
+import { generateImage } from "../../api/modelApi";
 import { DownArrow } from "../../assets/icons";
-import { RefreshArrow } from "../../assets/imgSelect";
-import { Loading } from "../../components/common";
+import { RefreshArrow } from "../../assets/generate/imgSelect";
+import { Loading, Skeleton } from "../../components/common";
 import { CreditLabel } from "../../components/generate";
 import { useModelStore } from "../../store/useModelStore";
 import { useOptionStore } from "../../store/useStore";
@@ -12,9 +12,7 @@ interface ImageLoadingState {
 }
 
 const ImgSelection = () => {
-  const [superResolution, setSuperResolution] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoading2, setIsLoading2] = useState(false);
   const [imageLoading, setImageLoading] = useState<ImageLoadingState>({});
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
   const { model, setModel } = useModelStore((state) => ({
@@ -32,7 +30,6 @@ const ImgSelection = () => {
       setModel({
         imgSelection: updatedImages,
         selectedImage: url,
-        preview: url,
       });
     }
   };
@@ -42,7 +39,7 @@ const ImgSelection = () => {
   };
 
   const handleRefreshGenerate = async () => {
-    setIsLoading2(true);
+    setIsLoading(true);
     if (model) {
       const initialLoadingState: ImageLoadingState = {};
       model.imgSelection.forEach((image) => {
@@ -60,7 +57,7 @@ const ImgSelection = () => {
         } catch (error) {
           console.error(error);
         } finally {
-          setIsLoading2(false);
+          setIsLoading(false);
           model.imgSelection.forEach((image) => {
             initialLoadingState[image.url] = false;
           });
@@ -70,19 +67,11 @@ const ImgSelection = () => {
   };
 
   const handleSelect = async () => {
-    setIsLoading(true);
     if (model && model?.imgSelection !== null) {
       try {
-        const data = await generate3DModel(
-          model?.selectedImage,
-          superResolution
-        );
-        setModel({ file: data.model_url });
         setSelectedOption("option3");
       } catch (error) {
         console.error(error);
-      } finally {
-        setIsLoading(false);
       }
     }
   };
@@ -94,10 +83,6 @@ const ImgSelection = () => {
       link.download = model.title + ".png";
       link.click();
     }
-  };
-
-  const handleSuperResolutionChange = () => {
-    setSuperResolution(!superResolution);
   };
 
   return (
@@ -122,7 +107,7 @@ const ImgSelection = () => {
                 }`}
               >
                 {imageLoading[image.url] ? (
-                  <div className="skeleton w-36 h-36"></div>
+                  <Skeleton />
                 ) : (
                   <img
                     src={image.url}
@@ -136,23 +121,12 @@ const ImgSelection = () => {
           ))}
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={superResolution}
-            onChange={handleSuperResolutionChange}
-          />
-          Super Resolution
-        </label>
-      </div>
       <div className="flex w-3/4 justify-around gap-1 items-center">
         <button
           className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full"
           onClick={handleSelect}
-          disabled={isLoading}
         >
-          {isLoading ? <Loading size="sm" /> : "Select"}
+          Select
         </button>
         <div className="flex flex-col gap-1">
           <div
@@ -165,7 +139,7 @@ const ImgSelection = () => {
             className="btn btn-sm btn-circle p-1 bg-fifth/[.13]"
             onClick={handleRefreshGenerate}
           >
-            {isLoading2 ? <Loading size="xs" /> : <RefreshArrow />}
+            {isLoading ? <Loading size="xs" /> : <RefreshArrow />}
           </div>
         </div>
       </div>

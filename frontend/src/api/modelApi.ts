@@ -1,9 +1,9 @@
 import { Model } from "../store/useModelStore";
 
-const BASE_URL = "http://3.134.90.120:5000";
+const BASE_URL = "http://18.217.211.136:5000";
 const API_BASE_URL = 'http://localhost:3000/api';
 
-export const generate3DModel = async (imageUrl: string, resolution: boolean) => {
+export const generateRealistic3DModel = async (imageUrl: string, resolution: boolean) => {
     const response = await fetch(`${BASE_URL}/generate-3d-model`, {
         method: "POST",
         headers: {
@@ -12,6 +12,25 @@ export const generate3DModel = async (imageUrl: string, resolution: boolean) => 
         body: JSON.stringify({
             image_url: imageUrl,
             super_resolution: resolution,
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Error generating image: ${response.statusText}`);
+    }
+
+    return response.json();
+};
+
+export const generateLowPoly3DModel = async (imageUrl: string, strength: string) => {
+    const response = await fetch(`${BASE_URL}/generate-3d-lowpoly`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            image_url: imageUrl,
+            low_poly_strength: strength,
         }),
     });
 
@@ -66,6 +85,7 @@ export const fetchModels = async (offset: number = 0, limit: number = 30) => {
 };
 
 export const addModel = async (model: Model, jwtToken: string | null) => {
+    console.log('1')
     const response = await fetch(`${API_BASE_URL}/models/postmodel`, {
         method: 'POST',
         headers: {

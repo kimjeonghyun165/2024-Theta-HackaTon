@@ -12,6 +12,19 @@ export class Model extends Document {
     @Prop({ required: true })
     prompt: string;
 
+    @Prop([{ url: String, selected: Boolean }])
+    imgSelection: { url: string; selected: boolean }[];
+
+    @Prop({ required: true })
+    selectedImage: string;
+
+    @Prop({ type: Object, required: true })
+    style: {
+        method: 'lowpoly' | 'realistic',
+        strength?: 'low' | 'mid' | 'high',
+        superResolution?: boolean
+    };
+
     @Prop({ required: true })
     title: string;
 
@@ -38,12 +51,6 @@ export class Model extends Document {
         isListed?: boolean,
         price?: number
     };
-
-    @Prop([{ url: String, selected: Boolean }])
-    imgSelection: { url: string; selected: boolean }[];
-
-    @Prop({ required: true })
-    selectedImage: string;
 }
 
 export const ModelSchema = SchemaFactory.createForClass(Model);

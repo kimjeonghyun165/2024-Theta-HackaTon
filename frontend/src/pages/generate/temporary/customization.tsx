@@ -4,7 +4,7 @@ import ActionField from "../../../components/common/modal/editModal/ActionField"
 import InputField from "../../../components/common/modal/InputField";
 import TextAreaField from "../../../components/common/modal/TextAreaField";
 import { CreditLabel } from "../../../components/generate";
-import { useModelStore } from "../../../store/useModelStore";
+import { Model, useModelStore } from "../../../store/useModelStore";
 import { mintNFT } from "../../../utils/web3/nft";
 
 const Customization_Temporary = ({ onPostBtnClick }: any) => {
@@ -16,14 +16,20 @@ const Customization_Temporary = ({ onPostBtnClick }: any) => {
 
   const handlePostClick = async () => {
     if (model) {
+      let updatedModel: Model = model; // 초기값을 model로 설정합니다.
       if (model.nftDetails.isNft === true) {
-        const updatedModel = await mintNFT({
+        updatedModel = await mintNFT({
           prompt: model.prompt,
           title: model.title,
           description: model.description,
           preview: model.preview,
         });
+      }
+      try {
         await addModel(updatedModel);
+        console.log("Model added successfully");
+      } catch (error) {
+        console.error("Error adding model:", error);
       }
     }
     onPostBtnClick();

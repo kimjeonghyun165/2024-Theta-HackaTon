@@ -1,4 +1,8 @@
-const Star = () => {
+interface StarProps {
+  opacity?: number;
+}
+
+const Star: React.FC<StarProps> = ({ opacity = 1 }) => {
   return (
     <svg
       width="17"
@@ -7,6 +11,7 @@ const Star = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
+      opacity={opacity}
     >
       <rect width="17" height="17" fill="url(#pattern0_180_4824)" />
       <defs>

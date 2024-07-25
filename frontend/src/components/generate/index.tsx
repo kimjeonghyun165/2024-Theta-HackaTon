@@ -1,5 +1,5 @@
-import { AnimatedContent, CreditLabel } from "./others";
-import { Range } from "./range/Range";
+import { AnimatedContent, CreditLabel } from "./common";
+import { Range } from "./common/range/range";
 import { Balloon, Mirror, Shape, Stretch, Surface } from "./customization";
 
 export {

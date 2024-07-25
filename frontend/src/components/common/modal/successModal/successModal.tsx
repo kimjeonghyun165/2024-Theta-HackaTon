@@ -27,7 +27,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ isVisible, onClose }) => {
       id="success_modal"
       className="modal backdrop-blur-sm rounded-3xl"
     >
-      <div className="modal-box flex flex-col items-center text-center bg-gradient-1">
+      <div className="modal-box flex flex-col items-center text-center bg-sixteenth">
         <div className="p-2 mt-6 px-4 text-second/[.49]">
           <p>The model was successfully created.</p>
           {/* <p>Would you like to check the market?</p> */}
