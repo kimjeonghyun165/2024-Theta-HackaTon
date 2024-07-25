@@ -19,7 +19,7 @@ const Generate3DModel: React.FC = () => {
   const [isSecondModalVisible, setSecondModalVisible] = useState(false);
   const model = useModelStore((state) => state.model);
   const navigate = useNavigate();
-
+  //
   useEffect(() => {
     // const editModal = document.getElementById(
     //   "edit_modal"
