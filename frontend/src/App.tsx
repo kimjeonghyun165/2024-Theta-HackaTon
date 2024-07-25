@@ -7,7 +7,7 @@ import { useUserStore } from "./store/useUserStore";
 import connectAndSignMessage from "./utils/web3/setWeb3/connectAndSignMessage";
 import { isTokenExpired } from "./utils/auth";
 import { useLogout } from "./hooks/useLogout";
-import ProtectedRoute from "./components/common/ProtectedRoute";
+import { ProtectedRoute } from "./components/common";
 
 const App: React.FC = () => {
   const logout = useLogout();

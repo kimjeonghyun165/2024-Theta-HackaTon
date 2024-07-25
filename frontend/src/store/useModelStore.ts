@@ -10,12 +10,25 @@ interface NFTDetails {
     price?: number;
 }
 
+interface LowPolyOptions {
+    method: 'lowpoly';
+    strength: 'low' | 'mid' | 'high';
+}
+
+interface RealisticOptions {
+    method: 'realistic';
+    superResolution?: boolean;
+}
+
+type Style = LowPolyOptions | RealisticOptions | null
+
 export interface Model {
     _id?: string;
     createdAt?: Date;
     prompt: string;
     imgSelection: { url: string; selected: boolean }[];
     selectedImage: string;
+    style: Style;
     title: string;
     description: string;
     file: string;
@@ -39,6 +52,7 @@ export const useModelStore = create<useModelState>((set) => ({
         prompt: '',
         imgSelection: [],
         selectedImage: '',
+        style: null,
         title: '',
         description: '',
         file: '',

@@ -60,7 +60,7 @@ const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
           if (e.target === modalRef.current) closeModal();
         }}
       >
-        <div className="flex w-[1000px] p-10 items-center bg-gradient-1 bg-opacity-50">
+        <div className="flex w-[1000px] p-10 items-center bg-sixteenth bg-opacity-50">
           <div className="w-1/2 h-full">
             <ThreeScene
               backgroundColor={0xffffff}

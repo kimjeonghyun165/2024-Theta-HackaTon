@@ -87,7 +87,7 @@ const EditModal: React.FC<PostPopupProps> = ({
       id="edit_modal"
       className="z-50 flex items-center justify-center modal backdrop-blur-sm"
     >
-      <div className="modal-box flex items-center min-w-[1000px] h-3/5 p-10 bg-gradient-1 bg-opacity-50 rounded-3xl">
+      <div className="modal-box flex items-center min-w-[1000px] h-3/5 p-10 bg-sixteenth bg-opacity-50 rounded-3xl">
         <form method="dialog" className="absolute right-2 top-2">
           <div className="btn btn-sm btn-circle btn-ghost" onClick={onClose}>
             ✕

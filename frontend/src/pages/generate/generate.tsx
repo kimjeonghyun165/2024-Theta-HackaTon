@@ -10,6 +10,7 @@ import { SuccessModal } from "../../components/common/modal";
 import { useNavigate } from "react-router-dom";
 import Customization_Temporary from "./temporary/customization";
 import { useModelStore } from "../../store/useModelStore";
+import Style from "./style";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
@@ -68,6 +69,9 @@ const Generate3DModel: React.FC = () => {
             <ImgSelection />
           </AnimatedContent>
           <AnimatedContent isVisible={selectedOption === "option3"}>
+            <Style />
+          </AnimatedContent>
+          <AnimatedContent isVisible={selectedOption === "option4"}>
             {/* <Customization onPostBtnClick={handleOpenFirstModal} /> */}
             <Customization_Temporary onPostBtnClick={handlePostAndOpenNext} />
           </AnimatedContent>

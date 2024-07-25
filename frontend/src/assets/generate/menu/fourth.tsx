@@ -2,7 +2,7 @@ interface Selected {
   selected: boolean;
 }
 
-const Third = ({ selected }: Selected) => {
+const Fourth = ({ selected }: Selected) => {
   return (
     <svg
       width="100%"
@@ -34,4 +34,4 @@ const Third = ({ selected }: Selected) => {
   );
 };
 
-export default Third;
+export default Fourth;
