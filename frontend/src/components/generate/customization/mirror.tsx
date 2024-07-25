@@ -5,10 +5,10 @@ const mirrors = [Mirror_1, Mirror_2, Mirror_3];
 const Mirror = () => {
   return (
     <div className="flex flex-col gap-4">
-      <p className="font-semibold text-xl text-center">Mirror</p>
-      <div className="flex gap-4 justify-between">
+      <p className="text-xl font-semibold text-center">Mirror</p>
+      <div className="flex justify-between gap-4">
         {mirrors.map((Component, index) => (
-          <div key={index} className="btn btn-ghost btn-circle p-1">
+          <div key={index} className="p-1 btn btn-ghost btn-circle">
             <Component />
           </div>
         ))}

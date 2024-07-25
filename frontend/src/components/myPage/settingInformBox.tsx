@@ -1,6 +1,6 @@
 import { Check, Question } from "../../assets/icons";
 import DownTriangle from "../../assets/icons/downTriangle";
-import IconBtn from '../common/iconBtn';
+import IconBtn from '../common/IconBtn';
 
 const icons = {
   License: Question,

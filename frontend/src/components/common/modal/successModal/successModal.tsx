@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Check } from "../../../../assets/icons";
-import IconBtn from "../../iconBtn";
+import IconBtn from "../../IconBtn";
 
 interface SuccessModalProps {
   isVisible: boolean;

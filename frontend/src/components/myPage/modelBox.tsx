@@ -8,10 +8,10 @@ import {
   Question,
 } from "../../assets/icons";
 import { useModelStore } from "../../store/useModelStore";
-import IconBtn from "../common/iconBtn";
-import InputField from "../common/modal/inputField";
-import SwapIconBtn from "../common/swapIconBtn";
-import ThreeScene from "../common/threeScene/threeScene";
+import IconBtn from "../common/IconBtn";
+import InputField from "../common/modal/InputField";
+import SwapIconBtn from "../common/SwapIconBtn";
+import ThreeScene from "../common/threeScene/ThreeScene";
 
 interface ModelBoxProps {
   key: number;
