@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { Check, Market, Question } from "../../../../assets/icons";
 import { useModelStore } from "../../../../store/useModelStore";
-import IconBtn from "../../iconBtn";
-import ThreeScene from "../../threeScene/threeScene";
-import ActionField from "./actionField";
-import InputField from "../inputField";
-import TextAreaField from "../textAreaField";
+import IconBtn from "../../IconBtn";
+import ThreeScene from "../../threeScene/ThreeScene";
+import ActionField from "./ActionField";
+import InputField from "../InputField";
+import TextAreaField from "../TextAreaField";
 import { mintNFT } from "../../../../utils/web3/nft";
 import { useFileStore } from "../../../../store/useStore";
 
@@ -85,7 +85,7 @@ const EditModal: React.FC<PostPopupProps> = ({
     <dialog
       ref={modalRef}
       id="edit_modal"
-      className="modal backdrop-blur-sm flex items-center justify-center z-50"
+      className="z-50 flex items-center justify-center modal backdrop-blur-sm"
     >
       <div className="modal-box flex items-center min-w-[1000px] h-3/5 p-10 bg-gradient-1 bg-opacity-50 rounded-3xl">
         <form method="dialog" className="absolute right-2 top-2">
@@ -93,7 +93,7 @@ const EditModal: React.FC<PostPopupProps> = ({
             ✕
           </div>
         </form>
-        <div className="h-full w-1/2">
+        <div className="w-1/2 h-full">
           {fileUrl && (
             <ThreeScene
               backgroundColor={0xffffff}
@@ -103,7 +103,7 @@ const EditModal: React.FC<PostPopupProps> = ({
             />
           )}
         </div>
-        <div className="w-1/2 flex flex-col gap-6 px-6">
+        <div className="flex flex-col w-1/2 gap-6 px-6">
           <InputField
             type="text"
             placeholder="Title : "

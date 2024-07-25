@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { First, Second, Third } from "../../../../../assets/menu";
 import { useOptionStore } from "../../../../../store/useStore";
-import MenuItem from "./menuItem";
+import MenuItem from "./MenuItem";
 
 const Menu = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
@@ -12,7 +12,7 @@ const Menu = () => {
   };
 
   return (
-    <ul className="menu menu-lg bg-base-500 gap-6">
+    <ul className="gap-6 menu menu-lg bg-base-500">
       <MenuItem
         id="prompt"
         name="option"

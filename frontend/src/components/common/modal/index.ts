@@ -1,4 +1,4 @@
-import SuccessModal from "./successModal/successModal";
-import EditModal from "./editModal/editModal";
+import SuccessModal from "./successModal/SuccessModal";
+import EditModal from "./editModal/EditModal";
 
 export { SuccessModal, EditModal }

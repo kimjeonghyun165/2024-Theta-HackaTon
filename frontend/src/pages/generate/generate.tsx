@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Layout } from "../../components/common/layout/generate/layout";
-import ThreeScene from "../../components/common/threeScene/threeScene";
+import { Layout } from "../../components/common/layout/generate/Layout";
+import ThreeScene from "../../components/common/threeScene/ThreeScene";
 import { useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";
 // import Customization from "./customization";

@@ -1,7 +1,7 @@
-import Balloon from "./balloon";
-import Mirror from "./mirror";
-import Shape from "./shape";
-import Stretch from "./stretch";
-import Surface from "./surface";
+import Balloon from "./Balloon";
+import Mirror from "./Mirror";
+import Shape from "./Shape";
+import Stretch from "./Stretch";
+import Surface from "./Surface";
 
 export { Balloon, Mirror, Shape, Stretch, Surface };

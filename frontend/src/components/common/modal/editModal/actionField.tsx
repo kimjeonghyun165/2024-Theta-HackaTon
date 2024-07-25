@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { DownArrow, Earth, Lock } from "../../../../assets/icons";
-import IconBtn from "../../iconBtn";
-import Loading from "../../loading";
-import SwapIconBtn from "../../swapIconBtn";
+import IconBtn from "../../IconBtn";
+import Loading from "../../Loading";
+import SwapIconBtn from "../../SwapIconBtn";
 import { useModelStore } from "../../../../store/useModelStore";
 
 interface ActionProps {
@@ -54,7 +54,7 @@ const ActionField: React.FC<ActionProps> = ({ onPostClick }) => {
         bgColor="bg-black/[.53]"
         onClick={handleDownload}
       />
-      <div className="modal-action w-full mt-0">
+      <div className="w-full mt-0 modal-action">
         <button
           className="btn w-full bg-black/[.53] rounded-full"
           onClick={handleClick}

@@ -1,8 +1,8 @@
 import { Check, Market, Question } from "../../../assets/icons";
 import { IconBtn } from "../../../components/common";
-import ActionField from "../../../components/common/modal/editModal/actionField";
-import InputField from "../../../components/common/modal/inputField";
-import TextAreaField from "../../../components/common/modal/textAreaField";
+import ActionField from "../../../components/common/modal/editModal/ActionField";
+import InputField from "../../../components/common/modal/InputField";
+import TextAreaField from "../../../components/common/modal/TextAreaField";
 import { CreditLabel } from "../../../components/generate";
 import { useModelStore } from "../../../store/useModelStore";
 import { mintNFT } from "../../../utils/web3/nft";

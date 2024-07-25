@@ -6,7 +6,7 @@ import setupCamera from "./setupCamera";
 import setupScene from "./setupScene";
 import setupLights from "./setupLights";
 import loadModel from "./loadModel";
-import Loading from "../loading"; // 로딩 컴포넌트 경로에 맞게 수정
+import Loading from "../Loading"; // 로딩 컴포넌트 경로에 맞게 수정
 
 interface ThreeSceneProps {
   backgroundColor: number;
@@ -93,9 +93,9 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
   }, [showGrid, modelPath, backgroundColor, backgroundOpacity]);
 
   return (
-    <div ref={containerRef} className="w-full h-full relative">
+    <div ref={containerRef} className="relative w-full h-full">
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-950 bg-opacity-75 z-10">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-opacity-75 bg-gray-950">
           <Loading type="dots" size="lg" />
         </div>
       )}
