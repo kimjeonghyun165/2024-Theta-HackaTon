@@ -17,3 +17,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+select {
+  appearance:none /* 화살표 없애기 */
+}

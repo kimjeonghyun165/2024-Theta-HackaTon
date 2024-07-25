@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
-import Edit from '../../assets/icons/edit'
-import Search from '../../assets/icons/search';
-import { Ex1 } from '../../assets/imgSelect';
+import Edit from '../../../assets/icons/edit'
+import Search from '../../../assets/icons/search';
+import { Ex1 } from '../../../assets/imgSelect';
 
-const EditMyModelButton = () => {
-  const [clickedBox, setClickedBox] = useState<number | null>();
+const EditProfileModelButton = () => {
+  const [clickedBox, setClickedBox] = useState<number>(0);
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const openModal = () => {
@@ -25,7 +25,7 @@ const EditMyModelButton = () => {
       <button className="w-[33px] h-[33px] absolute top-3 right-6" onClick={openModal}><Edit /></button>
       <dialog
         ref={modalRef}
-        className="backdrop:bg-[#030408]  rounded-[87px] py-12 px-28" 
+        className="backdrop:bg-[#030408]  rounded-[87px] py-12 px-28 w-4/5" 
         onClick={(e) => { if (e.target === modalRef.current) closeModal() }}
         style={{
           background:
@@ -70,4 +70,4 @@ const EditMyModelButton = () => {
   );
 }
 
-export default EditMyModelButton
+export default EditProfileModelButton

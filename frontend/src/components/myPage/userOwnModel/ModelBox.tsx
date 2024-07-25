@@ -6,23 +6,22 @@ import {
   Lock,
   Market,
   Question,
-} from "../../assets/icons";
-import { useModelStore } from "../../store/useModelStore";
-import IconBtn from "../common/IconBtn";
-import InputField from "../common/modal/InputField";
-import SwapIconBtn from "../common/SwapIconBtn";
-import ThreeScene from "../common/threeScene/ThreeScene";
+} from "../../../assets/icons";
+import { Model, useModelStore } from "../../../store/useModelStore";
+import IconBtn from "../../common/IconBtn";
+import InputField from "../../common/modal/InputField";
+import SwapIconBtn from "../../common/SwapIconBtn";
+import ThreeScene from "../../common/threeScene/ThreeScene";
 
 interface ModelBoxProps {
-  key: number;
+  model: Model;
   children: React.ReactNode;
+  role: string;
 }
 
-const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
+const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
   const modalRef = useRef<HTMLDialogElement>(null);
-  console.log(key);
-  const { model, setModel } = useModelStore((state) => ({
-    model: state.model,
+  const { setModel } = useModelStore((state) => ({
     setModel: state.setModel,
   }));
 
@@ -30,7 +29,6 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
     if (modalRef.current === null) return;
     modalRef.current.showModal();
   };
-
   const closeModal = () => {
     if (modalRef.current === null) return;
     modalRef.current.close();
@@ -47,6 +45,7 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
       <button
         className="w-[293px] h-[293px] bg-[#777777]/[0.2] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto"
         onClick={openModal}
+        role={role}
       >
         {children}
       </button>
@@ -74,7 +73,7 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
             <InputField type="text" placeholder="Title :" />
             <textarea
               className="textarea w-full resize-none rounded-3xl h-48 bg-[#1C1C1C]/[.53]"
-              placeholder="Description: Strong muscular human statue. #statue, #muscular, #strong"
+              placeholder={model.description}
             ></textarea>
             <label className="input flex items-center justify-around border-none bg-[#1C1C1C]/[.53] rounded-full pr-0">
               <input
@@ -85,7 +84,7 @@ const ModelBox: React.FC<ModelBoxProps> = ({ key, children }) => {
               <IconBtn icon={Check} bgColor="bg-[#1C1C1C]/[.53]" />
             </label>
             <div className="flex justify-around gap-3">
-              <InputField type="text" placeholder="Price: 0.792 ETH" />
+              <InputField type="text" placeholder={"Price: 0.792 ETH"} />
               <IconBtn icon={Market} bgColor="bg-[#1C1C1C]/[.53]" />
               <IconBtn icon={Question} bgColor="bg-[#1C1C1C]/[.53]" />
             </div>
