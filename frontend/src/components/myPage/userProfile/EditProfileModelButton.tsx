@@ -23,7 +23,7 @@ const EditProfileModelButton = () => {
   return (
     <>
       <button
-        className="w-[33px] h-[33px] absolute top-3 right-6"
+        className="w-[33px] h-[33px] absolute top-3 right-6 bg-transparent"
         onClick={openModal}
       >
         <Edit />
@@ -60,9 +60,9 @@ const EditProfileModelButton = () => {
             {new Array(12).fill(0).map((_, index) => {
               return (
                 <button
-                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto ${
-                    clickedBox === index ? "" : "bg-[#777777]/[0.2]"
-                  }`}
+                  key={index}
+                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto ${clickedBox === index ? "" : "bg-[#777777]/[0.2]"
+                    }`}
                   style={{
                     background:
                       clickedBox === index

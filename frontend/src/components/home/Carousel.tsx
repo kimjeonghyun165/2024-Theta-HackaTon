@@ -33,16 +33,16 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="w-full">
       <div
-        className="carousel carousel-center bg-neutral w-full space-x-4 p-4 overflow-x-scroll no-scrollbar"
+        className="w-full p-4 space-x-4 overflow-x-scroll carousel carousel-center no-scrollbar"
         ref={carouselRef}
       >
         {images.map((image, index) => (
-          <div key={index} className="carousel-item relative">
-            <img src={image.src} className="rounded-lg" />
-            <div className="absolute inset-0 flex flex-col justify-end items-start bg-black bg-opacity-50 text-white p-2 opacity-0 hover:opacity-100 transition-opacity duration-300">
-              <div className="ml-4 mb-4">
+          <div key={index} className="relative overflow-hidden rounded-lg carousel-item">
+            <img src={image.src} />
+            <div className="absolute inset-0 flex flex-col items-start justify-end p-2 text-white transition-opacity duration-300 bg-black bg-opacity-50 opacity-0 hover:opacity-100">
+              <div className="mb-4 ml-4">
                 <p className="italic font-bold">{image.name}</p>
                 <p>{image.description}</p>
               </div>
@@ -50,7 +50,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
           </div>
         ))}
       </div>
-      <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+      <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
         <button onClick={scrollLeft} className="btn btn-circle">
           ❮
         </button>
@@ -59,6 +59,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
         </button>
       </div>
     </div>
+
   );
 };
 

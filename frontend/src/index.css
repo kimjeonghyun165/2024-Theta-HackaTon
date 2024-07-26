@@ -20,3 +20,7 @@
 select {
   appearance:none /* 화살표 없애기 */
 }
+
+html {
+  scrollbar-width: none;
+}

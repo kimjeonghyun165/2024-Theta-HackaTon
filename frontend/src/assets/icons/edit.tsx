@@ -1,6 +1,6 @@
 const Edit = () => {
   return (<svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink">
-    <rect width="33" height="33" fill="url(#pattern0_221_3326)" fill-opacity="0.5" />
+    <rect width="33" height="33" fill="url(#pattern0_221_3326)" fillOpacity="0.5" />
     <defs>
       <pattern id="pattern0_221_3326" patternContentUnits="objectBoundingBox" width="1" height="1">
         <use xlinkHref="#image0_221_3326" transform="scale(0.00195312)" />

@@ -15,5 +15,8 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  global:{
+    "require":true
+  }
 
 }

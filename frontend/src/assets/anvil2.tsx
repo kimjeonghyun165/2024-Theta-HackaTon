@@ -12,7 +12,7 @@ const Anvil2 = () => {
         width="1196"
         height="866"
         fill="url(#pattern0_121_3254)"
-        fill-opacity="0.3"
+        fillOpacity="0.3"
       />
       <defs>
         <pattern

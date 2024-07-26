@@ -12,7 +12,7 @@ const Market = () => {
         width="39"
         height="39"
         fill="url(#pattern0_192_3410)"
-        fill-opacity="0.8"
+        fillOpacity="0.8"
       />
       <defs>
         <pattern
