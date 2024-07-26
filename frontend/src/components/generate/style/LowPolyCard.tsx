@@ -4,7 +4,7 @@ import { CardBody, CreditInfo, Range } from "../common";
 interface LowPolyCardProps {
   rangeValue: number;
   handleRangeChange: (value: number) => void;
-  handleGenerate: () => Promise<void>;
+  handleGenerate: () => void;
   isLoading: boolean;
   isDisabled: boolean;
 }

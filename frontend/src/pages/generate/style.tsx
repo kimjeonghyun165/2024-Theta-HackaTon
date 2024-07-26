@@ -1,12 +1,13 @@
 import { useState } from "react";
 import {
-  generateLowPoly3DModel,
-  generateRealistic3DModel,
-} from "../../api/modelApi";
+  useGenerateRealistic3DModel,
+  useGenerateLowPoly3DModel,
+} from "../../hooks/api/useModelApi";
 import { CreditLabel } from "../../components/generate";
 import { LowPolyCard, RealisticCard } from "../../components/generate/style";
 import { useModelStore } from "../../store/useModelStore";
 import { useOptionStore } from "../../store/useStore";
+import { useToast } from "../../components/common/Toast/ToastContext";
 
 const Style = () => {
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
@@ -17,52 +18,61 @@ const Style = () => {
   const [superResolution, setSuperResolution] = useState<boolean>(false);
   const [rangeValue, setRangeValue] = useState<number>(0);
   const [rangeLabel, setRangeLabel] = useState<"low" | "mid" | "high">("low");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [activeButton, setActiveButton] = useState<
-    "lowpoly" | "realistic" | null
-  >(null);
 
-  const handleGenerateLowPoly = async () => {
-    setIsLoading(true);
-    setActiveButton("lowpoly");
+  const { setToast } = useToast();
+
+  const { mutate: generateLowPoly, isPending: isLoadingLowPoly } =
+    useGenerateLowPoly3DModel();
+  const { mutate: generateRealistic, isPending: isLoadingRealistic } =
+    useGenerateRealistic3DModel();
+
+  const handleGenerateLowPoly = () => {
     if (model && model?.imgSelection !== null) {
-      try {
-        setModel({ style: { method: "lowpoly", strength: rangeLabel } });
-        const data = await generateLowPoly3DModel(
-          model?.selectedImage,
-          rangeLabel
-        );
-        setModel({ file: data.model_url, preview: data.preview_url });
-        setSelectedOption("option4");
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-        setActiveButton(null);
-      }
+      generateLowPoly(
+        { imageUrl: model.selectedImage, strength: rangeLabel },
+        {
+          onSuccess: (data: { model_url: string; preview_url: string }) => {
+            setModel({
+              file: data.model_url,
+              preview: data.preview_url,
+              style: { method: "lowpoly", strength: rangeLabel },
+            });
+            setSelectedOption("option4");
+          },
+          onError: (error: any) => {
+            setToast({
+              message: `Error generating low poly model: ${error.message}`,
+              type: "error",
+              position: "bottom-end",
+            });
+          },
+        }
+      );
     }
   };
 
-  const handleGenerateRealistic = async () => {
-    setIsLoading(true);
-    setActiveButton("realistic");
+  const handleGenerateRealistic = () => {
     if (model && model?.imgSelection !== null) {
-      try {
-        setModel({
-          style: { method: "realistic", superResolution: superResolution },
-        });
-        const data = await generateRealistic3DModel(
-          model?.selectedImage,
-          superResolution
-        );
-        setModel({ file: data.model_url, preview: data.preview_url });
-        setSelectedOption("option4");
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-        setActiveButton(null);
-      }
+      generateRealistic(
+        { imageUrl: model.selectedImage, resolution: superResolution },
+        {
+          onSuccess: (data: { model_url: string; preview_url: string }) => {
+            setModel({
+              file: data.model_url,
+              preview: data.preview_url,
+              style: { method: "realistic", superResolution: superResolution },
+            });
+            setSelectedOption("option4");
+          },
+          onError: (error: any) => {
+            setToast({
+              message: `Error generating realistic model: ${error.message}`,
+              type: "error",
+              position: "bottom-end",
+            });
+          },
+        }
+      );
     }
   };
 
@@ -96,8 +106,8 @@ const Style = () => {
             rangeValue={rangeValue}
             handleRangeChange={handleRangeChange}
             handleGenerate={handleGenerateLowPoly}
-            isLoading={isLoading && activeButton === "lowpoly"}
-            isDisabled={isLoading && activeButton !== "lowpoly"}
+            isLoading={isLoadingLowPoly}
+            isDisabled={isLoadingLowPoly || isLoadingRealistic}
           />
         </div>
         <div className="bottom-0 mt-7">
@@ -105,8 +115,8 @@ const Style = () => {
             superResolution={superResolution}
             setSuperResolution={setSuperResolution}
             handleGenerate={handleGenerateRealistic}
-            isLoading={isLoading && activeButton === "realistic"}
-            isDisabled={isLoading && activeButton !== "realistic"}
+            isLoading={isLoadingRealistic}
+            isDisabled={isLoadingRealistic || isLoadingLowPoly}
           />
         </div>
       </div>
