@@ -27,11 +27,12 @@ export class ModelsService {
     }
 
     async getAllModels(offset: number, limit: number): Promise<Model[]> {
-        return this.modelModel
+        const models = await this.modelModel
             .find()
             .skip(offset)
             .limit(limit)
             .exec();
+        return models;
     }
 
     async getModelById(id: string): Promise<Model> {

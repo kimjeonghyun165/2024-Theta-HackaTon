@@ -6,7 +6,7 @@ import { Loading } from "../../../components/common";
 import { useModelStore } from "../../../store/useModelStore";
 import { useOptionStore } from "../../../store/useStore";
 import { useUserStore } from "../../../store/useUserStore";
-import Toast from "../../../components/common/Toast";
+import Toast from "../../../components/common/Toast/Toast";
 
 const Section1 = () => {
   const navigate = useNavigate();

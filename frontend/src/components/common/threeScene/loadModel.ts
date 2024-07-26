@@ -17,8 +17,9 @@ const loadModel = (
                 fbx.traverse((child) => {
                     if ((child as THREE.Mesh).isMesh) {
                         const mesh = child as THREE.Mesh;
+
                         if (mesh.material) {
-                            // console.log('Material:', mesh.material);
+                            mesh.material = new THREE.MeshBasicMaterial({ vertexColors: true });
                         }
                     }
                 });
@@ -33,7 +34,7 @@ const loadModel = (
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
 
-                cameraZ *= 1.5; // 여유공간
+                cameraZ *= 1; // 여유공간
                 camera.position.set(center.x + cameraZ, center.y + cameraZ, center.z + cameraZ);
                 camera.lookAt(center);
 

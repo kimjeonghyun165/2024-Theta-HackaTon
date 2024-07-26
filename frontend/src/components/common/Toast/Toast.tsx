@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 interface ToastProps {
   message: string;
-  type: "info" | "success";
+  type: "info" | "success" | "error";
   position: "top-start" | "top-end" | "bottom-start" | "bottom-end";
   onClose: () => void;
 }

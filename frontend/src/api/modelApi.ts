@@ -1,6 +1,7 @@
+// 파일: src/api/modelApi.ts
 import { Model } from "../store/useModelStore";
 
-const BASE_URL = "http://18.225.8.216:5000";
+const BASE_URL = "http://18.218.73.197:5000";
 const API_BASE_URL = 'http://localhost:3000/api';
 
 export const generateRealistic3DModel = async (imageUrl: string, resolution: boolean) => {
@@ -57,7 +58,6 @@ export const generateImage = async (prompt: string) => {
     return response.json();
 };
 
-
 export const fetchModel = async (id: string) => {
     const response = await fetch(`${API_BASE_URL}/models/getmodel/${id}`, {
         method: 'GET',
@@ -85,7 +85,6 @@ export const fetchModels = async (offset: number = 0, limit: number = 30) => {
 };
 
 export const addModel = async (model: Model, jwtToken: string | null) => {
-    console.log('1')
     const response = await fetch(`${API_BASE_URL}/models/postmodel`, {
         method: 'POST',
         headers: {

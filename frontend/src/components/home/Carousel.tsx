@@ -12,7 +12,7 @@ interface CarouselProps {
 
 const Carousel: React.FC<CarouselProps> = ({ images }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
-  const itemWidth = 300; // 예시: 각 사진의 너비
+  const itemWidth = 300;
 
   const scrollLeft = () => {
     if (carouselRef.current) {
@@ -39,7 +39,10 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
         ref={carouselRef}
       >
         {images.map((image, index) => (
-          <div key={index} className="relative overflow-hidden rounded-lg carousel-item">
+          <div
+            key={index}
+            className="relative overflow-hidden rounded-lg carousel-item"
+          >
             <img src={image.src} />
             <div className="absolute inset-0 flex flex-col items-start justify-end p-2 text-white transition-opacity duration-300 bg-black bg-opacity-50 opacity-0 hover:opacity-100">
               <div className="mb-4 ml-4">
@@ -59,7 +62,6 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
         </button>
       </div>
     </div>
-
   );
 };
 
