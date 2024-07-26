@@ -1,99 +1,102 @@
-import { create } from 'zustand';
-import { useUserStore } from './useUserStore';
-import { fetchModel, fetchModels, addModel } from '../api/modelApi';
+import { create } from "zustand";
+import { useUserStore } from "./useUserStore";
+import { fetchModel, fetchModels, addModel } from "../api/modelApi";
 
 interface NFTDetails {
-    isNft: boolean;
-    ipfsFile?: string;
-    ipfsMetadata?: string;
-    isListed?: boolean;
-    price?: number;
+  isNft: boolean;
+  ipfsFile?: string;
+  ipfsMetadata?: string;
+  isListed?: boolean;
+  price?: number;
 }
 
 interface LowPolyOptions {
-    method: 'lowpoly';
-    strength: 'low' | 'mid' | 'high';
+  method: "lowpoly";
+  strength: "low" | "mid" | "high";
 }
 
 interface RealisticOptions {
-    method: 'realistic';
-    superResolution?: boolean;
+  method: "realistic";
+  superResolution?: boolean;
 }
 
-type Style = LowPolyOptions | RealisticOptions | null
+type Style = LowPolyOptions | RealisticOptions | null;
 
 export interface Model {
-    _id?: string;
-    createdAt?: Date;
-    prompt: string;
-    imgSelection: { url: string; selected: boolean }[];
-    selectedImage: string;
-    style: Style;
-    title: string;
-    description: string;
-    file: string;
-    preview: string;
-    like?: number;
-    visibility?: 'private' | 'public';
-    nftDetails: NFTDetails;
+  _id?: string;
+  createdAt?: Date;
+  prompt: string;
+  imgSelection: { url: string; selected: boolean }[];
+  selectedImage: string;
+  style: Style;
+  title: string;
+  description: string;
+  file: string;
+  preview: string;
+  like?: number;
+  visibility?: "private" | "public";
+  nftDetails: NFTDetails;
 }
 
 interface useModelState {
-    model: Model | null;
-    models: Model[];
-    setModel: (model: Partial<Model>) => void;
-    fetchModel: (id: string) => Promise<void>;
-    fetchModels: (offset?: number, limit?: number) => Promise<void>;
-    addModel: (model: Model) => Promise<void>;
+  model: Model | null;
+  models: Model[];
+  setModel: (model: Partial<Model>) => void;
+  fetchModel: (id: string) => Promise<void>;
+  fetchModels: (offset?: number, limit?: number) => Promise<void>;
+  addModel: (model: Model) => Promise<void>;
 }
 
 export const useModelStore = create<useModelState>((set) => ({
-    model: {
-        prompt: '',
-        imgSelection: [],
-        selectedImage: '',
-        style: null,
-        title: '',
-        description: '',
-        file: '',
-        preview: '',
-        visibility: 'public',
-        nftDetails: {
-            isNft: false,
-        },
+  model: {
+    prompt: "",
+    imgSelection: [],
+    selectedImage: "",
+    style: null,
+    title: "",
+    description: "",
+    file: "",
+    preview: "",
+    visibility: "public",
+    nftDetails: {
+      isNft: false,
     },
-    models: [],
-    setModel: (model) => set((state) => ({
-        model: { ...state.model, ...model } as Model
+  },
+  models: [],
+  setModel: (model) =>
+    set((state) => ({
+      model: { ...state.model, ...model } as Model,
     })),
 
-    fetchModel: async (id: string) => {
-        try {
-            const model = await fetchModel(id);
-            set({ model });
-        } catch (error) {
-            console.error(error);
-        }
-    },
+  fetchModel: async (id: string) => {
+    try {
+      const model = await fetchModel(id);
+      set({ model });
+    } catch (error) {
+      console.error(error);
+    }
+  },
 
-    fetchModels: async (offset: number = 0, limit: number = 30) => {
-        try {
-            const models = await fetchModels(offset, limit);
-            set({ models });
-        } catch (error) {
-            console.error(error);
-        }
-    },
-
-    addModel: async (model) => {
-        const { jwtToken } = useUserStore.getState();
-        try {
-            const newModel = await addModel(model, jwtToken);
-            set((state) => ({
-                models: [...state.models, newModel],
-            }));
-        } catch (error) {
-            console.error(error);
-        }
-    },
+  fetchModels: async (offset: number = 0, limit: number = 30) => {
+    try {
+      const models = await fetchModels(offset, limit);
+      set((state) => ({
+        models: [...state.models, ...models],
+      }));
+    } catch (error) {   
+      console.error(error);
+    }
+  },
+  
+  addModel: async (model) => {
+    const { jwtToken } = useUserStore.getState();
+    try {
+      const newModel = await addModel(model, jwtToken);
+      set((state) => ({
+        models: [...state.models, newModel],
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  },
 }));

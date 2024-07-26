@@ -64,11 +64,11 @@ const Section1 = () => {
       <div className="flex items-center justify-around">
         <div className="w-full">
           <h1 className="flex flex-col gap-6 ml-6 font-bold 2xl:ml-12 md:pl-16">
-            <p className="text-4xl lg:text-5xl xl:text-6xl tracking-[.3em]">
+            <span className="text-4xl lg:text-5xl xl:text-6xl tracking-[.3em]">
               SMITH ALL
               <br />
               <p className="mt-4 tracking-[.05em]">IMAGINATION</p>
-            </p>
+            </span>
             {/* <TypingEffect /> */}
           </h1>
         </div>

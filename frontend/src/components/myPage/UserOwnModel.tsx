@@ -1,32 +1,38 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useModelStore } from "../../store/useModelStore";
 import { Check } from "../../assets/icons";
 import Search from "../../assets/icons/search";
 import ModelBox from "./userOwnModel/ModelBox";
-import { Ex1 } from "../../assets/generate/imgSelect";
 
 const UserOwnModel = () => {
   const { models, fetchModels } = useModelStore((state) => ({
     models: state.models,
     fetchModels: state.fetchModels,
   }));
-  const [isChecked, setIsChecked] = useState(false);
 
-  const handleScroll = useCallback(
-    (e: React.UIEvent<HTMLDivElement>) => {
-      const target = e.target as HTMLDivElement;
-      const bottom =
-        target.scrollHeight - target.scrollTop === target.clientHeight;
-      if (bottom) {
-        fetchModels(models.length, 8); // 스크롤이 끝까지 내려가면 추가 데이터 8개 불러오기
-      }
-    },
-    [fetchModels, models.length]
-  );
+  const [isChecked, setIsChecked] = useState(false);
+  const [modelCount, setModelCount] = useState(4);
+  const initialLoad = useRef(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    const bottom = target.scrollHeight - target.scrollTop === target.clientHeight;
+    if (bottom) {
+      setIsLoading(true);
+      await fetchModels(modelCount, modelCount + 4);
+      setModelCount(prev => prev + 4);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetchModels(0, 8); // 초기 데이터 8개 불러오기
-  }, [fetchModels]);
+    if (initialLoad.current) {
+      fetchModels(0, modelCount);
+      initialLoad.current = false;
+    }
+  }, []);
+
   return (
     <section className="bg-[#D0D0D0]/[.07] rounded-[30px] px-20 py-20">
       <div className="flex items-center gap-10 text-2xl px-14">
@@ -66,9 +72,10 @@ const UserOwnModel = () => {
       >
         {models.map((model, index) => (
           <ModelBox key={index} model={model} role="listitem">
-            <Ex1 aria-hidden="true" />
+            <img src={model.preview} />
           </ModelBox>
         ))}
+        {isLoading ? <span className="w-full text-2xl text-center">Loading</span> : null}
       </div>
     </section>
   );

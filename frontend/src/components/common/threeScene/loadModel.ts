@@ -18,7 +18,7 @@ const loadModel = (
                     if ((child as THREE.Mesh).isMesh) {
                         const mesh = child as THREE.Mesh;
                         if (mesh.material) {
-                            console.log('Material:', mesh.material);
+                            // console.log('Material:', mesh.material);
                         }
                     }
                 });

@@ -1,6 +1,6 @@
 import { Model } from "../store/useModelStore";
 
-const BASE_URL = "http://18.217.211.136:5000";
+const BASE_URL = "http://18.225.8.216:5000";
 const API_BASE_URL = 'http://localhost:3000/api';
 
 export const generateRealistic3DModel = async (imageUrl: string, resolution: boolean) => {
