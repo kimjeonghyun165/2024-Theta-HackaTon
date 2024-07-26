@@ -46,13 +46,14 @@ const Prompt = () => {
           <CreditLabel />
         </div>
         <textarea
-          className="textarea textarea-bordered textarea-lg w-full h-96 resize-none bg-[#777777]/[.13] rounded-3xl"
+          className="textarea textarea-bordered textarea-lg w-full h-80 resize-none bg-[#777777]/[.13] rounded-3xl"
           placeholder="EX. a blacksmith bear with elk horn"
           value={model?.prompt}
           onChange={handlePromptChange}
         ></textarea>
         <div className="text-sm text-second/[.49]">
-          TIP: try to include keyword ‘isolate’ to create outstanding results
+          Tip: if you are generating full body model, try to include "full body
+          model"
         </div>
       </div>
       <button

@@ -21,7 +21,7 @@ const setupLights = ({ scene, showGrid }: SetupLightsOptions): void => {
 
     if (showGrid) {
         const grid = new THREE.GridHelper(500, 10, 0xffffff, 0xffffff);
-        (grid.material as THREE.Material).opacity = 0.5;
+        (grid.material as THREE.Material).opacity = 0.4;
         (grid.material as THREE.Material).depthWrite = false;
         (grid.material as THREE.Material).transparent = true;
         scene.add(grid);

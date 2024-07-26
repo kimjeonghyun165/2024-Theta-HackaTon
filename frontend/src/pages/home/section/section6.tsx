@@ -1,40 +1,21 @@
-import {
-  Band,
-  Discord,
-  Facebook,
-  Instagram,
-  Twitter,
-} from "../../../assets/sns";
+import React from "react";
+import { PriceCard } from "../../../components/home";
+import { plans } from "../../../constant/home";
 
-const Section6 = () => {
+const Section6: React.FC = () => {
   return (
-    <section className="flex flex-col gap-24 pl-24">
-      <h1 id="contact-section" className="italic text-white">
-        <p className="font-extralight text-4xl md:text-5xl lg:text-6xl">
-          Contact Us
-        </p>
-      </h1>
-      <footer className="footer text-lg text-white w-2/3">
-        <nav className="gap-16">
-          <a>FAQ</a>
-          <a>PARTNERSHIP</a>
-          <a>DISCORD</a>
-          <a>SOCIAL MEDIA</a>
-        </nav>
-        <nav className="gap-16">
-          <a className="link link-hover">stickyofstickyrice@gmail.com</a>
-          <a className="link link-hover">stickyofstickyrice@gmail.com</a>
-          <a className="link link-hover" href="https://discord.gg/nKDrn5kd">
-            <Discord />
-          </a>
-          <a className="link link-hover flex items-center gap-6">
-            <Instagram />
-            <Facebook />
-            <Band />
-            <Twitter />
-          </a>
-        </nav>
-      </footer>
+    <section id="pricing-section" className="flex flex-col">
+      <div className="italic text-center">
+        <h1 className="text-6xl">
+          Pricing
+        </h1>
+        <h2 className="mt-8 text-2xl">Pricing base on annual subscription</h2>
+      </div>
+      <div className="flex flex-wrap justify-center mt-12">
+        {plans.map((plan, index) => (
+          <PriceCard key={index} index={index} {...plan} />
+        ))}
+      </div>
     </section>
   );
 };

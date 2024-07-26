@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Layout } from "../../components/common/layout/generate/Layout";
 import ThreeScene from "../../components/common/threeScene/ThreeScene";
 import { useOptionStore } from "../../store/useStore";
 import ImgSelection from "./imgSelection";
@@ -10,6 +9,8 @@ import { SuccessModal } from "../../components/common/modal";
 import { useNavigate } from "react-router-dom";
 import Customization_Temporary from "./temporary/customization";
 import { useModelStore } from "../../store/useModelStore";
+import Style from "./style";
+import { Layout } from "../../components/common/layout/generate/Layout";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
@@ -18,7 +19,7 @@ const Generate3DModel: React.FC = () => {
   const [isSecondModalVisible, setSecondModalVisible] = useState(false);
   const model = useModelStore((state) => state.model);
   const navigate = useNavigate();
-
+  //
   useEffect(() => {
     // const editModal = document.getElementById(
     //   "edit_modal"
@@ -68,6 +69,9 @@ const Generate3DModel: React.FC = () => {
             <ImgSelection />
           </AnimatedContent>
           <AnimatedContent isVisible={selectedOption === "option3"}>
+            <Style />
+          </AnimatedContent>
+          <AnimatedContent isVisible={selectedOption === "option4"}>
             {/* <Customization onPostBtnClick={handleOpenFirstModal} /> */}
             <Customization_Temporary onPostBtnClick={handlePostAndOpenNext} />
           </AnimatedContent>

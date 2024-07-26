@@ -1,4 +1,4 @@
-import { RefreshArrow } from "../../assets/imgSelect";
+import { RefreshArrow } from "../../assets/generate/imgSelect";
 import {
   Balloon,
   CreditLabel,

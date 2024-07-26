@@ -1,9 +1,10 @@
+// 파일: src/api/modelApi.ts
 import { Model } from "../store/useModelStore";
 
-const BASE_URL = "http://3.134.90.120:5000";
+const BASE_URL = "http://18.218.73.197:5000";
 const API_BASE_URL = 'http://localhost:3000/api';
 
-export const generate3DModel = async (imageUrl: string, resolution: boolean) => {
+export const generateRealistic3DModel = async (imageUrl: string, resolution: boolean) => {
     const response = await fetch(`${BASE_URL}/generate-3d-model`, {
         method: "POST",
         headers: {
@@ -12,6 +13,25 @@ export const generate3DModel = async (imageUrl: string, resolution: boolean) => 
         body: JSON.stringify({
             image_url: imageUrl,
             super_resolution: resolution,
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(`Error generating image: ${response.statusText}`);
+    }
+
+    return response.json();
+};
+
+export const generateLowPoly3DModel = async (imageUrl: string, strength: string) => {
+    const response = await fetch(`${BASE_URL}/generate-3d-lowpoly`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            image_url: imageUrl,
+            low_poly_strength: strength,
         }),
     });
 
@@ -37,7 +57,6 @@ export const generateImage = async (prompt: string) => {
 
     return response.json();
 };
-
 
 export const fetchModel = async (id: string) => {
     const response = await fetch(`${API_BASE_URL}/models/getmodel/${id}`, {

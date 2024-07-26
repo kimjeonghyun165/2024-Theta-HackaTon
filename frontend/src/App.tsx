@@ -7,7 +7,13 @@ import { useUserStore } from "./store/useUserStore";
 import connectAndSignMessage from "./utils/web3/setWeb3/connectAndSignMessage";
 import { isTokenExpired } from "./utils/auth";
 import { useLogout } from "./hooks/useLogout";
-import ProtectedRoute from "./components/common/ProtectedRoute";
+import { ProtectedRoute } from "./components/common";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { ToastProvider } from "./components/common/Toast/ToastContext";
+
+const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   const logout = useLogout();
@@ -56,21 +62,29 @@ const App: React.FC = () => {
     }
   }, [fetchUser, setJwtToken, setUser, jwtToken, logout]);
 
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route
         path="/model/generate"
-        element={<ProtectedRoute element={Generate} />}
+        element={<ProtectedRoute element={<Generate />} />}
       />
-      <Route path="/myPage" element={<ProtectedRoute element={MyPage} />} />
+      <Route path="/myPage" element={<ProtectedRoute element={<MyPage />} />} />
     </Routes>
   );
 };
 
 const AppWrapper: React.FC = () => (
   <Router>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <ToastProvider>
+        <App />
+      </ToastProvider>
+    </QueryClientProvider>
   </Router>
 );
 

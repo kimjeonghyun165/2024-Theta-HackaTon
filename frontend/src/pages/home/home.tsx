@@ -6,6 +6,7 @@ import {
   Section4,
   Section5,
   Section6,
+  Section7,
 } from "./section/index";
 
 const Home = () => {
@@ -16,12 +17,13 @@ const Home = () => {
         <div className="relative mt-24 z-10 h-[80vh]">
           <Section1 />
         </div>
-        <div className="px-2 md:px-12 flex flex-col gap-60">
+        <div className="flex flex-col px-2 md:px-12 gap-60">
           <Section2 />
           <Section3 />
           <Section4 />
           <Section5 />
           <Section6 />
+          <Section7 />
         </div>
       </div>
     </Layout>

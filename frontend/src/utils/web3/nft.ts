@@ -13,7 +13,7 @@ interface Metadata {
 
 const uploadFileToPinata = async (fileUrl: string) => {
   try {
-    const response = await fetch('http://localhost:3000/pinata/uploadFromUrl', {
+    const response = await fetch('http://localhost:3000/api/pinata/uploadFromUrl', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const uploadToPinata = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("http://localhost:3000/pinata/upload", {
+    const response = await fetch("http://localhost:3000/api/pinata/upload", {
       method: "POST",
       body: formData,
     });
