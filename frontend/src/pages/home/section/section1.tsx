@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { generateImage } from "../../../api/modelApi";
-import Anvil from "../../../assets/anvil";
+import Anvil from "../../../assets/Anvil";
 import { Loading } from "../../../components/common";
 import { useModelStore } from "../../../store/useModelStore";
 import { useOptionStore } from "../../../store/useStore";

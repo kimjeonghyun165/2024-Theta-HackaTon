@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, Question } from "../../../assets/icons";
-import DownTriangle from "../../../assets/icons/downTriangle";
+import DownTriangle from "../../../assets/icons/DownTriangle";
 import { IconBtn } from "../../common";
 
 const icons = {
@@ -25,7 +25,9 @@ interface SettingInformBoxProps {
 }
 
 function SettingInformBox({ title, items }: SettingInformBoxProps) {
-  const [selectedValues, setSelectedValues] = useState<{ [key: string]: string }>({
+  const [selectedValues, setSelectedValues] = useState<{
+    [key: string]: string;
+  }>({
     Language: "English (USA)",
     Region: "United States",
   });
@@ -55,8 +57,14 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
   };
 
   return (
-    <section aria-labelledby={`${title.replace(/ /g, "-").toLowerCase()}-heading`} className="mb-8">
-      <h3 id={`${title.replace(/ /g, "-").toLowerCase()}-heading`} className="my-3 text-2xl font-extralight">
+    <section
+      aria-labelledby={`${title.replace(/ /g, "-").toLowerCase()}-heading`}
+      className="mb-8"
+    >
+      <h3
+        id={`${title.replace(/ /g, "-").toLowerCase()}-heading`}
+        className="my-3 text-2xl font-extralight"
+      >
         {title}
       </h3>
       <ul>
@@ -67,8 +75,10 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
               <div className="relative inline-block">
                 <div
                   className="flex items-center justify-between gap-6 text-center cursor-pointer"
-                  onClick={() => toggleDropdown(subtitle)}>
-                  <span className="bg-fifth/[.2] rounded-[30px] px-10 py-3 cursor-pointer min-w-[280px] relative">{selectedValues[subtitle]}
+                  onClick={() => toggleDropdown(subtitle)}
+                >
+                  <span className="bg-fifth/[.2] rounded-[30px] px-10 py-3 cursor-pointer min-w-[280px] relative">
+                    {selectedValues[subtitle]}
                     {dropdownOpen[subtitle] && (
                       <ul className="absolute left-0 top-14 w-full bg-fifth border border-gray-300 rounded-[30px] mt-1 z-10 overflow-hidden">
                         {options.map((option) => (
@@ -83,10 +93,18 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
                       </ul>
                     )}
                   </span>
-                  <div className={`transform transition-transform ${dropdownOpen[subtitle] ? 'rotate-180' : ''}`}>
-                    {<IconBtn icon={icons[subtitle as IconKeys]} bgColor="bg-fifth/[.2] hover:bg-black" />}
+                  <div
+                    className={`transform transition-transform ${
+                      dropdownOpen[subtitle] ? "rotate-180" : ""
+                    }`}
+                  >
+                    {
+                      <IconBtn
+                        icon={icons[subtitle as IconKeys]}
+                        bgColor="bg-fifth/[.2] hover:bg-black"
+                      />
+                    }
                   </div>
-
                 </div>
               </div>
             ) : (
@@ -95,7 +113,10 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
               </span>
             )}
             {type !== "select" && icons[subtitle as IconKeys] && (
-              <IconBtn icon={icons[subtitle as IconKeys]} bgColor="bg-fifth/[.2] hover:bg-black" />
+              <IconBtn
+                icon={icons[subtitle as IconKeys]}
+                bgColor="bg-fifth/[.2] hover:bg-black"
+              />
             )}
           </li>
         ))}

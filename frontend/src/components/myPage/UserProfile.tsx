@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useUserStore } from "../../store/useUserStore";
 import EditProfileModelButton from "./userProfile/EditProfileModelButton";
 import Plan from "./userProfile/Plan";
-import Edit from "../../assets/icons/edit";
+import Edit from "../../assets/icons/Edit";
 import SettingButton from "./userProfile/SettingButton";
 import AchievementsBoxes from "./userProfile/AchievementsBoxes";
 import { Ex1 } from "../../assets/generate/imgSelect";

@@ -1,5 +1,4 @@
-import Plus from "../../../assets/icons/plus";
-import Star from "../../../assets/icons/star";
+import { Plus, Star } from "../../../assets/icons";
 
 const CreditLabel = () => (
   <label className="bg-fifth/[.13] flex rounded-2xl">

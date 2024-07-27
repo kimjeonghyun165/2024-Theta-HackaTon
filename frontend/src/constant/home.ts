@@ -1,7 +1,7 @@
-import Harim from "../assets/profile/harim";
+import Harim from "../assets/profile/Harim";
 import Jaden from "../assets/profile/Jaden";
-import Rice from "../assets/profile/rice";
-import Sticky from "../assets/profile/sticky";
+import Rice from "../assets/profile/Rice";
+import Sticky from "../assets/profile/Sticky";
 
 
 export const profiles = [

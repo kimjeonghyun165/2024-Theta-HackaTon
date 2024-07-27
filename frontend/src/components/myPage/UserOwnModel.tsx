@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useModelStore } from "../../store/useModelStore";
 import { Check } from "../../assets/icons";
-import Search from "../../assets/icons/search";
+import Search from "../../assets/icons/Search";
 import ModelBox from "./userOwnModel/ModelBox";
 
 const UserOwnModel = () => {
@@ -17,11 +17,12 @@ const UserOwnModel = () => {
 
   const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
-    const bottom = target.scrollHeight - target.scrollTop === target.clientHeight;
+    const bottom =
+      target.scrollHeight - target.scrollTop === target.clientHeight;
     if (bottom) {
       setIsLoading(true);
       await fetchModels(modelCount, modelCount + 4);
-      setModelCount(prev => prev + 4);
+      setModelCount((prev) => prev + 4);
       setIsLoading(false);
     }
   };
@@ -75,7 +76,9 @@ const UserOwnModel = () => {
             <img src={model.preview} />
           </ModelBox>
         ))}
-        {isLoading ? <span className="w-full text-2xl text-center">Loading</span> : null}
+        {isLoading ? (
+          <span className="w-full text-2xl text-center">Loading</span>
+        ) : null}
       </div>
     </section>
   );

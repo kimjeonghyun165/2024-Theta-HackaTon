@@ -1,6 +1,6 @@
-import First from "./first";
-import Second from "./second";
-import Third from "./thrid";
-import Fourth from "./fourth";
+import First from "./First";
+import Second from "./Second";
+import Third from "./Thrid";
+import Fourth from "./Fourth";
 
 export { First, Second, Third, Fourth };

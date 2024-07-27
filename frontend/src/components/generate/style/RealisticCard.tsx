@@ -1,5 +1,5 @@
 import React from "react";
-import Realistic from "../../../assets/generate/style/realistic";
+import Realistic from "../../../assets/generate/style/Realistic";
 import { CheckboxWithLabel, CreditInfo } from "../common";
 import CardBody from "../common/CardBody";
 import "./btn.css";
