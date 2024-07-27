@@ -1,10 +1,10 @@
-import Logo from "../../../assets/logo";
 import Avatar from "../Avatar";
 import { Link } from "react-scroll";
 import { useUserStore } from "../../../store/useUserStore";
 import connectAndSignMessage from "../../../utils/web3/setWeb3/connectAndSignMessage";
 import DropDown from "../Dropdown";
 import { useLogout } from "../../../hooks/useLogout";
+import Logo from "../../../assets/Logo";
 
 export const Header = () => {
   const { user, jwtToken } = useUserStore();

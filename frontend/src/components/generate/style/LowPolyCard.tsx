@@ -1,4 +1,4 @@
-import LowPoly from "../../../assets/generate/style/lowPoly";
+import LowPoly from "../../../assets/generate/style/LowPoly";
 import { CardBody, CreditInfo, Range } from "../common";
 
 interface LowPolyCardProps {

@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { Ex1 } from "../../../assets/generate/imgSelect";
-import Edit from "../../../assets/icons/edit";
-import Search from "../../../assets/icons/search";
+import { Edit, Search } from "../../../assets/icons";
 
 const EditProfileModelButton = () => {
   const [clickedBox, setClickedBox] = useState<number>(0);
@@ -61,8 +60,9 @@ const EditProfileModelButton = () => {
               return (
                 <button
                   key={index}
-                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto ${clickedBox === index ? "" : "bg-[#777777]/[0.2]"
-                    }`}
+                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto ${
+                    clickedBox === index ? "" : "bg-[#777777]/[0.2]"
+                  }`}
                   style={{
                     background:
                       clickedBox === index

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Anvil2 from "../../../assets/anvil2";
+import Anvil2 from "../../../assets/Anvil2";
 
 const Section3 = () => {
   const anvilRef = useRef(null);
