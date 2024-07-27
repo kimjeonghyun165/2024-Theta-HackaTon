@@ -1,4 +1,4 @@
-import Logo from "../../../assets/logo";
+import Logo from "../../../assets/Logo";
 import Avatar from "../Avatar";
 import { Link } from "react-scroll";
 import { useUserStore } from "../../../store/useUserStore";

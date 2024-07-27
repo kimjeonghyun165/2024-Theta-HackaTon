@@ -1,4 +1,4 @@
-import _Harim from "./harim";
-import _Rice from "./rice";
-import _Sticky from "./sticky";
+import _Harim from "./Harim";
+import _Rice from "./Rice";
+import _Sticky from "./Sticky";
 import _Jaden from "./Jaden";

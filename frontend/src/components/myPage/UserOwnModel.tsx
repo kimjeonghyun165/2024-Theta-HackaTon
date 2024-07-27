@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useModelStore } from "../../store/useModelStore";
 import { Check } from "../../assets/icons";
-import Search from "../../assets/icons/search";
+import Search from "../../assets/icons/Search";
 import ModelBox from "./userOwnModel/ModelBox";
 
 const UserOwnModel = () => {
@@ -15,16 +15,18 @@ const UserOwnModel = () => {
   const initialLoad = useRef(true);
   const [isLoading, setIsLoading] = useState(false);
 
+
   const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const bottom = target.scrollHeight - target.scrollTop === target.clientHeight;
-    if (bottom) {
+    if (bottom && models.length === modelCount) {
       setIsLoading(true);
       await fetchModels(modelCount, modelCount + 4);
       setModelCount(prev => prev + 4);
       setIsLoading(false);
     }
   };
+
 
   useEffect(() => {
     if (initialLoad.current) {
@@ -35,7 +37,7 @@ const UserOwnModel = () => {
 
   return (
     <section className="bg-[#D0D0D0]/[.07] rounded-[30px] px-20 py-20">
-      <div className="flex items-center gap-10 text-2xl px-14">
+      <div className="flex items-center gap-10 text-2xl xl:px-14">
         <button
           className="w-[51px] h-[51px] rounded-[5px] bg-[#777]/[0.2] flex justify-center items-center"
           onClick={() => setIsChecked((prev) => !prev)}
@@ -48,7 +50,7 @@ const UserOwnModel = () => {
             className="flex gap-3 text-xl text-white"
             htmlFor="search-input"
           >
-            <div className="w-[25px] h-[23px]" aria-hidden="true">
+            <div className="w-[25px] h-[23px] sm:hidden xl:block" aria-hidden="true">
               <Search />
             </div>
             Search:
@@ -60,12 +62,12 @@ const UserOwnModel = () => {
             aria-label="Search"
           />
         </div>
-        <button className="flex-1 text-right text-white" aria-label="Recent">
+        <button className="flex-1 text-center text-white" aria-label="Recent">
           Recent ▼
         </button>
       </div>
       <div
-        className="max-h-[500px] overflow-y-scroll grid grid-cols-2 2xl:grid-cols-4 gap-y-10 mt-10 myPage-scrollbar gap-x-8"
+        className="max-h-[500px] overflow-y-scroll grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-y-10 mt-10 myPage-scrollbar xl:gap-x-5"
         onScroll={handleScroll}
         role="list"
         aria-label="Model list"
@@ -75,7 +77,7 @@ const UserOwnModel = () => {
             <img src={model.preview} />
           </ModelBox>
         ))}
-        {isLoading ? <span className="w-full text-2xl text-center">Loading</span> : null}
+        {isLoading ? <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">Loading...</span> : models.length !== modelCount ? <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">No More Models</span> : null}
       </div>
     </section>
   );

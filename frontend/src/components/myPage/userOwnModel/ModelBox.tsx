@@ -43,7 +43,7 @@ const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
   return (
     <>
       <button
-        className="w-[293px] h-[293px] bg-[#777777]/[0.2] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto overflow-hidden"
+        className="w-[400px] h-[400px] sm:w-[293px] sm:h-[293px] xl:w-[450px] xl:h-[450px] bg-[#777777]/[0.2] rounded-[30px] flex flex-col justify-between items-center py-7 overflow-hidden mx-auto"
         onClick={openModal}
         role={role}
       >
