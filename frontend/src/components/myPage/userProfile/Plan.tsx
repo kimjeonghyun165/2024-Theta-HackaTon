@@ -20,7 +20,7 @@ const Plan = ({ plan }: { plan: string | undefined }) => {
   return (
     <>
       <div
-        className="w-[27px] h-[27px] rounded-md"
+        className="w-[17px] h-[17px] xl:w-[27px] xl:h-[27px] rounded-md"
         style={{
           borderRadius: "10px 0px 10px 13.5px",
           background: backgroundStyle,
