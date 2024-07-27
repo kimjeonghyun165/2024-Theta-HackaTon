@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, Question } from "../../../assets/icons";
-import DownTriangle from "../../../assets/icons/downTriangle";
+import DownTriangle from "../../../assets/icons/DownTriangle";
 import { IconBtn } from "../../common";
 
 const icons = {

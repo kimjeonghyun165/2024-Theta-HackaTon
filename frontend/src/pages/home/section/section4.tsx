@@ -6,10 +6,10 @@ const Section4: React.FC = () => {
   return (
     <section className="flex flex-col">
       <div className="text-center">
-        <h1 className="font-semibold text-6xl">The Blacksmiths</h1>
+        <h1 className="text-6xl font-semibold">The Blacksmiths</h1>
       </div>
-      <div className="mx-auto mt-40 w-full flex justify-center">
-        <div className="flex flex-wrap justify-center items-start">
+      <div className="flex justify-center w-full mx-auto mt-40">
+        <div className="grid grid-cols-2 md:grid-cols-4">
           {profiles.map((profile, index) => (
             <ProfileCard
               key={index}

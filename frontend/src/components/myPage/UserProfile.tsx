@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "../../store/useUserStore";
 import EditProfileModelButton from "./userProfile/EditProfileModelButton";
 import Plan from "./userProfile/Plan";
-import Edit from "../../assets/icons/edit";
+import Edit from "../../assets/icons/Edit";
 import SettingButton from "./userProfile/SettingButton";
 import AchievementsBoxes from "./userProfile/AchievementsBoxes";
-import { Ex1 } from "../../assets/generate/imgSelect";
+import { useModelStore } from "../../store/useModelStore";
 
 const UserProfile = () => {
   const { user } = useUserStore((state) => ({
     user: state.user,
+  }));
+  const { models } = useModelStore((state) => ({
+    models: state.models,
+    fetchModels: state.fetchModels,
   }));
 
   const shortenUserName = (address: string | undefined) => {
@@ -34,21 +38,37 @@ const UserProfile = () => {
     }
   };
 
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .box::after {
+        display: block;
+        content: "";
+        padding-bottom: 100%;
+        background: #fff;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
-    <section className="flex gap-14 bg-[#D0D0D0]/[.07] rounded-[30px] px-20 py-20">
+    <section className="flex gap-10 bg-[#D0D0D0]/[.07] rounded-[30px] xl:py-16 px-16 py-10">
       <div
-        className="flex-1 rounded-[30px] relative"
+        className="flex-1 xl:w-11/12 rounded-[30px] relative overflow-hidden box"
         style={{
           background:
-            "linear-gradient(135deg, rgba(36, 72, 98, 0.09) 0%, rgba(255, 255, 255, 0.27) 55.1%, rgba(255, 255, 255, 0.27) 63.6%, rgba(36, 72, 98, 0.3) 100%)",
+            "linear-gradient(135deg, rgba(36, 72, 98, 0.09) 0%, rgba(16, 14, 14, 0.27) 55.1%, rgba(255, 255, 255, 0.27) 63.6%, rgba(36, 72, 98, 0.3) 100%)",
         }}
       >
-        <Ex1 aria-label="Model Image" />
+        <img src={models[0]?.preview} alt="Model Image" className="absolute w-full h-full" />
         <EditProfileModelButton aria-label="Edit my model" />
       </div>
-      <div className="flex flex-col justify-between flex-1 gap-16">
+      <div className="flex flex-col w-1/3 h-full gap-5 xl:flex-1">
         <div className="flex flex-col gap-3">
-          <h1 className="flex items-center gap-2 text-2xl">
+          <h1 className="flex items-center gap-2 xl:text-2xl">
             <Plan plan={user?.plan} />
           </h1>
           <h2
@@ -65,15 +85,19 @@ const UserProfile = () => {
                 aria-label="Edit user name input"
               />
             ) : (
-              modelName
+              <>
+                <span className="text-3xl xl:text-5xl">
+                  {modelName}
+                </span>
+                <button
+                  className="absolute right-[0] xl:right-[35%] bottom-[50%]"
+                  onClick={handleClickEditName}
+                  aria-label="Edit user name button"
+                >
+                  <Edit />
+                </button>
+              </>
             )}
-            <button
-              className="absolute right-0 bottom-[50%]"
-              onClick={handleClickEditName}
-              aria-label="Edit user name button"
-            >
-              <Edit />
-            </button>
           </h2>
         </div>
         <div className="flex flex-col gap-5">
@@ -82,17 +106,15 @@ const UserProfile = () => {
             GENERATION: {user?.models?.length}, LIKES: 101, SALES: 1K
           </AchievementsBoxes>
         </div>
-        <div className="flex mt-10 gap-7">
-          <button
-            className="bg-[#777]/[0.2] rounded-[30px] w-full py-7 text-2xl"
-            aria-label="Management"
+        <div className="flex flex-col xl:mt-10 gap-7 xl:flex-row">
+          <SettingButton
           >
             Management
-          </button>
+          </SettingButton>
           <SettingButton aria-label="Setting">Setting</SettingButton>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 
