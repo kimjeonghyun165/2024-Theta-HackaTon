@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useModelStore } from "../../store/useModelStore";
-import { Check } from "../../assets/icons";
-import Search from "../../assets/icons/Search";
+import { Check, Search } from "../../assets/icons";
 import ModelBox from "./userOwnModel/ModelBox";
 
 const UserOwnModel = () => {
@@ -15,18 +14,17 @@ const UserOwnModel = () => {
   const initialLoad = useRef(true);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
-    const bottom = target.scrollHeight - target.scrollTop === target.clientHeight;
-    if (bottom && models.length === modelCount) {
+    const bottom =
+      target.scrollHeight - target.scrollTop === target.clientHeight;
+    if (bottom) {
       setIsLoading(true);
       await fetchModels(modelCount, modelCount + 4);
-      setModelCount(prev => prev + 4);
+      setModelCount((prev) => prev + 4);
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     if (initialLoad.current) {
@@ -50,7 +48,10 @@ const UserOwnModel = () => {
             className="flex gap-3 text-xl text-white"
             htmlFor="search-input"
           >
-            <div className="w-[25px] h-[23px] sm:hidden xl:block" aria-hidden="true">
+            <div
+              className="w-[25px] h-[23px] sm:hidden xl:block"
+              aria-hidden="true"
+            >
               <Search />
             </div>
             Search:
@@ -77,7 +78,9 @@ const UserOwnModel = () => {
             <img src={model.preview} />
           </ModelBox>
         ))}
-        {isLoading ? <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">Loading...</span> : models.length !== modelCount ? <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">No More Models</span> : null}
+        {isLoading ? (
+          <span className="w-full text-2xl text-center">Loading</span>
+        ) : null}
       </div>
     </section>
   );

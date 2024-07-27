@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
-import Edit from "../../../assets/icons/Edit";
-import Search from "../../../assets/icons/Search";
+import { Ex1 } from "../../../assets/generate/imgSelect";
+import { Edit, Search } from "../../../assets/icons";
 import { useModelStore } from "../../../store/useModelStore";
 
 const EditProfileModelButton = () => {
   const [clickedBox, setClickedBox] = useState<number>(0);
   const { models, fetchModels } = useModelStore((state) => ({
     models: state.models,
-    fetchModels: state.fetchModels
-  }))
+    fetchModels: state.fetchModels,
+  }));
 
   const modalRef = useRef<HTMLDialogElement>(null);
 
@@ -28,14 +28,14 @@ const EditProfileModelButton = () => {
   const [modelCount, setModelCount] = useState(4);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
-    const bottom = target.scrollHeight - target.scrollTop === target.clientHeight;
+    const bottom =
+      target.scrollHeight - target.scrollTop === target.clientHeight;
     if (bottom && models.length === modelCount) {
       setIsLoading(true);
       await fetchModels(modelCount, modelCount + 4);
-      setModelCount(prev => prev + 4);
+      setModelCount((prev) => prev + 4);
       setIsLoading(false);
     }
   };
@@ -76,13 +76,17 @@ const EditProfileModelButton = () => {
             </div>
             <button className="mr-10 text-white">Recent ▼</button>
           </div>
-          <div className="max-w-[1575px] max-h-[500px] overflow-y-scroll grid grid-cols-2 2xl:grid-cols-4 gap-y-14 mt-10 myPage-scrollbar" onScroll={handleScroll}>
+          <div
+            className="max-w-[1575px] max-h-[500px] overflow-y-scroll grid grid-cols-2 2xl:grid-cols-4 gap-y-14 mt-10 myPage-scrollbar"
+            onScroll={handleScroll}
+          >
             {models.map((model, index) => {
               return (
                 <button
                   key={index}
-                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto overflow-hidden ${clickedBox === index ? "" : "bg-[#777777]/[0.2]"
-                    }`}
+                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto ${
+                    clickedBox === index ? "" : "bg-[#777777]/[0.2]"
+                  }`}
                   style={{
                     background:
                       clickedBox === index
@@ -95,7 +99,15 @@ const EditProfileModelButton = () => {
                 </button>
               );
             })}
-            {isLoading ? <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">Loading...</span> : models.length !== modelCount ? <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">No More Models</span> : null}
+            {isLoading ? (
+              <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+                Loading...
+              </span>
+            ) : models.length !== modelCount ? (
+              <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+                No More Models
+              </span>
+            ) : null}
           </div>
         </section>
       </dialog>

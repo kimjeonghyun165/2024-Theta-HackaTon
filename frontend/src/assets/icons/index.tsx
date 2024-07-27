@@ -6,5 +6,17 @@ import Market from "./Market";
 import Plus from "./Plus";
 import Star from "./Star";
 import Question from "./Question";
-
-export { Check, DownArrow, Earth, Lock, Market, Plus, Star, Question };
+import Edit from "./Edit";
+import Search from "./Search";
+export {
+  Check,
+  DownArrow,
+  Earth,
+  Lock,
+  Market,
+  Plus,
+  Star,
+  Question,
+  Edit,
+  Search,
+};
