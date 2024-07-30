@@ -55,7 +55,7 @@ const Style = () => {
             fetchUser();
             setSelectedOption("option4");
           },
-          onError: (error: any) => {
+          onError: () => {
             setToast({
               message: `Error generating low poly model`,
               type: "error",
@@ -90,7 +90,7 @@ const Style = () => {
             fetchUser();
             setSelectedOption("option4");
           },
-          onError: (error: any) => {
+          onError: () => {
             setToast({
               message: `Error generating realistic model`,
               type: "error",

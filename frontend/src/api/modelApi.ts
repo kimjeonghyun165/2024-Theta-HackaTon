@@ -1,7 +1,7 @@
 import { Model } from "../store/useModelStore";
 import { fetchFromApi } from "../utils/utils";
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://anvil3d.ai/api';
 
 export const generateRealistic3DModel = async (jwtToken: string | null, imageUrl: string, resolution: boolean) => {
     return fetchFromApi(API_BASE_URL, 'generate/model-realistic', {
