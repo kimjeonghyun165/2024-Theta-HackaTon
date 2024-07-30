@@ -60,7 +60,7 @@ const Prompt = () => {
           <CreditLabel credits={user?.credits ?? 0} />
         </div>
         <textarea
-          className="textarea textarea-bordered textarea-lg w-full h-80 resize-none bg-[#777777]/[.13] rounded-3xl"
+          className="textarea textarea-bordered textarea-lg w-full h-72 resize-none bg-[#777777]/[.13] rounded-3xl"
           placeholder="EX. a blacksmith bear with elk horn"
           value={model?.prompt}
           onChange={handlePromptChange}
@@ -72,7 +72,7 @@ const Prompt = () => {
         </div>
       </div>
       <button
-        className="btn btn-lg bg-fifth/[.13] mt-4 rounded-3xl w-1/2"
+        className="btn btn-lg bg-fifth/[.13] mt-4 rounded-3xl w-1/2 xl:"
         onClick={handleGenerate}
         disabled={isLoading}
       >

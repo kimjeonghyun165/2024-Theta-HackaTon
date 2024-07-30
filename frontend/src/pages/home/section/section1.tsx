@@ -83,7 +83,7 @@ const Section1 = () => {
         </div>
       </div>
       <div className="flex justify-center">
-        <label className="flex items-center justify-around w-full max-w-xs px-0 border-2 border-white rounded-full input input-bordered input-lg input-ghost focus-within:outline-white">
+        <label className="flex items-center justify-around px-0 border-2 border-white rounded-full input input-bordered input-lg input-ghost focus-within:outline-white">
           <input
             type="text"
             placeholder="Key In Prompt:"
@@ -93,7 +93,7 @@ const Section1 = () => {
             disabled={isLoading}
           />
           <button
-            className="px-4 mr-2 text-white rounded-full btn btn-ghost btn-lg focus:none"
+            className="px-4 text-white rounded-full btn btn-ghost btn-lg focus:none"
             onClick={handleGenerate}
             disabled={isLoading}
           >
