@@ -7,13 +7,16 @@ import {
   Stretch,
   Surface,
 } from "../../components/generate";
+import { useUserStore } from "../../store/useUserStore";
 
 const Customization = ({ onPostBtnClick }: any) => {
+  const user = useUserStore((state) => state.user);
+
   return (
     <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
       <div className="w-full flex flex-col items-center gap-2">
         <div className="flex w-full justify-end">
-          <CreditLabel />
+          <CreditLabel credits={user?.credits ?? 0} />
         </div>
         <div className="flex flex-col gap-4 w-full">
           <Shape />

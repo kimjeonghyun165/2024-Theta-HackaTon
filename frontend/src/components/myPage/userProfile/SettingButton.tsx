@@ -48,7 +48,7 @@ function SettingButton({ children }: { children: React.ReactNode }) {
   return (
     <>
       <button
-        className="bg-[#777]/[0.2] rounded-[30px] w-full py-7 text-2xl"
+        className="bg-[#777]/[0.2] rounded-[30px] w-full py-2 xl:py-7 text-2xl"
         onClick={openModal}
         aria-label="Open settings modal"
       >

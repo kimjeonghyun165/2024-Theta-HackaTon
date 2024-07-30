@@ -12,8 +12,8 @@ const Section5: React.FC = () => {
         <h1 className="text-[80px] font-semibold">Alliances</h1>
       </div>
       <div className="flex justify-center w-full mx-auto mt-20">
-        <div className="flex items-start justify-center">
-          <div className="relative flex flex-col w-[386px] h-[386px] justify-center items-center" aria-label="Korea Creative Content Agency">
+        <div className="flex flex-wrap items-start justify-center" data-aos="fade-out" data-aos-duration="1000" data-aos-easing="easeOutCubic">
+          <div className="relative flex flex-col w-[500px] h-[500px] justify-center items-center md:w-[386px] md:h-[386px]" aria-label="Korea Creative Content Agency">
             <div className="absolute">
               <Alliance />
             </div>
@@ -21,7 +21,7 @@ const Section5: React.FC = () => {
               <Kocca />
             </div>
           </div>
-          <div className="relative flex flex-col w-[386px] h-[386px] justify-center items-center" aria-label="Global Game Hub Center">
+          <div className="relative flex flex-col w-[500px] h-[500px] justify-center items-center md:w-[386px] md:h-[386px]" aria-label="Global Game Hub Center">
             <div className="absolute">
               <Alliance />
             </div>
@@ -29,7 +29,7 @@ const Section5: React.FC = () => {
               <GameHub />
             </div>
           </div>
-          <div className="relative flex flex-col w-[386px] h-[386px] justify-center items-center" aria-label="Global Game Hub Center">
+          <div className="relative flex flex-col w-[500px] h-[500px] justify-center items-center md:w-[386px] md:h-[386px]" aria-label="Global Game Hub Center">
             <div className="absolute">
               <Alliance />
             </div>

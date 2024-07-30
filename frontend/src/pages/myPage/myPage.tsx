@@ -6,7 +6,7 @@ import UserOwnModel from "../../components/myPage/UserOwnModel";
 const MyPage: React.FC = () => {
   return (
     <Layout>
-      <section className="flex flex-col w-4/5 gap-40 mx-auto rounded-3xl">
+      <section className="flex flex-col w-5/6 gap-40 mx-auto">
         <UserProfile />
         <UserOwnModel />
       </section>

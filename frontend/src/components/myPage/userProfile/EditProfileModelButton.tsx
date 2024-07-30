@@ -1,9 +1,15 @@
 import { useRef, useState } from "react";
 import { Ex1 } from "../../../assets/generate/imgSelect";
 import { Edit, Search } from "../../../assets/icons";
+import { useModelStore } from "../../../store/useModelStore";
 
 const EditProfileModelButton = () => {
   const [clickedBox, setClickedBox] = useState<number>(0);
+  const { models, fetchModels } = useModelStore((state) => ({
+    models: state.models,
+    fetchModels: state.fetchModels,
+  }));
+
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const openModal = () => {
@@ -17,6 +23,21 @@ const EditProfileModelButton = () => {
   };
   const handleClick = (num: number) => {
     setClickedBox(num);
+  };
+
+  const [modelCount, setModelCount] = useState(4);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+    const bottom =
+      target.scrollHeight - target.scrollTop === target.clientHeight;
+    if (bottom && models.length === modelCount) {
+      setIsLoading(true);
+      await fetchModels(modelCount, modelCount + 4);
+      setModelCount((prev) => prev + 4);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -55,8 +76,11 @@ const EditProfileModelButton = () => {
             </div>
             <button className="mr-10 text-white">Recent ▼</button>
           </div>
-          <div className="max-w-[1575px] max-h-[500px] overflow-y-scroll grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 4xl:grid-cols-5 gap-14 mt-10 myPage-scrollbar pr-7">
-            {new Array(12).fill(0).map((_, index) => {
+          <div
+            className="max-w-[1575px] max-h-[500px] overflow-y-scroll grid grid-cols-2 2xl:grid-cols-4 gap-y-14 mt-10 myPage-scrollbar"
+            onScroll={handleScroll}
+          >
+            {models.map((model, index) => {
               return (
                 <button
                   key={index}
@@ -71,10 +95,19 @@ const EditProfileModelButton = () => {
                   }}
                   onClick={() => handleClick(index)}
                 >
-                  <Ex1 />
+                  <img src={model.preview} />
                 </button>
               );
             })}
+            {isLoading ? (
+              <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+                Loading...
+              </span>
+            ) : models.length !== modelCount ? (
+              <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+                No More Models
+              </span>
+            ) : null}
           </div>
         </section>
       </dialog>

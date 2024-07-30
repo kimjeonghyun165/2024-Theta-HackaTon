@@ -7,10 +7,14 @@ export interface User {
     address: string;
     signature: string;
     message: string;
-    plan?: string;
-    profileImg?: string;
     username?: string;
+    email?: string;
+    plan?: string;
+    credits: number;
+    profileImg?: string;
     models?: string[];
+    likedModels: string[];
+    status: 'active' | 'inactive' | 'banned';
 }
 
 interface useUserState {

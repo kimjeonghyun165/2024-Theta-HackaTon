@@ -9,10 +9,10 @@ interface ToastProps {
 
 const Toast: React.FC<ToastProps> = ({ message, type, position, onClose }) => {
   useEffect(() => {
-    const timer = setTimeout(onClose, 3000);
+    const timer = setTimeout(onClose, 5000);
     return () => clearTimeout(timer);
   }, [onClose]);
-
+  console.log(type);
   const positionClass = () => {
     switch (position) {
       case "top-start":
@@ -32,7 +32,10 @@ const Toast: React.FC<ToastProps> = ({ message, type, position, onClose }) => {
     <div className={`toast ${positionClass()}`}>
       <div className={`alert alert-${type}`}>
         <span>{message}</span>
-        <button onClick={onClose} className="ml-2 text-lg font-bold">
+        <button
+          onClick={onClose}
+          className="ml-2 px-2 text-lg text-white font-bold"
+        >
           &times;
         </button>
       </div>

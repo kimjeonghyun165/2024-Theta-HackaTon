@@ -63,7 +63,9 @@ const App: React.FC = () => {
   }, [fetchUser, setJwtToken, setUser, jwtToken, logout]);
 
   useEffect(() => {
-    AOS.init();
+    AOS.init({
+      once: true
+    });
   }, []);
 
   return (

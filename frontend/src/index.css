@@ -24,3 +24,7 @@ select {
 html {
   scrollbar-width: none;
 }
+
+dialog {
+  scrollbar-width: none;
+}

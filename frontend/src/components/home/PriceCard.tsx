@@ -22,7 +22,7 @@ const PriceCard: React.FC<PriceCardProps> = ({
   const gradientClass = index % 2 === 0 ? "bg-gradient-v1" : "bg-gradient-v2";
 
   return (
-    <div className="flex flex-col items-center justify-center p-6">
+    <div className="flex flex-col items-center justify-center p-6 md:w-[250px]">
       <div
         className={`${gradientClass} h-full pb-6 rounded-none px-4 flex flex-col justify-between w-52`}
       >
