@@ -25,7 +25,12 @@ export const signMessageAndAuthenticate = async (web3: Web3, address: string) =>
     const { user } = useUserStore.getState();
 
     if (!user) {
-        await addUser({ address, signature, message });
+        await addUser({
+            address, signature, message,
+            credits: 0,
+            likedModels: [],
+            status: 'active'
+        });
     }
 
     return user;
