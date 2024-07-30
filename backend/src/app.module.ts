@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ModelsModule } from './models/models.module';
 import { PinataModule } from './pinata/pinata.module';
 import { FileModule } from './common/file/file.module';
+import { GenerateModelModule } from './generate-model/generate-model.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { FileModule } from './common/file/file.module';
     AuthModule,
     ModelsModule,
     PinataModule,
-    FileModule
+    FileModule,
+    GenerateModelModule
   ],
   controllers: [],
   providers: [],

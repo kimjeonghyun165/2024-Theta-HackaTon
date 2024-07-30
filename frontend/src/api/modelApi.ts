@@ -1,103 +1,37 @@
-// 파일: src/api/modelApi.ts
 import { Model } from "../store/useModelStore";
+import { fetchFromApi } from "../utils/utils";
 
-const BASE_URL = "http://18.218.73.197:5000";
 const API_BASE_URL = 'http://localhost:3000/api';
 
-export const generateRealistic3DModel = async (imageUrl: string, resolution: boolean) => {
-    const response = await fetch(`${BASE_URL}/generate-3d-model`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            image_url: imageUrl,
-            super_resolution: resolution,
-        }),
-    });
-
-    if (!response.ok) {
-        throw new Error(`Error generating image: ${response.statusText}`);
-    }
-
-    return response.json();
+export const generateRealistic3DModel = async (jwtToken: string | null, imageUrl: string, resolution: boolean) => {
+    return fetchFromApi(API_BASE_URL, 'generate/model-realistic', {
+        imageUrl: imageUrl,
+        superResolution: resolution,
+    }, 'POST', jwtToken);
 };
 
-export const generateLowPoly3DModel = async (imageUrl: string, strength: string) => {
-    const response = await fetch(`${BASE_URL}/generate-3d-lowpoly`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            image_url: imageUrl,
-            low_poly_strength: strength,
-        }),
-    });
-
-    if (!response.ok) {
-        throw new Error(`Error generating image: ${response.statusText}`);
-    }
-
-    return response.json();
+export const generateLowPoly3DModel = async (jwtToken: string | null, imageUrl: string, strength: string) => {
+    return fetchFromApi(API_BASE_URL, 'generate/model-lowpoly', {
+        imageUrl: imageUrl,
+        lowPolyStrength: strength,
+    }, 'POST', jwtToken);
 };
 
-export const generateImage = async (prompt: string) => {
-    const response = await fetch(`${BASE_URL}/generate-image`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt }),
-    });
-
-    if (!response.ok) {
-        throw new Error(`Error generating image: ${response.statusText}`);
-    }
-
-    return response.json();
+export const generateImage = async (jwtToken: string | null, prompt: string) => {
+    return fetchFromApi(API_BASE_URL, 'generate/image', {
+        prompt: prompt,
+    }, 'POST', jwtToken);
 };
 
 export const fetchModel = async (id: string) => {
-    const response = await fetch(`${API_BASE_URL}/models/getmodel/${id}`, {
-        method: 'GET',
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to fetch model');
-    }
-
-    return await response.json();
+    return fetchFromApi(API_BASE_URL, `models/${id}`, {}, 'GET');
 };
 
 export const fetchModels = async (offset: number = 0, limit: number = 30) => {
-    const response = await fetch(`${API_BASE_URL}/models/getallmodels?offset=${offset}&limit=${limit}`, {
-        method: 'GET',
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to fetch models');
-    }
-
-    return await response.json();
+    return fetchFromApi(API_BASE_URL, `models/list?offset=${offset}&limit=${limit}`, {}, 'GET');
 };
 
 export const addModel = async (model: Model, jwtToken: string | null) => {
-    const response = await fetch(`${API_BASE_URL}/models/postmodel`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`,
-        },
-        body: JSON.stringify(model),
-    });
-
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to add model');
-    }
-
-    return await response.json();
+    return fetchFromApi(API_BASE_URL, 'models/create', model, 'POST', jwtToken);
 };
+
