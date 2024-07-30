@@ -10,11 +10,11 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @Get('me')
     getMe(@Request() req) {
-        const userId = req.user.userId; // 인증된 사용자의 ID
+        const userId = req.user.userId;
         return this.usersService.findOneById(userId);
     }
 
-    @Post('register')
+    @Post('create')
     async register(@Body() createUserDto: CreateUserDto) {
         return this.usersService.findOrCreateUser(createUserDto);
     }

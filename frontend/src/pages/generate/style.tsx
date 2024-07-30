@@ -8,12 +8,18 @@ import { LowPolyCard, RealisticCard } from "../../components/generate/style";
 import { useModelStore } from "../../store/useModelStore";
 import { useOptionStore } from "../../store/useStore";
 import { useToast } from "../../components/common/Toast/ToastContext";
+import { useUserStore } from "../../store/useUserStore";
 
 const Style = () => {
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
   const { model, setModel } = useModelStore((state) => ({
     model: state.model,
     setModel: state.setModel,
+  }));
+  const { jwtToken, fetchUser, user } = useUserStore((state) => ({
+    jwtToken: state.jwtToken,
+    fetchUser: state.fetchUser,
+    user: state.user,
   }));
   const [superResolution, setSuperResolution] = useState<boolean>(false);
   const [rangeValue, setRangeValue] = useState<number>(0);
@@ -28,8 +34,17 @@ const Style = () => {
 
   const handleGenerateLowPoly = () => {
     if (model && model?.imgSelection !== null) {
+      setToast({
+        message: `lowpoly 3d asset generation in progress.\nPlease wait up to 1 minute.`,
+        type: "info",
+        position: "bottom-end",
+      });
       generateLowPoly(
-        { imageUrl: model.selectedImage, strength: rangeLabel },
+        {
+          jwtToken: jwtToken,
+          imageUrl: model.selectedImage,
+          strength: rangeLabel,
+        },
         {
           onSuccess: (data: { model_url: string; preview_url: string }) => {
             setModel({
@@ -37,11 +52,12 @@ const Style = () => {
               preview: data.preview_url,
               style: { method: "lowpoly", strength: rangeLabel },
             });
+            fetchUser();
             setSelectedOption("option4");
           },
           onError: (error: any) => {
             setToast({
-              message: `Error generating low poly model: ${error.message}`,
+              message: `Error generating low poly model`,
               type: "error",
               position: "bottom-end",
             });
@@ -53,8 +69,17 @@ const Style = () => {
 
   const handleGenerateRealistic = () => {
     if (model && model?.imgSelection !== null) {
+      setToast({
+        message: `Realistic 3d asset generation in progress.\nPlease wait up to 1 minute.`,
+        type: "info",
+        position: "bottom-end",
+      });
       generateRealistic(
-        { imageUrl: model.selectedImage, resolution: superResolution },
+        {
+          jwtToken: jwtToken,
+          imageUrl: model.selectedImage,
+          resolution: superResolution,
+        },
         {
           onSuccess: (data: { model_url: string; preview_url: string }) => {
             setModel({
@@ -62,11 +87,12 @@ const Style = () => {
               preview: data.preview_url,
               style: { method: "realistic", superResolution: superResolution },
             });
+            fetchUser();
             setSelectedOption("option4");
           },
           onError: (error: any) => {
             setToast({
-              message: `Error generating realistic model: ${error.message}`,
+              message: `Error generating realistic model`,
               type: "error",
               position: "bottom-end",
             });
@@ -98,7 +124,7 @@ const Style = () => {
     <div className="flex h-full flex-col items-center justify-between py-10 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
       <div className="w-full flex flex-col gap-3 px-16">
         <div className="flex w-full justify-end">
-          <CreditLabel />
+          <CreditLabel credits={user?.credits ?? 0} />
         </div>
         <div className="text-2xl text-white font-semibold text-left">style</div>
         <div>

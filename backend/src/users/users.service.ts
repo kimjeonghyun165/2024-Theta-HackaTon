@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ModelsService } from 'src/models/models.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
 
 @Injectable()
@@ -23,7 +24,30 @@ export class UsersService {
         return user;
     }
 
+    async updateUser(userId: string, updateUserDto: UpdateUserDto): Promise<User> {
+        const user = await this.userModel.findByIdAndUpdate(userId, updateUserDto, { new: true }).exec();
+        if (!user) {
+            throw new NotFoundException(`User with ID ${userId} not found`);
+        }
+        return user;
+    }
+
     async findOneById(userId: string): Promise<User> {
         return this.userModel.findById(userId).exec();
+    }
+
+    async deductCredits(userId: string, amount: number): Promise<User> {
+        const user = await this.findOneById(userId);
+
+        const updatedUser = await this.updateUser(userId, { credits: user.credits - amount });
+        return updatedUser;
+    }
+
+    async addCredits(userId: string, amount: number): Promise<User> {
+        const user = await this.findOneById(userId);
+
+        const updatedUser = await this.updateUser(userId, { credits: user.credits + amount });
+
+        return updatedUser;
     }
 }

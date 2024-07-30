@@ -23,23 +23,27 @@ export const useModels = (offset: number = 0, limit: number = 30) => {
 export const useGenerateRealistic3DModel = () => {
   return useMutation({
     mutationFn: ({
+      jwtToken,
       imageUrl,
       resolution,
     }: {
+      jwtToken: string | null
       imageUrl: string;
       resolution: boolean;
-    }) => generateRealistic3DModel(imageUrl, resolution),
+    }) => generateRealistic3DModel(jwtToken, imageUrl, resolution),
   });
 };
 
 export const useGenerateLowPoly3DModel = () => {
   return useMutation({
     mutationFn: ({
+      jwtToken,
       imageUrl,
       strength,
     }: {
+      jwtToken: string | null;
       imageUrl: string;
       strength: string;
-    }) => generateLowPoly3DModel(imageUrl, strength),
+    }) => generateLowPoly3DModel(jwtToken, imageUrl, strength),
   });
 };
