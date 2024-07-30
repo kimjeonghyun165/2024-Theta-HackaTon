@@ -9,7 +9,9 @@ import { useUserStore } from "../../../store/useUserStore";
 import { mintNFT } from "../../../utils/web3/nft";
 
 const Customization_Temporary = ({ onPostBtnClick }: any) => {
-  const user = useUserStore((state) => state.user);
+  const { user } = useUserStore((state) => ({
+    user: state.user,
+  }));
   const { model, setModel, addModel } = useModelStore((state) => ({
     model: state.model,
     setModel: state.setModel,

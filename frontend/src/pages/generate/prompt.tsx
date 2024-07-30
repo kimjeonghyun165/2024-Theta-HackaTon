@@ -27,7 +27,7 @@ const Prompt = () => {
       if (model.prompt !== "") {
         try {
           setToast({
-            message: `Image generation in progress. Please wait up to 1 minute.`,
+            message: `Image generation in progress.\nPlease wait up to 1 minute.`,
             type: "info",
             position: "bottom-end",
           });
@@ -64,6 +64,7 @@ const Prompt = () => {
           placeholder="EX. a blacksmith bear with elk horn"
           value={model?.prompt}
           onChange={handlePromptChange}
+          disabled={isLoading}
         ></textarea>
         <div className="text-sm text-second/[.49]">
           Tip: if you are generating full body model, try to include "full body

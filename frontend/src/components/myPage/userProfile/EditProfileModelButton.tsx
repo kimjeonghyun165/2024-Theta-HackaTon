@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { Ex1 } from "../../../assets/generate/imgSelect";
 import { Edit, Search } from "../../../assets/icons";
 import { useModelStore } from "../../../store/useModelStore";
 

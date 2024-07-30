@@ -1,7 +1,6 @@
 import { User } from "../store/useUserStore";
 import { fetchFromApi } from "../utils/utils";
-
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://anvil3d.ai/api';
 
 export const fetchUser = async (jwtToken: string | null) => {
     return fetchFromApi(

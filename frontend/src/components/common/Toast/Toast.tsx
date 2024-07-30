@@ -7,7 +7,12 @@ interface ToastProps {
   onClose: () => void;
 }
 
-const Toast: React.FC<ToastProps> = ({ message, type, position, onClose }) => {
+const Toast: React.FC<ToastProps> = ({
+  message,
+  type = "info",
+  position,
+  onClose,
+}) => {
   useEffect(() => {
     const timer = setTimeout(onClose, 5000);
     return () => clearTimeout(timer);

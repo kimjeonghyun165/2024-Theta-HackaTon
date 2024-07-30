@@ -83,11 +83,11 @@ export const useModelStore = create<useModelState>((set) => ({
       set((state) => ({
         models: [...state.models, ...models],
       }));
-    } catch (error) {   
+    } catch (error) {
       console.error(error);
     }
   },
-  
+
   addModel: async (model) => {
     const { jwtToken } = useUserStore.getState();
     try {
