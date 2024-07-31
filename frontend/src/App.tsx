@@ -15,6 +15,44 @@ import { ToastProvider } from "./components/common/Toast/ToastContext";
 
 const queryClient = new QueryClient();
 
+const thetaTestnetParams = {
+  chainId: "0x16d",
+  chainName: "Theta Testnet",
+  nativeCurrency: {
+    name: "Theta Fuel",
+    symbol: "TFUEL",
+    decimals: 18,
+  },
+  rpcUrls: ["https://eth-rpc-api-testnet.thetatoken.org/rpc"],
+  blockExplorerUrls: ["https://testnet-explorer.thetatoken.org/"],
+};
+
+const switchToThetaTestnet = async () => {
+  if (window.ethereum) {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: thetaTestnetParams.chainId }],
+      });
+    } catch (error: any) {
+      if (error.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [thetaTestnetParams],
+          });
+        } catch (addError) {
+          console.error(addError);
+        }
+      } else {
+        console.error(error);
+      }
+    }
+  } else {
+    console.error("MetaMask가 감지되지 않았습니다.");
+  }
+};
+
 const App: React.FC = () => {
   const logout = useLogout();
   const { jwtToken, setUser, fetchUser, setJwtToken } = useUserStore(
@@ -64,8 +102,12 @@ const App: React.FC = () => {
 
   useEffect(() => {
     AOS.init({
-      once: true
+      once: true,
     });
+  }, []);
+
+  useEffect(() => {
+    switchToThetaTestnet();
   }, []);
 
   return (
