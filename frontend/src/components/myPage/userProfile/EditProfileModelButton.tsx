@@ -83,7 +83,7 @@ const EditProfileModelButton = () => {
               return (
                 <button
                   key={index}
-                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center py-7 mx-auto ${
+                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center p-6 mx-auto ${
                     clickedBox === index ? "" : "bg-[#777777]/[0.2]"
                   }`}
                   style={{
@@ -94,7 +94,7 @@ const EditProfileModelButton = () => {
                   }}
                   onClick={() => handleClick(index)}
                 >
-                  <img src={model.preview} />
+                  <img src={model.preview}  className="rounded-[30px]"/>
                 </button>
               );
             })}

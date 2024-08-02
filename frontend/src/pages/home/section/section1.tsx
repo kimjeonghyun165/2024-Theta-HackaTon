@@ -7,6 +7,7 @@ import { useModelStore } from "../../../store/useModelStore";
 import { useOptionStore } from "../../../store/useStore";
 import { useUserStore } from "../../../store/useUserStore";
 import { useToast } from "../../../components/common/Toast/ToastContext";
+import Eclipse from "../../../assets/Eclipse";
 
 const Section1 = () => {
   const navigate = useNavigate();
@@ -66,20 +67,20 @@ const Section1 = () => {
   };
 
   return (
-    <section className="flex flex-col h-full gap-24">
+    <section className="relative flex flex-col gap-24">
       <div className="flex items-center justify-around">
-        <div className="w-full">
-          <h1 className="flex flex-col gap-6 ml-6 font-bold 2xl:ml-12 md:pl-16">
-            <span className="text-4xl lg:text-5xl xl:text-6xl tracking-[.3em]">
-              SMITH ALL
-              <br />
-              <p className="mt-4 tracking-[.05em]">IMAGINATION</p>
-            </span>
-            {/* <TypingEffect /> */}
+        <div className="flex flex-col gap-6 ml-6 font-bold 2xl:ml-12 md:pl-16">
+          <h1 className="text-4xl lg:text-5xl xl:text-7xl tracking-[1rem] w-full">
+            <p>SMITH ALL</p>
+            <p className="tracking-[.05em] mt-4">IMAGINATION</p>
           </h1>
+          <h2 className="w-full mt-8 text-base lg:text-base xl:text-3xl">THE BEST 3D MODEL GENERATIVE AI</h2>
         </div>
-        <div className="w-full">
+        <div className="w-1/2">
           <Anvil />
+        </div>
+        <div className="absolute w-[1100px] -bottom-[500px] -z-20">
+          <Eclipse />
         </div>
       </div>
       <div className="flex justify-center">

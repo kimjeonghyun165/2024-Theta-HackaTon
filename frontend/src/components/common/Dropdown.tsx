@@ -26,7 +26,7 @@ const DropDown: React.FC<DropDownProps> = ({
 
   return (
     <div className={`dropdown dropdown-${position} dropdown-end`}>
-      <div tabIndex={0} role="button" className="btn btn-ghost">
+      <div tabIndex={0} role="button">
         {buttonContent}
       </div>
       <ul

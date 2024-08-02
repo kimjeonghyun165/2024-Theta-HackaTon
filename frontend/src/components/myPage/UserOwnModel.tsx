@@ -79,7 +79,13 @@ const UserOwnModel = () => {
           </ModelBox>
         ))}
         {isLoading ? (
-          <span className="w-full text-2xl text-center">Loading</span>
+          <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+            Loading...
+          </span>
+        ) : models.length !== modelCount ? (
+          <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+            No More Models
+          </span>
         ) : null}
       </div>
     </section>
