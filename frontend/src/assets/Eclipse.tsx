@@ -17,8 +17,8 @@ const Eclipse = () => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(706 706) rotate(90) scale(706)"
         >
-          <stop stop-color="#2A2B71" />
-          <stop offset="0.496" stop-color="#001B48" />
+          <stop stopColor="#2A2B71" />
+          <stop offset="0.496" stopColor="#001B48" />
           <stop offset="1" />
         </radialGradient>
       </defs>

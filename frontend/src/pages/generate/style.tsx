@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   useGenerateRealistic3DModel,
   useGenerateLowPoly3DModel,
-} from "../../hooks/api/useModelApi";
+} from "../../hooks/tanstackQuery/useModelApi";
 import { CreditLabel } from "../../components/generate";
 import { LowPolyCard, RealisticCard } from "../../components/generate/style";
 import { useModelStore } from "../../store/useModelStore";
