@@ -52,12 +52,12 @@ const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
       >
         <div className="flex w-[1000px] p-10 items-center bg-sixteenth bg-opacity-50">
           <div className="w-1/2 h-full">
-            <ThreeScene
+            {/* <ThreeScene
               backgroundColor={0xffffff}
               backgroundOpacity={0}
               showGrid={false}
               modelPath={model?.file}
-            />
+            /> */}
           </div>
           <div className="flex flex-col w-1/2 gap-6 px-6">
             <InputField type="text" placeholder="Title :" />

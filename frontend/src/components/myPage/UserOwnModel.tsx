@@ -66,16 +66,16 @@ const UserOwnModel = () => {
             </ModelBox>
           )
           ))}
-        {/* {isFetchingNextPage ? (
+        {isFetchingNextPage ? (
           <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
             Loading...
           </span>
-        ) :  */}
-        {hasNextPage ?
-          null
-          : <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-            No More Models
-          </span>
+        ) :
+          hasNextPage ?
+            null
+            : <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+              No More Models
+            </span>
         }
       </div>
     </section>
