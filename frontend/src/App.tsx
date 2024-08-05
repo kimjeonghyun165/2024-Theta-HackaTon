@@ -118,7 +118,7 @@ const App: React.FC = () => {
         path="/model/generate"
         element={<ProtectedRoute element={<Generate />} />}
       />
-      {/* <Route path="/myPage" element={<ProtectedRoute element={<MyPage />} />} /> */}
+      <Route path="/myPage" element={<ProtectedRoute element={<MyPage />} />} />
     </Routes>
   );
 };

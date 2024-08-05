@@ -15,7 +15,7 @@ const UserOwnModel = () => {
     const bottom =
       target.scrollHeight - target.scrollTop === target.clientHeight;
     if (bottom && hasNextPage) {
-      await fetchNextPage()
+      fetchNextPage()
     }
   };
 
