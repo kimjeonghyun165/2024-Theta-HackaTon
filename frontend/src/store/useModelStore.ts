@@ -48,6 +48,7 @@ interface useModelState {
 }
 
 export const useModelStore = create<useModelState>((set) => ({
+  // const useModelStore = create<useModelState>((set) => ({
   model: {
     prompt: "",
     imgSelection: [],

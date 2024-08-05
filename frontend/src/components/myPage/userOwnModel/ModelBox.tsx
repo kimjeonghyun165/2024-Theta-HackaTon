@@ -2,15 +2,15 @@ import React, { useRef } from "react";
 import {
   Check,
   DownArrow,
-  Earth,
-  Lock,
+  // Earth,
+  // Lock,
   Market,
   Question,
 } from "../../../assets/icons";
-import { Model, useModelStore } from "../../../store/useModelStore";
+import { Model } from "../../../store/useModelStore";
 import IconBtn from "../../common/IconBtn";
 import InputField from "../../common/modal/InputField";
-import SwapIconBtn from "../../common/SwapIconBtn";
+// import SwapIconBtn from "../../common/SwapIconBtn";
 import ThreeScene from "../../common/threeScene/ThreeScene";
 
 interface ModelBoxProps {
@@ -21,10 +21,6 @@ interface ModelBoxProps {
 
 const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
   const modalRef = useRef<HTMLDialogElement>(null);
-  const { setModel } = useModelStore((state) => ({
-    setModel: state.setModel,
-  }));
-
   const openModal = () => {
     if (modalRef.current === null) return;
     modalRef.current.showModal();
@@ -32,12 +28,6 @@ const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
   const closeModal = () => {
     if (modalRef.current === null) return;
     modalRef.current.close();
-  };
-
-  const togglePublic = () => {
-    setModel({
-      visibility: model?.visibility === "public" ? "private" : "public",
-    });
   };
 
   return (
@@ -66,7 +56,7 @@ const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
               backgroundColor={0xffffff}
               backgroundOpacity={0}
               showGrid={false}
-              modelPath="https://gateway.pinata.cloud/ipfs/Qmbj6DwoZkKi9RkphF18ZyjGXYFs3AR2RKKNGN9gZe1LRg"
+              modelPath={model?.file}
             />
           </div>
           <div className="flex flex-col w-1/2 gap-6 px-6">
@@ -89,13 +79,13 @@ const ModelBox: React.FC<ModelBoxProps> = ({ model, children, role }) => {
               <IconBtn icon={Question} bgColor="bg-[#1C1C1C]/[.53]" />
             </div>
             <div className="flex items-center justify-around gap-6">
-              <SwapIconBtn
+              {/* <SwapIconBtn
                 swapOnIcon={Earth}
                 swapOffIcon={Lock}
                 bgColor={"bg-black/[.53]"}
                 isSwapped={model?.visibility === "public"}
                 onSwap={togglePublic}
-              />
+              /> */}
               <IconBtn icon={DownArrow} bgColor="bg-black/[.53]" />
               <div className="w-full mt-0 modal-action">
                 <button

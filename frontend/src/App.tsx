@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { ToastProvider } from "./components/common/Toast/ToastContext";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
@@ -127,6 +128,7 @@ const AppWrapper: React.FC = () => (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
         <App />
+        <ReactQueryDevtools />
       </ToastProvider>
     </QueryClientProvider>
   </Router>
