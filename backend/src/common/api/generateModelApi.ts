@@ -1,4 +1,4 @@
-const BASE_URL = "http://18.118.99.36:5000";
+const BASE_URL = process.env.MODEL_BASE_URL
 
 const generateRealistic3DModel = async (imageUrl: string, resolution: boolean) => {
     const response = await fetch(`${BASE_URL}/generate-3d-model`, {
