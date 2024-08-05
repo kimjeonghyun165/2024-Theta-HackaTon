@@ -1,4 +1,5 @@
-import { Layout } from "../../components/common/layout/home/Layout";
+
+import { Layout } from "../../components/common/layout/Layout";
 import {
   Section1,
   Section2,

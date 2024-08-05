@@ -8,7 +8,8 @@ import Logo from "../../../assets/Logo";
 
 export const Header = () => {
   const { user, jwtToken } = useUserStore();
-
+  const pathName = window.location.pathname;
+  console.log(pathName);
   const handleConnect = async () => {
     try {
       await connectAndSignMessage();
@@ -20,7 +21,7 @@ export const Header = () => {
   const logout = useLogout();
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-30 bg-opacity-95 backdrop-blur-[1px]">
+    <header className="sticky top-0 left-0 right-0 z-30 bg-opacity-95 backdrop-blur-[1px] h-12">
       <div className="relative flex justify-between py-2 navbar md:py-4 md:gap-1 lg:gap-2">
         <div className="flex">
           <a className="btn btn-ghost btn-sm md:btn-md" href="/">
@@ -28,7 +29,7 @@ export const Header = () => {
           </a>
         </div>
         <div className="flex items-center gap-6">
-          <div className="hidden gap-12 md:flex">
+          {pathName === "/" && <div className="hidden gap-12 md:flex">
             <Link
               to="about-section"
               smooth={true}
@@ -63,20 +64,24 @@ export const Header = () => {
             >
               Contact
             </Link>
+          </div>}
+
+          <div className="w-[120px] text-2xl btn btn-ghost">
+            {user && jwtToken ? (
+              <DropDown
+                buttonContent={<Avatar img={user.profileImg} />}
+                items={[
+                  { label: "Profile", href: "/mypage" },
+                  { label: "Logout", onClick: () => logout() },
+                ]}
+              />
+            ) : (
+              <span onClick={handleConnect}>
+                Log-In
+              </span>
+            )}
           </div>
-          {user && jwtToken ? (
-            <DropDown
-              buttonContent={<Avatar img={user.profileImg} />}
-              items={[
-                { label: "Profile", href: "/mypage" },
-                { label: "Logout", onClick: () => logout() },
-              ]}
-            />
-          ) : (
-            <div className="text-xl btn btn-ghost" onClick={handleConnect}>
-              Log-In
-            </div>
-          )}
+
         </div>
       </div>
     </header>

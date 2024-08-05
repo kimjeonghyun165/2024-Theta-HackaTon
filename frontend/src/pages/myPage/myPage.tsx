@@ -1,5 +1,5 @@
 import "../../components/myPage/scrollbarStyle.css";
-import { Layout } from "../../components/common/layout/myPage/Layout";
+import { Layout } from "../../components/common/layout/Layout";
 import UserProfile from "../../components/myPage/UserProfile";
 import UserOwnModel from "../../components/myPage/UserOwnModel";
 
