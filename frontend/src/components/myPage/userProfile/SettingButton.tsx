@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import "../scrollbarStyle.css";
 import SettingInformBox from "./SettingInformBox";
 
 function SettingButton({ children }: { children: React.ReactNode }) {
@@ -66,10 +65,12 @@ function SettingButton({ children }: { children: React.ReactNode }) {
         }}
         aria-labelledby="settings-dialog"
       >
-        <div className="flex w-[1000px] flex-col overflow-y-scroll px-20 py-20">
-          <h2 id="settings-dialog" className="text-5xl font-bold">
+        <div className="flex w-[1000px] flex-col overflow-y-scroll px-20 py-20 ">
+          <h2 id="settings-dialog" className="relative text-5xl font-bold">
             Setting
+            <button onClick={closeModal} className="absolute right-0 w-12 h-12 text-4xl rounded-full bg-eight">X</button>
           </h2>
+
           {settingsData.map((section, index) => (
             <SettingInformBox key={index} title={section.title} items={section.items} />
           ))}

@@ -1,8 +1,5 @@
-import {
-  Mirror_1,
-  Mirror_2,
-  Mirror_3,
-} from "../../../assets/generate/customization";
+import { Mirror_1, Mirror_2, Mirror_3 } from "../../../assets/generate/customization/Mirror";
+
 
 const mirrors = [Mirror_1, Mirror_2, Mirror_3];
 

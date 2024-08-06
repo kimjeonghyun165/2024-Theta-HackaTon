@@ -1,37 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useModelStore } from "../../store/useModelStore";
+import React, { useState } from "react";
 import { Check, Search } from "../../assets/icons";
 import ModelBox from "./userOwnModel/ModelBox";
+import { useFetchModels } from "../../hooks/tanstackQuery/useModelApi";
+import { Model } from "../../store/useModelStore";
 
 const UserOwnModel = () => {
-  const { models, fetchModels } = useModelStore((state) => ({
-    models: state.models,
-    fetchModels: state.fetchModels,
-  }));
-
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error, isError } = useFetchModels(4);
   const [isChecked, setIsChecked] = useState(false);
-  const [modelCount, setModelCount] = useState(4);
-  const initialLoad = useRef(true);
-  const [isLoading, setIsLoading] = useState(false);
-
   const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const bottom =
       target.scrollHeight - target.scrollTop === target.clientHeight;
-    if (bottom) {
-      setIsLoading(true);
-      await fetchModels(modelCount, modelCount + 4);
-      setModelCount((prev) => prev + 4);
-      setIsLoading(false);
+    if (bottom && hasNextPage) {
+      fetchNextPage()
     }
   };
-
-  useEffect(() => {
-    if (initialLoad.current) {
-      fetchModels(0, modelCount);
-      initialLoad.current = false;
-    }
-  }, []);
 
   return (
     <section className="bg-[#D0D0D0]/[.07] rounded-[30px] px-20 py-20">
@@ -73,20 +56,23 @@ const UserOwnModel = () => {
         role="list"
         aria-label="Model list"
       >
-        {models.map((model, index) => (
-          <ModelBox key={index} model={model} role="listitem">
-            <img src={model.preview} />
-          </ModelBox>
-        ))}
-        {isLoading ? (
-          <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-            Loading...
-          </span>
-        ) : models.length !== modelCount ? (
-          <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-            No More Models
-          </span>
-        ) : null}
+        {data?.pages.map((page) =>
+          page.map((model: Model, index: number) => (
+            <ModelBox key={index} model={model} role="listitem">
+              <img src={model.preview} />
+            </ModelBox>
+          )
+          ))}
+        <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+          {isError ? `${error}` : isFetchingNextPage ? (
+            "Loading..."
+          ) :
+            hasNextPage ?
+              null
+              :
+              "No More Models"
+          }
+        </span>
       </div>
     </section>
   );

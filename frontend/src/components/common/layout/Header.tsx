@@ -9,7 +9,6 @@ import Logo from "../../../assets/Logo";
 export const Header = () => {
   const { user, jwtToken } = useUserStore();
   const pathName = window.location.pathname;
-  console.log(pathName);
   const handleConnect = async () => {
     try {
       await connectAndSignMessage();

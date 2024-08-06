@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Check, Question } from "../../../assets/icons";
 import DownTriangle from "../../../assets/icons/DownTriangle";
-import { IconBtn } from "../../common";
+import IconBtn from "../../common/IconBtn";
+
 
 const icons = {
   License: Question,
@@ -70,7 +71,7 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
       <ul>
         {items.map(({ subtitle, content, type, options }, index) => (
           <li className="flex items-center gap-6 py-1 text-2xl" key={index}>
-            <span className="font-bold w-72">{subtitle}</span>
+            <h4 className="font-bold w-72">{subtitle}</h4>
             {type === "select" && options ? (
               <div className="relative inline-block">
                 <div
@@ -108,9 +109,9 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
                 </div>
               </div>
             ) : (
-              <span className="bg-fifth/[.2] rounded-[30px] px-10 flex items-center py-3 justify-center min-w-[280px]">
+              <h4 className="bg-fifth/[.2] rounded-[30px] px-10 flex items-center py-3 justify-center min-w-[280px]">
                 {content}
-              </span>
+              </h4>
             )}
             {type !== "select" && icons[subtitle as IconKeys] && (
               <IconBtn

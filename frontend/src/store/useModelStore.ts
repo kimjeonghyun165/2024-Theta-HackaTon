@@ -1,6 +1,6 @@
 import { create } from "zustand";
+import { addModel, fetchModel, fetchModels } from "../api/modelApi";
 import { useUserStore } from "./useUserStore";
-import { fetchModel, fetchModels, addModel } from "../api/modelApi";
 
 interface NFTDetails {
   isNft: boolean;
@@ -48,6 +48,7 @@ interface useModelState {
 }
 
 export const useModelStore = create<useModelState>((set) => ({
+  // const useModelStore = create<useModelState>((set) => ({
   model: {
     prompt: "",
     imgSelection: [],

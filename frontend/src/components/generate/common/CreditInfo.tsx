@@ -1,6 +1,6 @@
 import React from "react";
 import { Star } from "../../../assets/icons";
-import { Loading } from "../../common";
+import Loading from "../../common/Loading";
 
 interface CreditInfoProps {
   credits: number;
@@ -17,7 +17,7 @@ const CreditInfo: React.FC<CreditInfoProps> = ({
 }) => {
   return (
     <button
-      className="btn btn-ghost flex flex-col border-none text-white items-center w-1/2 rounded-2xl shadow-button bg-eleventh"
+      className="flex flex-col items-center w-1/2 text-white border-none btn btn-ghost rounded-2xl shadow-button bg-eleventh"
       onClick={onClick}
       disabled={isDisabled}
     >
@@ -25,7 +25,7 @@ const CreditInfo: React.FC<CreditInfoProps> = ({
         <Loading />
       ) : (
         <>
-          <div className="flex justify-center gap-2 items-center">
+          <div className="flex items-center justify-center gap-2">
             <Star opacity={isDisabled ? 0.2 : 1} />
             <span className="text-xs">{credits} Credits</span>
           </div>

@@ -17,7 +17,6 @@ const loadModel = (
                 fbx.traverse((child) => {
                     if ((child as THREE.Mesh).isMesh) {
                         const mesh = child as THREE.Mesh;
-
                         if (mesh.material) {
                             mesh.material = new THREE.MeshBasicMaterial({ vertexColors: true });
                         }

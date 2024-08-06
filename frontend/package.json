@@ -16,6 +16,7 @@
     "@react-three/drei": "^9.107.0",
     "@react-three/fiber": "^8.16.8",
     "@tanstack/react-query": "^5.51.15",
+    "@tanstack/react-query-devtools": "^5.51.21",
     "@truffle/hdwallet-provider": "^2.1.15",
     "@types/aos": "^3.0.7",
     "@types/web3": "^1.2.2",
