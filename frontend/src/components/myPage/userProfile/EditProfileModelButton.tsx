@@ -1,16 +1,12 @@
 import { useRef, useState } from "react";
 import { Edit, Search } from "../../../assets/icons";
-import { useModelStore } from "../../../store/useModelStore";
+import { Model } from "../../../store/useModelStore";
+import { useFetchModels } from "../../../hooks/tanstackQuery/useModelApi";
 
 const EditProfileModelButton = () => {
   const [clickedBox, setClickedBox] = useState<number>(0);
-  const { models, fetchModels } = useModelStore((state) => ({
-    models: state.models,
-    fetchModels: state.fetchModels,
-  }));
-
   const modalRef = useRef<HTMLDialogElement>(null);
-
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error, isError } = useFetchModels(4);
   const openModal = () => {
     if (modalRef.current === null) return;
     modalRef.current.showModal();
@@ -24,18 +20,12 @@ const EditProfileModelButton = () => {
     setClickedBox(num);
   };
 
-  const [modelCount, setModelCount] = useState(4);
-  const [isLoading, setIsLoading] = useState(false);
-
   const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const bottom =
       target.scrollHeight - target.scrollTop === target.clientHeight;
-    if (bottom && models.length === modelCount) {
-      setIsLoading(true);
-      await fetchModels(modelCount, modelCount + 4);
-      setModelCount((prev) => prev + 4);
-      setIsLoading(false);
+    if (bottom && hasNextPage) {
+      fetchNextPage();
     }
   };
 
@@ -59,8 +49,9 @@ const EditProfileModelButton = () => {
         }}
       >
         <section>
-          <h2 className="text-3xl font-bold pl-9 text-second">
+          <h2 className="relative text-3xl font-bold pl-9 text-second">
             PROFILE ASSET SELECTION
+            <button onClick={closeModal} className="absolute right-0 w-12 h-12 text-4xl rounded-full bg-eight">X</button>
           </h2>
           <div className="flex justify-between px-5 mt-10 text-2xl">
             <div className="w-2/3 rounded-[30px] bg-[#777]/[0.2] placeholder:text-white placeholder:text-2xl flex items-center px-5 gap-3 py-3">
@@ -79,13 +70,12 @@ const EditProfileModelButton = () => {
             className="max-w-[1575px] max-h-[500px] overflow-y-scroll grid grid-cols-2 2xl:grid-cols-4 gap-y-14 mt-10 myPage-scrollbar"
             onScroll={handleScroll}
           >
-            {models.map((model, index) => {
-              return (
+            {data?.pages.map((page) =>
+              page.map((model: Model, index: number) => (
                 <button
                   key={index}
-                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center p-6 mx-auto ${
-                    clickedBox === index ? "" : "bg-[#777777]/[0.2]"
-                  }`}
+                  className={`w-[293px] h-[293px] rounded-[30px] flex flex-col justify-between items-center p-6 mx-auto ${clickedBox === index ? "" : "bg-[#777777]/[0.2]"
+                    }`}
                   style={{
                     background:
                       clickedBox === index
@@ -94,19 +84,20 @@ const EditProfileModelButton = () => {
                   }}
                   onClick={() => handleClick(index)}
                 >
-                  <img src={model.preview}  className="rounded-[30px]"/>
+                  <img src={model.preview} className="rounded-[30px]" />
                 </button>
-              );
-            })}
-            {isLoading ? (
-              <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-                Loading...
-              </span>
-            ) : models.length !== modelCount ? (
-              <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-                No More Models
-              </span>
-            ) : null}
+              )
+              ))}
+            <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+              {isError ? `${error}` : isFetchingNextPage ? (
+                "Loading..."
+              ) :
+                hasNextPage ?
+                  null
+                  :
+                  "No More Models"
+              }
+            </span>
           </div>
         </section>
       </dialog>

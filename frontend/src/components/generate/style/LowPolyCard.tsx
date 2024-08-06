@@ -1,5 +1,8 @@
 import LowPoly from "../../../assets/generate/style/LowPoly";
-import { CardBody, CreditInfo, Range } from "../common";
+import CardBody from "../common/CardBody";
+import CreditInfo from "../common/CreditInfo";
+import { Range } from "../common/range/Range";
+
 
 interface LowPolyCardProps {
   rangeValue: number;
@@ -17,24 +20,24 @@ const LowPolyCard: React.FC<LowPolyCardProps> = ({
   isDisabled,
 }) => {
   return (
-    <div className="card relative pt-8 w-full max-w-3xl text-white pr-0">
-      <div className="absolute left-0 -top-1 flex justify-between">
+    <div className="relative w-full max-w-3xl pt-8 pr-0 text-white card">
+      <div className="absolute left-0 flex justify-between -top-1">
         <div className="w-1/2 pr-6">
           <LowPoly />
         </div>
-        <h2 className="text-3xl pr-4 font-extrabold">LOW POLY</h2>
+        <h2 className="pr-4 text-3xl font-extrabold">LOW POLY</h2>
       </div>
       <CardBody className="bg-[#A1B0FF]/[.17]">
         <div className="w-full pb-12 flex flex-col bg-[#A1B0FF]/[.07] rounded-3xl items-end">
-          <div className="w-1/2 mt-3 flex flex-col items-start gap-2">
+          <div className="flex flex-col items-start w-1/2 gap-2 mt-3">
             <label className="block text-lg font-medium">Polygon Count</label>
-            <div className="flex w-full justify-between pr-8 text-xs">
+            <div className="flex justify-between w-full pr-8 text-xs">
               <div>Low</div>
               <div>High</div>
             </div>
           </div>
           <div className="w-full mt-6">
-            <div className="bg-white h-1 flex justify-end">
+            <div className="flex justify-end h-1 bg-white">
               <div className="w-1/2 pr-10">
                 <Range
                   min={0}
@@ -47,9 +50,9 @@ const LowPolyCard: React.FC<LowPolyCardProps> = ({
             </div>
           </div>
         </div>
-        <div className="px-8 py-4 flex justify-between items-center pr-0">
+        <div className="flex items-center justify-between px-8 py-4 pr-0">
           <div>
-            <ul className="list-disc text-sm">
+            <ul className="text-sm list-disc">
               <li>Fast Generation</li>
               <li className="mt-1">
                 Optimized Model For <br /> Game Development

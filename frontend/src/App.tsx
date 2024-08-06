@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Home from "./pages/home/home";
-import Generate from "./pages/generate/generate";
-import MyPage from "./pages/myPage/myPage";
 import { useUserStore } from "./store/useUserStore";
 import connectAndSignMessage from "./utils/web3/setWeb3/connectAndSignMessage";
 import { isTokenExpired } from "./utils/auth";
 import { useLogout } from "./hooks/useLogout";
-import { ProtectedRoute } from "./components/common";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { ToastProvider } from "./components/common/Toast/ToastContext";
+import { ToastProvider } from "./components/common/ToastContext";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Home from "./pages/Home";
+import Generate3DModel from "./pages/Generate";
+import MyPage from "./pages/MyPage";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import Market from "./pages/Market";
 
 const queryClient = new QueryClient();
 
@@ -116,9 +117,10 @@ const App: React.FC = () => {
       <Route path="/" element={<Home />} />
       <Route
         path="/model/generate"
-        element={<ProtectedRoute element={<Generate />} />}
+        element={<ProtectedRoute element={<Generate3DModel />} />}
       />
       <Route path="/myPage" element={<ProtectedRoute element={<MyPage />} />} />
+      <Route path="/market" element={<Market />} />
     </Routes>
   );
 };

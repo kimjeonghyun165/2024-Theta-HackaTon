@@ -7,7 +7,7 @@ interface AvatarProps {
 const Avatar: React.FC<AvatarProps> = ({ img }) => {
   return (
     <div className="avatar">
-      <div className="w-12 rounded-full">
+      <div className="rounded-full">
         <img src={img} alt="Profile" />
       </div>
     </div>

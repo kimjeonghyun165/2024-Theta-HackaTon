@@ -1,8 +1,10 @@
 import React from "react";
 import Realistic from "../../../assets/generate/style/Realistic";
-import { CheckboxWithLabel, CreditInfo } from "../common";
+
 import CardBody from "../common/CardBody";
 import "./btn.css";
+import CheckboxWithLabel from "../common/CheckboxWithLabel";
+import CreditInfo from "../common/CreditInfo";
 
 interface RealisticCardProps {
   superResolution: boolean;
@@ -20,12 +22,12 @@ const RealisticCard: React.FC<RealisticCardProps> = ({
   handleGenerate,
 }) => {
   return (
-    <div className="card relative pt-8 w-full max-w-3xl text-white pr-0">
-      <div className="absolute -top-2 flex justify-between">
-        <h2 className="text-3xl pl-4 font-extrabold tracking-wider">
+    <div className="relative w-full max-w-3xl pt-8 pr-0 text-white card">
+      <div className="absolute flex justify-between -top-2">
+        <h2 className="pl-4 text-3xl font-extrabold tracking-wider">
           REALISTIC
         </h2>
-        <div className="w-1/2 flex justify-center">
+        <div className="flex justify-center w-1/2">
           <div className="w-1/2">
             <Realistic />
           </div>
@@ -40,9 +42,9 @@ const RealisticCard: React.FC<RealisticCardProps> = ({
             onChange={setSuperResolution}
           />
         </div>
-        <div className="px-8 py-4 flex justify-between items-center pr-0">
+        <div className="flex items-center justify-between px-8 py-4 pr-0">
           <div>
-            <ul className="list-disc text-sm">
+            <ul className="text-sm list-disc">
               <li>High Quality</li>
               <li className="mt-1">
                 Moderate Speed

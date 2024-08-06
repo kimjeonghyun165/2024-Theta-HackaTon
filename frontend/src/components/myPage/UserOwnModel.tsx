@@ -7,9 +7,6 @@ import { Model } from "../../store/useModelStore";
 const UserOwnModel = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error, isError } = useFetchModels(4);
   const [isChecked, setIsChecked] = useState(false);
-  if (isError) {
-    console.error(error);
-  }
   const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
     const bottom =
@@ -66,17 +63,16 @@ const UserOwnModel = () => {
             </ModelBox>
           )
           ))}
-        {isFetchingNextPage ? (
-          <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-            Loading...
-          </span>
-        ) :
-          hasNextPage ?
-            null
-            : <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-              No More Models
-            </span>
-        }
+        <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
+          {isError ? `${error}` : isFetchingNextPage ? (
+            "Loading..."
+          ) :
+            hasNextPage ?
+              null
+              :
+              "No More Models"
+          }
+        </span>
       </div>
     </section>
   );
