@@ -11,7 +11,6 @@ export const Header = () => {
   const pathName = window.location.pathname;
   const logout = useLogout();
 
-
   return (
     <header className="sticky top-0 left-0 right-0 z-30 bg-opacity-95 backdrop-blur-[1px] h-12">
       <div className="relative flex justify-between py-2 navbar md:py-4 md:gap-1 lg:gap-2">
@@ -74,6 +73,6 @@ export const Header = () => {
           )}
         </div>
       </div>
-    </header >
+    </header>
   );
 };

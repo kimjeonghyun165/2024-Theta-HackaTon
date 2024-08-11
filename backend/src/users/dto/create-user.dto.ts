@@ -21,6 +21,10 @@ export class CreateUserDto {
     readonly profileImg?: string;
 
     @IsOptional()
+    @IsUrl()
+    readonly representativeModel?: string;
+
+    @IsOptional()
     @IsArray()
     @IsMongoId({ each: true })
     readonly models?: Types.ObjectId[];

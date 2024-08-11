@@ -5,7 +5,7 @@ import { fetchFromApi } from "../utils/utils";
 export const fetchUser = async (jwtToken: string | null) => {
     return fetchFromApi(
         API_BASE_URL,
-        'users/me',
+        'user/account',
         {},
         'GET',
         jwtToken
@@ -15,7 +15,7 @@ export const fetchUser = async (jwtToken: string | null) => {
 export const addUser = async (user: User, jwtToken: string | null) => {
     return fetchFromApi(
         API_BASE_URL,
-        'users/create',
+        'user/create',
         user,
         'POST',
         jwtToken

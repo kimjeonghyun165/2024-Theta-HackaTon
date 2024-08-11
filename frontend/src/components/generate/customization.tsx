@@ -1,12 +1,12 @@
-import { Shape } from "@react-three/drei";
-
 import { useUserStore } from "../../store/useUserStore";
 import CreditLabel from "./common/CreditLabel";
+
+import RefreshArrow from "../../assets/generate/imgSelect/RefreshArrow";
+import Shape from "./customization/Shape";
 import Stretch from "./customization/Stretch";
 import Surface from "./customization/Surface";
 import Mirror from "./customization/Mirror";
 import Balloon from "./customization/Balloon";
-import RefreshArrow from "../../assets/generate/imgSelect/RefreshArrow";
 
 const Customization = ({ onPostBtnClick }: any) => {
   const user = useUserStore((state) => state.user);

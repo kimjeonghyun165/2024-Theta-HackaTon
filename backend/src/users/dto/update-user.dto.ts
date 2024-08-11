@@ -1,14 +1,10 @@
-import { IsString, IsOptional, IsNumber, IsEnum, IsArray, IsMongoId } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsEnum, IsArray, IsMongoId, IsUrl } from 'class-validator';
 import { Types } from 'mongoose';
 
 export class UpdateUserDto {
     @IsOptional()
     @IsString()
     readonly username?: string;
-
-    @IsOptional()
-    @IsString()
-    readonly email?: string;
 
     @IsOptional()
     @IsString()
@@ -19,8 +15,12 @@ export class UpdateUserDto {
     readonly credits?: number;
 
     @IsOptional()
-    @IsString()
+    @IsUrl()
     readonly profileImg?: string;
+
+    @IsOptional()
+    @IsUrl()
+    readonly representativeModel?: string;
 
     @IsOptional()
     @IsArray()

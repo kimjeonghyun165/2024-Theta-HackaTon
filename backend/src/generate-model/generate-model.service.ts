@@ -26,7 +26,6 @@ export class GenerateModelService {
         }
         const result = await generateImage(requestDto.prompt);
         await this.userService.deductCredits(userId, cost);
-        console.log(cost)
         return result;
     }
 

@@ -106,7 +106,7 @@ const EditModal: React.FC<PostPopupProps> = ({
             onChange={handleDescriptionChange}
           />
           <div className="w-full flex justify-between items-center bg-[#1C1C1C]/[.53] pl-4 rounded-full">
-            <p className="">Make as NFT?</p>
+            <p className="text-sm">Upload to Market?</p>
             <label
               className={`btn btn-circle border-none p-4 ${
                 model?.nftDetails.isNft ? "bg-[#191d24]" : "bg-[#1C1C1C]/[.53]"
@@ -123,9 +123,9 @@ const EditModal: React.FC<PostPopupProps> = ({
           <div className="flex justify-around gap-3">
             <InputField
               type="text"
-              placeholder="Price: 0.792 ETH"
+              placeholder="Price: $ 0.792"
               value={model?.nftDetails.price || 0}
-              isdisabled={!model?.nftDetails.isNft}
+              isDisabled={!model?.nftDetails.isNft}
               onChange={handlePriceChange}
             />
             <IconBtn icon={Market} bgColor="bg-[#1C1C1C]/[.53]" />

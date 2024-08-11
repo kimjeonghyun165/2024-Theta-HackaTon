@@ -42,15 +42,12 @@ export class Model extends Document {
 
     @Prop({ required: true, default: 'public' })
     visibility: 'private' | 'public';
-
-    @Prop({ type: Object, default: { isNft: false } })
-    nftDetails?: {
-        isNft: boolean,
-        ipfsFile?: string,
-        ipfsMetadata?: string,
-        isListed?: boolean,
-        price?: number
-    };
 }
 
 export const ModelSchema = SchemaFactory.createForClass(Model);
+
+
+// 모델 추가해야할 요소들
+// 리스팅 중인가 (판매중인가?), 판매중이라면 얼마에 판매중인가? (달러로 표기)
+// 얼만큼 팔렸고 얼마에 팔렸는가?, sell 횟수에 대한 요소와 거래량 값들을 기입
+// 거래내역?? 누가 얼마에 언제 삿는가? -> 필요할까? 몰라

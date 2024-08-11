@@ -1,6 +1,5 @@
 import React from "react";
 import Realistic from "../../../assets/generate/style/Realistic";
-
 import CardBody from "../common/CardBody";
 import "./btn.css";
 import CheckboxWithLabel from "../common/CheckboxWithLabel";
