@@ -4,9 +4,6 @@ import { addUser, fetchUser } from '../api/userApi';
 
 export interface User {
     _id?: string;
-    address: string;
-    signature: string;
-    message: string;
     username?: string;
     email?: string;
     plan?: string;
@@ -39,6 +36,7 @@ export const useUserStore = create<useUserState>()(
                 const { jwtToken } = get();
                 try {
                     const user = await fetchUser(jwtToken);
+                    console.log(jwtToken)
                     set({ user });
                 } catch (error) {
                     set({ user: null });

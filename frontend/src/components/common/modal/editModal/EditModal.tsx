@@ -6,7 +6,6 @@ import ThreeScene from "../../threeScene/ThreeScene";
 import ActionField from "./ActionField";
 import InputField from "../InputField";
 import TextAreaField from "../TextAreaField";
-import { mintNFT } from "../../../../utils/web3/nft";
 import { useFileStore } from "../../../../store/useStore";
 
 interface PostPopupProps {
@@ -41,14 +40,6 @@ const EditModal: React.FC<PostPopupProps> = ({
 
   const handlePostClick = async () => {
     if (model) {
-      if (model?.nftDetails.isNft === true) {
-        await mintNFT({
-          prompt: model.prompt,
-          title: model.title,
-          description: model.description,
-          preview: model.preview,
-        });
-      }
       await addModel(model);
     }
     onPostAndOpenNext();

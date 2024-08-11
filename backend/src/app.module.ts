@@ -4,8 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ModelsModule } from './models/models.module';
-import { PinataModule } from './pinata/pinata.module';
-import { FileModule } from './common/file/file.module';
 import { GenerateModelModule } from './generate-model/generate-model.module';
 
 @Module({
@@ -17,8 +15,6 @@ import { GenerateModelModule } from './generate-model/generate-model.module';
     UsersModule,
     AuthModule,
     ModelsModule,
-    PinataModule,
-    FileModule,
     GenerateModelModule
   ],
   controllers: [],

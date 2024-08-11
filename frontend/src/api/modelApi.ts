@@ -2,8 +2,6 @@ import { API_BASE_URL } from "../constant/url";
 import { Model } from "../store/useModelStore";
 import { fetchFromApi } from "../utils/utils";
 
-
-// models, generate
 export const addModel = async (model: Model, jwtToken: string | null) => {
   return fetchFromApi(API_BASE_URL, "models/create", model, "POST", jwtToken);
 };

@@ -1,16 +1,8 @@
 import { create } from 'zustand';
-import Web3 from 'web3';
 
 interface TypeState {
     selectedOption: string;
     setSelectedOption: (option: string) => void;
-}
-
-interface Web3State {
-    contract: any;
-    setContract: (contract: any) => void;
-    web3: Web3 | null;
-    setWeb3: (web3: any) => void
 }
 
 interface FileState {
@@ -24,13 +16,6 @@ export const useOptionStore = create<TypeState>((set) => ({
     setSelectedOption: (option) => set({ selectedOption: option }),
 }));
 
-export const useWeb3Store = create<Web3State>((set) => ({
-    contract: null,
-    setContract: (contract) => set({ contract: contract }),
-    web3: null,
-    setWeb3: (web3) => set({ web3: web3 })
-}),
-);
 
 export const useFileStore = create<FileState>((set) => ({
     fileUrl: '',

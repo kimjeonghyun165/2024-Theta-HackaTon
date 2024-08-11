@@ -4,9 +4,15 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true,
+  allowedHeaders: 'Content-Type,Authorization'
+};
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors();
+  app.enableCors(corsOptions);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({

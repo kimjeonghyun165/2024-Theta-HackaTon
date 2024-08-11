@@ -6,7 +6,7 @@ export const isTokenExpired = (token: string): boolean => {
         const currentTime = Date.now() / 1000;
         return decoded.exp < currentTime;
     } catch (error) {
-        console.error('Error decoding token:', error); // 디코딩 중 발생한 에러 출력
+        console.error('Error decoding token:', error);
         return true;
     }
 };

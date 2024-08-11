@@ -3,13 +3,10 @@ import { Document, Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class User extends Document {
-    @Prop({ required: true, unique: true })
-    address: string;
-
-    @Prop({ required: true, default: function () { return this.address; } })
+    @Prop({ required: true })
     username: string;
 
-    @Prop({ default: "" }) //추후에 유니크로 변경할 것.
+    @Prop({ default: "", unique: true })
     email: string;
 
     @Prop({ required: true, default: "BRONZE" })
