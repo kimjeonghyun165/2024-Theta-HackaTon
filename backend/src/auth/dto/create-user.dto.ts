@@ -3,13 +3,13 @@ import { IsString, IsNotEmpty } from 'class-validator';
 export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
-    readonly address: string;
+    readonly username: string;
 
     @IsString()
     @IsNotEmpty()
-    readonly signature: string;
+    readonly email: string;
 
     @IsString()
     @IsNotEmpty()
-    readonly message: string;
+    readonly profileImg: string;
 }

@@ -13,12 +13,18 @@ export class UsersService {
         private readonly modelService: ModelsService) { }
 
     async findOrCreateUser(createUserDto: CreateUserDto): Promise<User> {
-        const { address } = createUserDto;
-        let user = await this.userModel.findOne({ address }).exec();
+        const { username, email, profileImg } = createUserDto;
+        let user = await this.userModel.findOne({ email }).exec();
         if (!user) {
             user = new this.userModel({
-                address
+                username,
+                email,
+                profileImg
             });
+            await user.save();
+        } else {
+            user.username = username;
+            user.profileImg = profileImg;
             await user.save();
         }
         return user;
@@ -34,6 +40,14 @@ export class UsersService {
 
     async findOneById(userId: string): Promise<User> {
         return this.userModel.findById(userId).exec();
+    }
+
+    async getUserModels(userId: string) {
+        const user = await this.userModel.findById(userId).populate('models').exec();
+        if (!user) {
+            throw new NotFoundException(`User with ID ${userId} not found`);
+        }
+        return user.models;
     }
 
     async deductCredits(userId: string, amount: number): Promise<User> {

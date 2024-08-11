@@ -3,15 +3,10 @@ import { Types } from 'mongoose';
 
 export class CreateUserDto {
     @IsString()
-    readonly address: string;
+    readonly username: string;
 
-    @IsOptional()
     @IsString()
-    readonly username?: string;
-
-    @IsOptional()
-    @IsString()
-    readonly email?: string;
+    readonly email: string;
 
     @IsString()
     @IsOptional()

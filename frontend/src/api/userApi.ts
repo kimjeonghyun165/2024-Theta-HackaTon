@@ -2,8 +2,6 @@ import { API_BASE_URL } from "../constant/url";
 import { User } from "../store/useUserStore";
 import { fetchFromApi } from "../utils/utils";
 
-//users, auth
-
 export const fetchUser = async (jwtToken: string | null) => {
     return fetchFromApi(
         API_BASE_URL,
@@ -24,11 +22,8 @@ export const addUser = async (user: User, jwtToken: string | null) => {
     );
 };
 
-export const login = async (address: string, signature: string, message: string) => {
-    return fetchFromApi(
-        API_BASE_URL,
-        'auth/login',
-        { address, signature, message },
-        'POST'
-    );
+
+
+export const login = () => {
+    window.location.href = `${API_BASE_URL}/auth/google/login`;
 };
