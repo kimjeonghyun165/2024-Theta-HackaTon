@@ -21,6 +21,7 @@ module.exports = {
           'sixth' : '#D0D0D0',
           'seventh' : '#6A6A6A',
           'eight':'#77777733',
+          'twentyfirst':'#A1B0FF'
         },
       },
   },

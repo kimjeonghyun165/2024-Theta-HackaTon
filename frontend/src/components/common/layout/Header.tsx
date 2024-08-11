@@ -4,34 +4,13 @@ import { useUserStore } from "../../../store/useUserStore";
 import DropDown from "../Dropdown";
 import { useLogout } from "../../../hooks/useLogout";
 import Logo from "../../../assets/Logo";
-import { useEffect, useState } from "react";
-import LoginModal from "../modal/loginModal/LoginModal";
-import { useNavigate } from "react-router-dom";
+import AccountModalOpenButton from "../modal/accountModal/AccountModalOpenButton";
 
 export const Header = () => {
   const { user } = useUserStore();
-  const [isLoginModalVisible, setLoginModalVisible] = useState(false);
   const pathName = window.location.pathname;
   const logout = useLogout();
-  const navigate = useNavigate();
 
-  const handleCloseSecondModal = () => {
-    setLoginModalVisible(false);
-    navigate("/");
-  };
-
-  useEffect(() => {
-    const loginModal = document.getElementById(
-      "login_modal"
-    ) as HTMLDialogElement;
-    if (loginModal) {
-      if (isLoginModalVisible) {
-        loginModal.showModal();
-      } else {
-        loginModal.close();
-      }
-    }
-  }, [isLoginModalVisible]);
 
   return (
     <header className="sticky top-0 left-0 right-0 z-30 bg-opacity-95 backdrop-blur-[1px] h-12">
@@ -82,25 +61,19 @@ export const Header = () => {
               </Link>
             </div>
           )}
-          <div className="w-[120px] text-2xl btn btn-ghost">
-            {user ? (
-              <DropDown
-                buttonContent={<Avatar img={user.profileImg} />}
-                items={[
-                  { label: "Profile", href: "/mypage" },
-                  { label: "Logout", onClick: () => logout() },
-                ]}
-              />
-            ) : (
-              <div onClick={() => setLoginModalVisible(true)}>Log-In</div>
-            )}
-          </div>
-          <LoginModal
-            isVisible={isLoginModalVisible}
-            onClose={handleCloseSecondModal}
-          />
+          {user ? (
+            <DropDown
+              buttonContent={<Avatar img={user.profileImg} />}
+              items={[
+                { label: "Profile", href: "/mypage" },
+                { label: "Logout", onClick: () => logout() },
+              ]}
+            />
+          ) : (
+            <AccountModalOpenButton />
+          )}
         </div>
       </div>
-    </header>
+    </header >
   );
 };
