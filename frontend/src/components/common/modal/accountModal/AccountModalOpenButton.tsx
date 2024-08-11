@@ -1,35 +1,75 @@
-import { useRef, useState } from 'react'
-import LoginModal from './LoginModal';
-import SignUpModal from './SignUpModal';
-import ResetPasswordModal from './ResetPasswordModal';
+import { useRef, useState } from "react";
+import LoginModal from "./LoginModal";
+import SignUpModal from "./SignUpModal";
+import ResetPasswordModal from "./ResetPasswordModal";
 
 const AccountModalOpenButton = () => {
   const accountModalRef = useRef<HTMLDialogElement>(null);
   const [selectOption, setSelectOption] = useState<string>("Login");
+
+  const openModal = () => {
+    accountModalRef?.current?.showModal();
+  };
+
+  const closeModal = (e: React.MouseEvent) => {
+    if (e.target === accountModalRef.current) {
+      accountModalRef?.current?.close();
+    }
+  };
+
+  const renderModalContent = () => {
+    switch (selectOption) {
+      case "Login":
+        return <LoginModal setSelectOption={setSelectOption} />;
+      case "resetPassword":
+        return <ResetPasswordModal />;
+      case "SignUp":
+        return <SignUpModal />;
+      default:
+        return null;
+    }
+  };
+
+  const renderOptionButton = (option: string, label: string) => (
+    <label className="label cursor-pointer w-full">
+      <input
+        type="radio"
+        aria-label={label}
+        className="hidden"
+        onClick={() => setSelectOption(option)}
+        defaultChecked={selectOption === option}
+      />
+      <div
+        className={`btn btn-lg btn-ghost border-none text-2xl p-4 py-0 rounded-3xl text-white flex items-center justify-center min-w-[140px] h-[48px] ${
+          selectOption === option ? "bg-sixteenth" : "bg-none"
+        }`}
+      >
+        {label}
+      </div>
+    </label>
+  );
+
   return (
     <>
-      <button className="w-[140px] text-2xl btn btn-ghost" onClick={() => accountModalRef?.current?.showModal()} > Log - In</button >
+      <button className="w-[140px] text-2xl btn btn-ghost" onClick={openModal}>
+        Log-In
+      </button>
       <dialog
         ref={accountModalRef}
         id="login_modal"
         className="modal backdrop-blur-md rounded-3xl"
-        onClick={(e) => { e.target === accountModalRef.current ? accountModalRef?.current?.close() : null }}
+        onClick={closeModal}
       >
-        <div className="absolute top-0 z-10 gap-20 py-5">
-          <button
-            className={`text-3xl border-b-2 mr-10 ${selectOption === "Login" ? "text-white border-b-white" : "text-white border-b-transparent hover:border-b-gray-700"}`}
-            onClick={() => setSelectOption("Login")}
-          >
-            Login
-          </button>
-          <button className={`text-3xl border-b-2 ${selectOption === "SignUp" ? "text-white border-b-white" : "text-white border-b-transparent hover:border-b-gray-700"}`} onClick={() => setSelectOption("SignUp")}>Sign Up</button>
-        </div>
-        <div className='w-1/2 mx-auto'>
-          {selectOption === "Login" ? <LoginModal setSelectOption={setSelectOption} /> : selectOption === "resetPassword" ? <ResetPasswordModal /> : <SignUpModal />}
+        <div className="w-full flex items-start justify-center mx-auto">
+          <div className="flex flex-col items-center z-10 px-4">
+            {renderOptionButton("Login", "Login")}
+            {renderOptionButton("SignUp", "Sign Up")}
+          </div>
+          {renderModalContent()}
         </div>
       </dialog>
     </>
-  )
-}
+  );
+};
 
-export default AccountModalOpenButton
+export default AccountModalOpenButton;

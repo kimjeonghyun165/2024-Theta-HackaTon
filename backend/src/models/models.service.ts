@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model as MongooseModel, Types } from 'mongoose';
 import { User } from 'src/users/schema/user.schema';
 import { CreateModelDto } from './dto/create-model.dto';
+import { FilterModelDto } from './dto/filter-model.dto';
 import { UpdateModelDto } from './dto/update-model.dto';
 import { Model } from './schema/model.schema';
 
@@ -57,15 +58,9 @@ export class ModelsService {
         return deletedModel;
     }
 
-    async getFilteredModels(query: {
-        createdBy?: string;
-        visibility?: 'private' | 'public';
-        sortBy?: 'createdAt' | 'like';
-        sortOrder?: 'asc' | 'desc';
-        offset?: number;
-        limit?: number;
-    }): Promise<Model[]> {
-        const { createdBy, visibility, sortBy = 'createdAt', sortOrder = 'desc', offset = 0, limit = 10 } = query;
+    //내부 함수 (백엔드 내에서만 굴러가는 함수) -> 유저 모델 필터링 기능.
+    async getFilteredModels(filterModelDto: FilterModelDto): Promise<Model[]> {
+        const { createdBy, visibility, sortBy = 'createdAt', sortOrder = 'desc', offset = 0, limit = 10 } = filterModelDto;
 
         const filter: any = {};
         if (createdBy) {
@@ -74,6 +69,22 @@ export class ModelsService {
         if (visibility) {
             filter.visibility = visibility;
         }
+
+        return this.modelModel
+            .find(filter)
+            .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
+            .skip(offset)
+            .limit(limit)
+            .exec();
+    }
+
+    //Api 호출용 함수, 마켓과 같은 퍼블릭에서 사용되는 기능
+    async getFilterPublicModels(filterModelDto: FilterModelDto): Promise<Model[]> {
+        const { sortBy = 'createdAt', sortOrder = 'desc', offset = 0, limit = 10 } = filterModelDto;
+
+        const filter: any = {
+            visibility: 'public',
+        };
 
         return this.modelModel
             .find(filter)

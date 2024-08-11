@@ -55,7 +55,10 @@ const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/model/generate" element={<Generate3DModel />} />
+      <Route
+        path="/model/generate"
+        element={<ProtectedRoute element={<Generate3DModel />} />}
+      />
       <Route path="/myPage" element={<ProtectedRoute element={<MyPage />} />} />
       <Route path="/market" element={<Market />} />
     </Routes>

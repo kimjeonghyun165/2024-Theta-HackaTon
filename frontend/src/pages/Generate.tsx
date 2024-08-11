@@ -10,18 +10,31 @@ import { Layout } from "../components/common/layout/generate/Layout";
 import AnimatedContent from "../components/generate/common/AnimatedContent";
 import SuccessModal from "../components/common/modal/successModal/SuccessModal";
 import Customization from "../components/generate/customization";
+import EditModal from "../components/common/modal/editModal/EditModal";
 
 const Generate3DModel: React.FC = () => {
   const selectedOption = useOptionStore((state) => state.selectedOption);
+  const [isFirstModalVisible, setFirstModalVisible] = useState(false);
   const [isSecondModalVisible, setSecondModalVisible] = useState(false);
 
   const model = useModelStore((state) => state.model);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const editModal = document.getElementById(
+      "edit_modal"
+    ) as HTMLDialogElement;
     const successModal = document.getElementById(
       "success_modal"
     ) as HTMLDialogElement;
+
+    if (editModal) {
+      if (isFirstModalVisible) {
+        editModal.showModal();
+      } else {
+        editModal.close();
+      }
+    }
 
     if (successModal) {
       if (isSecondModalVisible) {
@@ -32,6 +45,8 @@ const Generate3DModel: React.FC = () => {
     }
   }, [isSecondModalVisible]);
 
+  const handleOpenFirstModal = () => setFirstModalVisible(true);
+  const handleCloseFirstModal = () => setFirstModalVisible(false);
   const handleOpenSecondModal = () => setSecondModalVisible(true);
   const handleCloseSecondModal = () => {
     setSecondModalVisible(false);
@@ -39,6 +54,7 @@ const Generate3DModel: React.FC = () => {
   };
 
   const handlePostAndOpenNext = () => {
+    handleCloseFirstModal();
     handleOpenSecondModal();
   };
 
@@ -56,7 +72,7 @@ const Generate3DModel: React.FC = () => {
             <Style />
           </AnimatedContent>
           <AnimatedContent isVisible={selectedOption === "option4"}>
-            <Customization onPostBtnClick={handlePostAndOpenNext} />
+            <Customization onPostBtnClick={handleOpenFirstModal} />
           </AnimatedContent>
         </div>
         <div className="w-1/2 h-full">
@@ -67,6 +83,11 @@ const Generate3DModel: React.FC = () => {
             modelPath={model?.file}
           />
         </div>
+        <EditModal
+          isVisible={isFirstModalVisible}
+          onClose={handleCloseFirstModal}
+          onPostAndOpenNext={handlePostAndOpenNext}
+        />
         <SuccessModal
           isVisible={isSecondModalVisible}
           onClose={handleCloseSecondModal}

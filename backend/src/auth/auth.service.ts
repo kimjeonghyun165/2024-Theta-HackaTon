@@ -14,7 +14,7 @@ export class AuthService {
         const createUserDto: CreateUserDto = {
             username: user.firstName + ' ' + user.lastName,
             email: user.email,
-            profileImg: user.picture
+            profileImg: user.photo
         };
         const userData = await this.usersService.findOrCreateUser(createUserDto);
 
