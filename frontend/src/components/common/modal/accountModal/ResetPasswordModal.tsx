@@ -2,12 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form"
 import { z } from "zod";
 import InputField from "../InputField";
-
-
+import { useState } from "react";
 
 const ResetPasswordModal = () => {
   interface IResetPassword {
     email: string,
+    accessKey: string,
     password: string,
     confirmPassword: string,
   }
@@ -30,6 +30,15 @@ const ResetPasswordModal = () => {
   }); // 왜 안되지
 
   const { handleSubmit, register, watch, formState: { errors } } = useForm<IResetPassword>({ resolver: zodResolver(resetPasswordSchema) });
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidKey, setIsValidKey] = useState(false);
+
+  const clickSendKeyButton = () => {
+    setIsValidEmail(true);
+  }
+  const clickVerifyCodeButton = () => {
+    setIsValidKey(true);
+  }
   const clickResetPasswordButton = () => {
   }
 
@@ -39,15 +48,41 @@ const ResetPasswordModal = () => {
         <div className="label">
           <span className="ml-3 text-xl text-white label-text">Email</span>
         </div>
-        <InputField
-          type="email"
-          placeholder="anvil3dai@gmail.com"
-          className="pl-8 py-7"
-          register={register('email')}
-        />
+        <div className="flex gap-3">
+          <InputField
+            type="email"
+            placeholder="anvil3dai@gmail.com"
+            className="pl-8 py-7"
+            register={register('email')}
+          />
+          <button className="text-xl text-white bg-gray-900 rounded-full hover:bg-gray-700" onClick={clickSendKeyButton}>
+            Send Code
+          </button>
+        </div>
         {errors.email?.message && <span>{errors.email?.message}</span>}
       </label>
-      <label className="w-full form-control">
+      {isValidEmail && <label className="w-full form-control">
+        <div className="label">
+          <span className="ml-3 text-xl text-white label-text">Verify Code</span>
+        </div>
+        <div className="flex gap-3">
+          <InputField
+            type="string"
+            placeholder="Enter Verify Code"
+            className="pl-8 py-7"
+            register={register('accessKey')}
+          />
+          <button className="text-xl text-white bg-gray-900 rounded-full hover:bg-gray-700" onClick={clickVerifyCodeButton}>
+            Verify Code
+          </button>
+        </div>
+        {errors.accessKey?.message && <span>{errors.accessKey?.message}</span>}
+      </label>
+      }
+      {
+        isValidKey &&
+        <>
+        <label className="w-full form-control">
         <div className="label">
           <span className="ml-3 text-xl text-white label-text">Password</span>
         </div>
@@ -69,17 +104,13 @@ const ResetPasswordModal = () => {
           className="pl-8 py-7"
           register={register('confirmPassword')}
         />
-        {errors.password?.message && <span>{errors.password?.message}</span>}
+        {errors.confirmPassword?.message && <span>{errors.confirmPassword?.message}</span>}
       </label>
-      <button className="w-full text-xl text-white rounded-full btn btn-xl" type="submit">
-        Send Code
-      </button>
-      <button className="w-full text-xl text-white rounded-full btn btn-xl" type="submit">
-        Verify Code
-      </button>
-      <button className="w-full text-xl text-white rounded-full btn btn-xl" type="submit">
+      <button className="w-full text-xl text-white rounded-full btn btn-xl" onClick={clickSendKeyButton} type="submit">
         Reset Password
       </button>
+      </>
+      }
     </form>
   )
 }
