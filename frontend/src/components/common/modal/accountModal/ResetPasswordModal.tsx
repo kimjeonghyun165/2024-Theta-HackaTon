@@ -13,7 +13,7 @@ const ResetPasswordModal = () => {
   }
   const resetPasswordSchema = z
     .object({
-      email: z.string().email({ message: "invalid mail" }).toLowerCase(),
+      email: z.string().email({ message: "invalid Email" }).toLowerCase(),
       password: z
         .string()
         .min(8, { message: "Password must be at least 8 characters long" })
@@ -21,16 +21,16 @@ const ResetPasswordModal = () => {
           /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
           {
             message:
-              "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
+              "At least 8 characters, Contain both lower- and upper-case letters, Contain a number, Contain a special character, e.g.: -!@#$%^&*+",
           }
         ),
       confirmPassword: z.string(),
-      accessKey: z.string({ message: "enter the accessKey" }),
+      accessKey: z.string().refine((val) => val.trim() !== "",{message:"Enter Verify Code"}),
     })
     .refine((val) => val.password === val.confirmPassword, {
       message: "Passwords do not match",
       path: ["confirmPassword"],
-    }); // 왜 안되지
+    });
 
   const {
     handleSubmit,
@@ -47,93 +47,57 @@ const ResetPasswordModal = () => {
   const clickVerifyCodeButton = () => {
     setIsValidKey(true);
   };
-  const clickResetPasswordButton = () => {};
+  const clickResetPasswordButton = () => { };
 
   return (
     <form
       onSubmit={handleSubmit(clickResetPasswordButton)}
       className="flex flex-col w-full gap-6 modal-box bg-sixteenth"
     >
-      <label className="w-full form-control">
-        <div className="label">
-          <span className="ml-3 text-xl text-white label-text">Email</span>
-        </div>
-        <div className="flex gap-3">
-          <InputField
-            type="email"
-            placeholder="anvil3dai@gmail.com"
-            className="pl-8 py-7"
-            register={register("email")}
-          />
-          <button
-            className="text-xl text-white bg-gray-900 rounded-full hover:bg-gray-700"
-            onClick={clickSendKeyButton}
-          >
-            Send Code
-          </button>
-        </div>
-        {errors.email?.message && <span>{errors.email?.message}</span>}
-      </label>
+        <InputField
+          label="Email"
+          type="email"
+          placeholder="anvil3dai@gmail.com"
+          className="pl-8 py-7"
+          register={register("email")}
+          errorMessage={errors.email?.message}
+          button="Send Code"
+          buttonFn={clickSendKeyButton}
+        />
       {isValidEmail && (
-        <label className="w-full form-control">
-          <div className="label">
-            <span className="ml-3 text-xl text-white label-text">
-              Verify Code
-            </span>
-          </div>
-          <div className="flex gap-3">
-            <InputField
-              type="string"
-              placeholder="Enter Verify Code"
-              className="pl-8 py-7"
-              register={register("accessKey")}
-            />
-            <button
-              className="text-xl text-white bg-gray-900 rounded-full hover:bg-gray-700"
-              onClick={clickVerifyCodeButton}
-            >
-              Verify Code
-            </button>
-          </div>
-          {errors.accessKey?.message && (
-            <span>{errors.accessKey?.message}</span>
-          )}
-        </label>
+        <div className="flex w-full gap-3 form-control">
+          <InputField
+            label="Verify Code"
+            type="string"
+            placeholder="Enter Verify Code"
+            className="pl-8 py-7"
+            register={register("accessKey")}
+            errorMessage={errors.accessKey?.message}
+            button="Verify Code"
+            buttonFn={clickVerifyCodeButton}
+          />
+        </div>
       )}
       {isValidKey && (
         <>
-          <label className="w-full form-control">
-            <div className="label">
-              <span className="ml-3 text-xl text-white label-text">
-                Password
-              </span>
-            </div>
+          <div className="w-full form-control">
             <InputField
+              label="Password"
               type="password"
               placeholder="Enter Password"
               className="pl-8 py-7"
               register={register("password")}
+              errorMessage={errors.password?.message}
             />
-            {errors.password?.message && (
-              <span>{errors.password?.message}</span>
-            )}
-          </label>
-          <label className="w-full form-control">
-            <div className="label">
-              <span className="ml-3 text-xl text-white label-text">
-                Confirm Password
-              </span>
-            </div>
-            <InputField
-              type="password"
-              placeholder="Enter Password"
-              className="pl-8 py-7"
-              register={register("confirmPassword")}
-            />
-            {errors.confirmPassword?.message && (
-              <span>{errors.confirmPassword?.message}</span>
-            )}
-          </label>
+          </div>
+          <InputField
+            label="Confirm Password"
+            type="password"
+            placeholder="Enter Password"
+            className="pl-8 py-7"
+            register={register("confirmPassword")}
+            errorMessage={errors.confirmPassword?.message}
+          />
           <button
             className="w-full text-xl text-white rounded-full btn btn-xl"
             onClick={clickSendKeyButton}

@@ -2,15 +2,16 @@ import { z } from "zod";
 import InputField from "../InputField";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Route } from "react-router-dom";
 import { useState } from "react";
 import { Check } from "../../../../assets/icons";
 
 const SignUpModal = () => {
   const signUpSchema = z
     .object({
-      name: z.string(),
-      email: z.string().email({ message: "invalid mail" }).toLowerCase(),
+      name: z.string().refine((value) => value.trim() !== "", {
+        message: "Name cannot be just spaces",
+      }),
+      email: z.string().email({ message: "invalid Email" }).toLowerCase(),
       password: z
         .string()
         .min(8, { message: "Password must be at least 8 characters long" })
@@ -18,20 +19,20 @@ const SignUpModal = () => {
           /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
           {
             message:
-              "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
+              "At least 8 characters... Contain both lower- and upper-case letters... Contain a number... Contain a special character e.g.: -!@#$%^&*+",
           }
         ),
       confirmPassword: z.string(),
-      accessKey: z.string({ message: "enter the accessKey" }),
+      accessKey: z.string().refine((val) => val.trim() !== "",{message:"Enter Verify Code"}),
     })
     .refine((val) => val.password === val.confirmPassword, {
       message: "Passwords do not match",
       path: ["confirmPassword"],
-    }); // 왜 안되지
+    });
 
-  const sendAccessKey = async (email: string) => {};
+  const sendAccessKey = async (email: string) => { };
 
-  const checkAccessKey = async (email: string, accessKey: string) => {};
+  const checkAccessKey = async (email: string, accessKey: string) => { };
 
   const signUp = async (data: ISignUp) => {
     const dataToJson = JSON.stringify({
@@ -70,77 +71,83 @@ const SignUpModal = () => {
     console.log(data);
   };
   const [isChecked, setIsChecked] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidKey, setIsValidKey] = useState(false);
+  const clickSendKeyButton = () => {
+    setIsValidEmail(true);
+  };
+  const clickVerifyCodeButton = () => {
+    setIsValidKey(true);
+  };
   return (
     <>
       <form
         onSubmit={handleSubmit(clickSignUpButton)}
         className="flex flex-col w-full gap-6 modal-box bg-sixteenth"
       >
-        <label className="w-full form-control">
-          <div className="label">
-            <span className="ml-3 text-xl text-white label-text">name</span>
-          </div>
           <InputField
+            label="Name"
             type="name"
             placeholder="anvil3dai@gmail.com"
             className="pl-8 py-7"
             register={register("name")}
+            errorMessage={errors.name?.message}
           />
-          {errors.name?.message && <span>{errors.name?.message}</span>}
-        </label>
-        <label className="w-full form-control">
-          <div className="label">
-            <span className="ml-3 text-xl text-white label-text">Email</span>
-          </div>
           <InputField
+            label="Email"
             type="email"
             placeholder="anvil3dai@gmail.com"
             className="pl-8 py-7"
             register={register("email")}
+            errorMessage={errors.email?.message}
+            button="Send Code"
+            buttonFn={clickSendKeyButton}
           />
-          {errors.email?.message && <span>{errors.email?.message}</span>}
-        </label>
-        <label className="w-full form-control">
-          <div className="label">
-            <span className="ml-3 text-xl text-white label-text">Password</span>
-          </div>
-          <InputField
-            type="password"
-            placeholder="Enter Password"
-            className="pl-8 py-7"
-            register={register("password")}
-          />
-          {errors.password?.message && <span>{errors.password?.message}</span>}
-        </label>
-        <label className="w-full form-control">
-          <div className="label">
-            <span className="ml-3 text-xl text-white label-text">
-              Confirm Password
-            </span>
-          </div>
-          <InputField
-            type="password"
-            placeholder="Enter Password"
-            className="pl-8 py-7"
-            register={register("confirmPassword")}
-          />
-          {errors.confirmPassword?.message && (
-            <span>{errors.confirmPassword?.message}</span>
-          )}
-        </label>
-        <div className="flex items-center gap-5 mt-2 ml-3 text-base">
-          <button
-            className="w-[30px] h-[30px] rounded-[5px] bg-[#777]/[0.2] flex justify-center items-center"
-            onClick={() => setIsChecked((prev) => !prev)}
-            aria-label="Toggle check"
-          >
-            {isChecked ? <Check /> : <div className="w-[51px]" />}
-          </button>
-          <span>
-            I agree to the
-            <a className="text-[#A1B0FF] ml-1">Terms & Conditions</a>
-          </span>
-        </div>
+        {isValidEmail && (
+            <InputField
+              label="Verify Code"
+              type="string"
+              placeholder="Enter Verify Code"
+              className="pl-8 py-7"
+              register={register("accessKey")}
+              errorMessage={errors.accessKey?.message}
+              button="Verify Code"
+              buttonFn={clickVerifyCodeButton}
+            />
+        )}
+        {isValidKey &&
+          <>
+              <InputField
+                label="Password"
+                type="password"
+                placeholder="Enter Password"
+                className="pl-8 py-7"
+                register={register("password")}
+                errorMessage={errors.password?.message}
+              />
+              <InputField
+                label="Confirm Password"
+                type="password"
+                placeholder="Enter Password"
+                className="pl-8 py-7"
+                register={register("confirmPassword")}
+                errorMessage={errors.confirmPassword?.message}
+              />
+            <div className="flex items-center gap-5 mt-2 ml-3 text-base">
+              <button
+                className="w-[30px] h-[30px] rounded-[5px] bg-[#777]/[0.2] flex justify-center items-center"
+                onClick={() => setIsChecked((prev) => !prev)}
+                aria-label="Toggle check"
+              >
+                {isChecked ? <Check /> : <div className="w-[51px]" />}
+              </button>
+              <span>
+                I agree to the
+                <a className="text-[#A1B0FF] ml-1">Terms & Conditions</a>
+              </span>
+            </div>
+          </>
+        }
         <button
           className="w-full text-xl text-white rounded-full btn btn-xl"
           type="submit"

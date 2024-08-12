@@ -9,9 +9,9 @@ import { Facebook } from "../../../../assets/login/Facebook";
 import { Apple } from "../../../../assets/login/Apple";
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string({message:"There is no Email"}).email({ message: "invalid Email" }),
   password: z
-    .string()
+    .string({message:"There is no Password"})
     .min(8, { message: "Password must be at least 8 characters long" })
     .regex(
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
@@ -48,30 +48,30 @@ const LoginModal = ({
   return (
     <form
       onSubmit={handleSubmit(clickLoginButton)}
-      className="modal-box flex flex-col gap-10 py-20 bg-sixteenth"
+      className="flex flex-col gap-10 py-20 modal-box bg-sixteenth"
     >
       <InputField
         label="Email"
         type="email"
         placeholder="anvil3dai@gmail.com"
         register={register("email")}
-        error={errors.email?.message}
+        errorMessage={errors.email?.message}
       />
       <InputField
         label="Password"
         type="password"
         placeholder="Enter Password"
         register={register("password")}
-        error={errors.password?.message}
+        errorMessage={errors.password?.message}
       />
       <div>
         <button
-          className="btn btn-xl w-full text-xl text-white rounded-full mt-4"
+          className="w-full mt-4 text-xl text-white rounded-full btn btn-xl"
           type="submit"
         >
           Login
         </button>
-        <div className="flex justify-center gap-1 mt-2 text-xs">
+        <div className="flex justify-center gap-1 mt-5 text-xs">
           <span>Forgotten your password?</span>
           <button
             onClick={() => setSelectOption("resetPassword")}
