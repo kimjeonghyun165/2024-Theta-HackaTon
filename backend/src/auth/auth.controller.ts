@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Req, Res, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, Res, BadRequestException, NotFoundException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -6,6 +6,7 @@ import { VerifyEmailDto } from './dto/verify-email.dto';
 import { Response } from 'express';
 import { SetPasswordDto } from './dto/password.dto';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard.ts';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -27,6 +28,15 @@ export class AuthController {
             res.redirect(redirectUrl);
         } catch (error) {
             res.status(500).send('Authentication failed');
+        }
+    }
+
+    @Post('login')
+    async login(@Body() loginDto: LoginDto): Promise<{ accessToken: string }> {
+        try {
+            return await this.authService.login(loginDto);
+        } catch (error) {
+            throw new UnauthorizedException('Invalid credentials');
         }
     }
 

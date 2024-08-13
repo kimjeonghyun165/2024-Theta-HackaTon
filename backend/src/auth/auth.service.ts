@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { createHmac } from 'crypto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -7,6 +7,7 @@ import { SetPasswordDto } from './dto/password.dto';
 import { RegisterDto } from './dto/register.dto';
 import { EmailService } from './email.service';
 import * as bcrypt from 'bcrypt';
+import { LoginDto } from './dto/login.dto';
 
 interface VerificationCodeDetails {
     code: string;
@@ -40,6 +41,35 @@ export class AuthService {
         return {
             access_token: this.jwtService.sign(payload),
         };
+    }
+
+    async login(loginDto: LoginDto): Promise<{ accessToken: string }> {
+        const { email, password } = loginDto;
+
+        try {
+            const user = await this.usersService.findByEmailforPassword(email);
+            if (!user) {
+                throw new UnauthorizedException('Invalid credentials');
+            }
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            console.log('Password valid:', isPasswordValid);
+
+            if (!isPasswordValid) {
+                throw new UnauthorizedException('Invalid credentials');
+            }
+
+            const payload = { email: user.email, sub: user._id };
+            const accessToken = this.jwtService.sign(payload);
+
+            return { accessToken };
+        } catch (error) {
+            if (error instanceof UnauthorizedException) {
+                throw error;
+            } else {
+                throw new InternalServerErrorException('An error occurred during login');
+            }
+        }
     }
 
     async register(registerDto: RegisterDto): Promise<void> {
@@ -149,7 +179,7 @@ export class AuthService {
         }
     }
 
-    private generateVerificationCode(email: string): VerificationCodeDetails {
+    private generateVerificationCode(email: string) {
         const code = Math.floor(100000 + Math.random() * 900000).toString();
         const expiresIn = Date.now() + 5 * 60 * 1000;
         const hmac = createHmac('sha256', this.secretKey)

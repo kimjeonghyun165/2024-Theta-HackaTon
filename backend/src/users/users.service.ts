@@ -55,6 +55,14 @@ export class UsersService {
         return this.userModel.findOne({ email }).exec();
     }
 
+    async findByEmailforPassword(email: string): Promise<User> {
+        const user = await this.userModel.findOne({ email }).select('+password').exec();
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        return user;
+    }
+
     async getUserModels(
         userId: string,
         filterModelDto: FilterModelDto
