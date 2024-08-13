@@ -15,9 +15,10 @@ export class UsersService {
         @InjectModel(User.name) private userModel: MongooseModel<User>,
         private readonly modelService: ModelsService) { }
 
-    async findOrCreateUser(createUserDto: CreateUserDto): Promise<User> {
+    async findOrCreateUser(createUserDto: CreateUserDto, isSsoLogin = true): Promise<User> {
         const { username, email, profileImg } = createUserDto;
         let user = await this.userModel.findOne({ email }).exec();
+
         if (!user) {
             user = new this.userModel({
                 username,
@@ -26,14 +27,19 @@ export class UsersService {
             });
             await user.save();
         } else {
+            if (!isSsoLogin) {
+                throw new BadRequestException('Email already in use');
+            }
             user.username = username;
             user.profileImg = profileImg;
             await user.save();
         }
+
         return user;
     }
 
-    async updateUser(userId: string, updateUserDto: UpdateUserDto): Promise<User> {
+
+    async updateUser(userId: string | Types.ObjectId, updateUserDto: UpdateUserDto): Promise<User> {
         const user = await this.userModel.findByIdAndUpdate(userId, updateUserDto, { new: true }).exec();
         if (!user) {
             throw new NotFoundException(`User with ID ${userId} not found`);
@@ -43,6 +49,10 @@ export class UsersService {
 
     async findOneById(userId: string): Promise<User> {
         return this.userModel.findById(userId).exec();
+    }
+
+    async findByEmail(email: string): Promise<User | null> {
+        return this.userModel.findOne({ email }).exec();
     }
 
     async getUserModels(

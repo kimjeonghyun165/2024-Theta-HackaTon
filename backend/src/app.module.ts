@@ -11,7 +11,7 @@ import { GenerateModelModule } from './generate-model/generate-model.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGODB_API_TOKEN),
+    MongooseModule.forRoot(process.env.MONGODB_DEV_API_TOKEN),
     UsersModule,
     AuthModule,
     ModelsModule,

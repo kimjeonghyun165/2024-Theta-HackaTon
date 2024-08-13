@@ -1,12 +1,25 @@
-import { IsString, IsOptional, IsEnum, IsUrl, IsArray, IsMongoId, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsUrl, IsArray, IsMongoId, IsNumber, IsBoolean, IsNotEmpty, MinLength, Matches } from 'class-validator';
 import { Types } from 'mongoose';
 
 export class CreateUserDto {
     @IsString()
+    @IsNotEmpty()
     readonly username: string;
 
     @IsString()
+    @IsNotEmpty()
     readonly email: string;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    isEmailVerified: boolean;
+
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(8)
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        { message: 'Password too weak' })
+    readonly password?: string;
 
     @IsString()
     @IsOptional()

@@ -99,7 +99,7 @@ const EditModal: React.FC<PostPopupProps> = ({
             type="text"
             placeholder="Title : "
             value={model?.title || ""}
-            onChange={handleTitleChange}
+            // onChange={handleTitleChange}
           />
           <TextAreaField
             value={model?.description || ""}
@@ -126,7 +126,7 @@ const EditModal: React.FC<PostPopupProps> = ({
               placeholder="Price: $ 0.792"
               value={model?.nftDetails.price || 0}
               isDisabled={!model?.nftDetails.isNft}
-              onChange={handlePriceChange}
+              // onChange={handlePriceChange}
             />
             <IconBtn icon={Market} bgColor="bg-[#1C1C1C]/[.53]" />
             <IconBtn icon={Question} bgColor="bg-[#1C1C1C]/[.53]" />

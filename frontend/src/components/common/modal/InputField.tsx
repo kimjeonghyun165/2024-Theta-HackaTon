@@ -8,19 +8,24 @@ interface InputFieldProps {
   className?: string;
   register?: UseFormRegisterReturn;
   errorMessage?: string;
-  value?: string;
+  value?: any;
   isDisabled?: boolean;
   button?: string;
   buttonFn?: () => void | string;
 }
 
-const InputField = ({ type,
+const InputField = ({
+  type,
   placeholder,
   label,
   className,
   register,
   errorMessage,
-  value, isDisabled, button, buttonFn }: InputFieldProps) => {
+  value,
+  isDisabled,
+  button,
+  buttonFn,
+}: InputFieldProps) => {
   const { onChange, onBlur, name, ref } = register || {};
   return (
     <div className="w-full form-control">
@@ -33,8 +38,9 @@ const InputField = ({ type,
         <input
           type={type}
           placeholder={placeholder}
-          className={`input w-full bg-[#1C1C1C]/[.53] rounded-full px-4 ${className} ${errorMessage ? "border-red-500" : ""
-            }`}
+          className={`input w-full bg-[#1C1C1C]/[.53] rounded-full px-4 ${className} ${
+            errorMessage ? "border-red-500" : ""
+          }`}
           value={value}
           disabled={isDisabled}
           onChange={onChange}
@@ -42,25 +48,29 @@ const InputField = ({ type,
           name={name}
           ref={ref}
         />
-        {button &&
+        {button && (
           <button
             className="h-full text-base text-white bg-gray-600 border-transparent rounded-xl hover:bg-gray-900 btn"
             onClick={buttonFn}
           >
             {button}
           </button>
-        }
+        )}
       </div>
-      {errorMessage &&
+      {errorMessage && (
         <span className="flex gap-2 mt-2 ml-4 text-sm text-highlight">
           <div className="flex flex-col">
-            {errorMessage.split("...").map((message) =>
+            {errorMessage.split("...").map((message) => (
               <span className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-4 h-4 rounded-full bg-highlight"><ExclamationPoint /></div>
+                <div className="flex items-center justify-center w-4 h-4 rounded-full bg-highlight">
+                  <ExclamationPoint />
+                </div>
                 {message}
-              </span>)}
+              </span>
+            ))}
           </div>
-        </span>}
+        </span>
+      )}
     </div>
   );
 };

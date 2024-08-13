@@ -1,48 +1,92 @@
-import { Controller, Post, Body, Get, UseGuards, Req, Res } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, Res, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterDto } from './dto/register.dto';
+import { VerifyEmailDto } from './dto/verify-email.dto';
+import { Response } from 'express';
+import { SetPasswordDto } from './dto/password.dto';
+import { JwtAuthGuard } from './jwt/jwt-auth.guard.ts';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) { }
+    constructor(
+        private readonly authService: AuthService,
+    ) { }
 
     @Get('google/login')
     @UseGuards(AuthGuard('google'))
-    async googleAuth(@Req() req) {
-        console.log('GET google/login - googleAuth 실행');
+    async googleAuth() {
     }
-
-    // @Get('oauth2/redirect/google')
-    // @UseGuards(AuthGuard('google'))
-    // async googleAuthRedirect(@Req() req, @Res() res) {
-    //     console.log('GET oauth2/redirect/google - googleAuthRedirect 실행');
-    //     try {
-    //         const jwt = await this.authService.login(req.user);
-    //         res.cookie('JWT', jwt.access_token, {
-    //             httpOnly: true,
-    //             secure: true,
-    //             sameSite: 'strict'
-    //         }); // -> 쿠키에 저장하지말고 로컬 스토리지에 저장하고 싶다.
-    //         res.redirect(`${process.env.FRONTEND_URL}`);
-    //     } catch (error) {
-    //         console.error('로그인 처리 중 오류 발생:', error);
-    //         res.status(500).send('Authentication failed');
-    //     }
-    // }
-
 
     @Get('oauth2/redirect/google')
     @UseGuards(AuthGuard('google'))
-    async googleAuthRedirect(@Req() req, @Res() res) {
-        console.log('GET oauth2/redirect/google - googleAuthRedirect 실행');
+    async googleAuthRedirect(@Req() req, @Res() res: Response) {
         try {
-            const jwt = await this.authService.login(req.user);
+            const jwt = await this.authService.googleLogin(req.user);
             const redirectUrl = `${process.env.FRONTEND_URL}/auth-complete.html?token=${encodeURIComponent(jwt.access_token)}`;
             res.redirect(redirectUrl);
         } catch (error) {
-            console.error('로그인 처리 중 오류 발생:', error);
             res.status(500).send('Authentication failed');
         }
+    }
+
+    @Post('register')
+    async register(@Body() registerDto: RegisterDto): Promise<RegisterDto> {
+        try {
+            await this.authService.register(registerDto);
+            return registerDto
+        } catch (error) {
+            if (error instanceof BadRequestException) {
+                throw new BadRequestException('Email already in use');
+            }
+            throw error;
+        }
+    }
+
+    @Post('send-verification-code')
+    async sendVerificationCode(
+        @Body('email') email: string,
+        @Body('action') action: 'register' | 'resend' | 'resetPassword'
+    ): Promise<{ success: boolean }> {
+        try {
+            await this.authService.sendOrResendVerificationCode(email, action);
+            return { success: true };
+        } catch (error) {
+            if (error instanceof NotFoundException) {
+                throw new BadRequestException('The provided email address is not associated with any account.');
+            } else if (error instanceof BadRequestException) {
+                throw error;
+            } else {
+                throw new InternalServerErrorException('An unexpected error occurred while processing your request. Please try again later.');
+            }
+        }
+    }
+
+    @Post('verify-email')
+    async verifyEmail(@Body() verifyEmailDto: VerifyEmailDto): Promise<{ success: boolean, accessToken: string }> {
+        try {
+            const jwtData = await this.authService.verifyCode(verifyEmailDto.email, verifyEmailDto.code);
+            return { success: true, accessToken: jwtData.accessToken };
+        } catch (error) {
+            if (error instanceof BadRequestException) {
+                throw error;
+            }
+            throw new BadRequestException('An error occurred during verification.');
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('set-password')
+    async setPassword(@Req() req, @Body() setPasswordDto: SetPasswordDto): Promise<{ success: boolean }> {
+        try {
+            await this.authService.setPassword(req.user.userId, setPasswordDto);
+            return { success: true }
+        } catch (error) {
+            if (error instanceof BadRequestException) {
+                throw error;
+            }
+            throw new BadRequestException('An error occurred during set password. please try again');
+        }
+
     }
 }
