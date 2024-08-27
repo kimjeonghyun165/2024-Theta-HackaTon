@@ -15,6 +15,7 @@ export class CreateUserDto {
     isEmailVerified: boolean;
 
     @IsString()
+    @IsOptional()
     @IsNotEmpty()
     @MinLength(8)
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,

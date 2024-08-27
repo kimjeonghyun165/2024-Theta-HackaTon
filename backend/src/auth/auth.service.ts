@@ -4,16 +4,11 @@ import { createHmac } from 'crypto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import { SetPasswordDto } from './dto/password.dto';
-import { RegisterDto } from './dto/register.dto';
 import { EmailService } from './email.service';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
-
-interface VerificationCodeDetails {
-    code: string;
-    expiresIn: number;
-    hmac: string;
-}
+import { RegisterUserDto } from './dto/register.dto';
+import { SendVerificationCodeDto, VerifyEmailDto } from './dto/verify-email.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,7 +32,7 @@ export class AuthService {
         if (!userData) {
             throw new Error('User authentication failed.');
         }
-        const payload = { email: userData.email, sub: userData._id };
+        const payload = { email: userData.email, type: 'login', sub: userData._id };
         return {
             access_token: this.jwtService.sign(payload),
         };
@@ -53,13 +48,12 @@ export class AuthService {
             }
 
             const isPasswordValid = await bcrypt.compare(password, user.password);
-            console.log('Password valid:', isPasswordValid);
 
             if (!isPasswordValid) {
                 throw new UnauthorizedException('Invalid credentials');
             }
 
-            const payload = { email: user.email, sub: user._id };
+            const payload = { email: user.email, type: "login", sub: user._id };
             const accessToken = this.jwtService.sign(payload);
 
             return { accessToken };
@@ -72,15 +66,15 @@ export class AuthService {
         }
     }
 
-    async register(registerDto: RegisterDto): Promise<void> {
-        const createUserDto = {
+    async register(registerDto: RegisterUserDto): Promise<void> {
+        const regiserUserDto = {
             username: registerDto.username,
             email: registerDto.email,
             isEmailVerified: false
         };
 
         try {
-            await this.usersService.findOrCreateUser(createUserDto, false);
+            await this.usersService.findOrCreateUser(regiserUserDto, false);
         } catch (error) {
             if (error instanceof BadRequestException) {
                 throw new BadRequestException('Email already in use');
@@ -89,9 +83,9 @@ export class AuthService {
         }
     }
 
-    async sendOrResendVerificationCode(email: string, action: 'register' | 'resend' | 'resetPassword'): Promise<void> {
-        const user = await this.usersService.findByEmail(email);
-
+    async sendOrResendVerificationCode(sendVerificationCodeDto: SendVerificationCodeDto): Promise<void> {
+        const { email, action } = sendVerificationCodeDto
+        const user = await this.usersService.findByEmailforPassword(email)
         if (!user) {
             throw new NotFoundException('User not found');
         }
@@ -111,7 +105,6 @@ export class AuthService {
                 throw new BadRequestException('Verification code is still valid. Please wait before requesting a new one.');
             }
         } else if (action === 'resetPassword') {
-
             if (!user.isEmailVerified) {
                 throw new BadRequestException('Email is not verified. Password reset is not allowed.');
             }
@@ -126,14 +119,13 @@ export class AuthService {
         await this.usersService.updateUser(user._id, {
             verificationCodeDetails: verificationCodeDetails,
         });
-
         await this.emailService.sendVerificationCode(user.email, verificationCodeDetails.code);
     }
 
 
 
-    async verifyCode(email: string, code: string): Promise<{ accessToken: string }> {
-        const user = await this.usersService.findByEmail(email);
+    async verifyCode(verifyEmailDto: VerifyEmailDto): Promise<{ accessToken: string }> {
+        const user = await this.usersService.findByEmail(verifyEmailDto.email);
 
         if (!user || !user.verificationCodeDetails) {
             throw new BadRequestException('Invalid or expired verification code');
@@ -146,7 +138,7 @@ export class AuthService {
         }
 
         const hmac = createHmac('sha256', this.secretKey)
-            .update(`${email}.${code}.${verificationCodeDetails.expiresIn}`)
+            .update(`${verifyEmailDto.email}.${verifyEmailDto.code}.${verificationCodeDetails.expiresIn}`)
             .digest('hex');
 
         if (hmac !== verificationCodeDetails.hmac) {
@@ -155,7 +147,7 @@ export class AuthService {
 
         await this.usersService.updateUser(user._id, { isEmailVerified: true });
 
-        const payload = { email: user.email, sub: user._id };
+        const payload = { email: user.email, type: "verify", sub: user._id };
         const accessToken = this.jwtService.sign(payload, { expiresIn: '10m' });
 
         return { accessToken };

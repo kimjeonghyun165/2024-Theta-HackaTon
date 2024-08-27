@@ -59,20 +59,17 @@ export class ModelsService {
     }
 
     //내부 함수 (백엔드 내에서만 굴러가는 함수) -> 유저 모델 필터링 기능.
-    async getFilteredModels(filterModelDto: FilterModelDto): Promise<Model[]> {
-        const { createdBy, visibility, sortBy = 'createdAt', sortOrder = 'desc', offset = 0, limit = 10 } = filterModelDto;
+    async getFilteredModels(filter: any): Promise<Model[]> {
+        const limit = parseInt(filter.limit, 10) || 10;
+        const offset = parseInt(filter.offset, 10) || 0;
 
-        const filter: any = {};
-        if (createdBy) {
-            filter.createdBy = new Types.ObjectId(createdBy);
-        }
-        if (visibility) {
-            filter.visibility = visibility;
-        }
+        // 불필요한 필드를 제거해서 쿼리 필터로 사용
+        delete filter.limit;
+        delete filter.offset;
 
         return this.modelModel
             .find(filter)
-            .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
+            .sort({ [filter.sortBy || 'createdAt']: filter.sortOrder === 'asc' ? 1 : -1 })
             .skip(offset)
             .limit(limit)
             .exec();
@@ -89,8 +86,8 @@ export class ModelsService {
         return this.modelModel
             .find(filter)
             .sort({ [sortBy]: sortOrder === 'asc' ? 1 : -1 })
-            .skip(offset)
-            .limit(limit)
+            .skip(Number(offset))
+            .limit(Number(limit))
             .exec();
     }
 

@@ -1,4 +1,4 @@
-const BASE_URL = process.env.MODEL_BASE_URL
+const BASE_URL = "http://3.129.34.150:5000"
 
 const generateRealistic3DModel = async (imageUrl: string, resolution: boolean) => {
     const response = await fetch(`${BASE_URL}/generate-3d-model`, {
@@ -36,6 +36,7 @@ const generateLowPoly3DModel = async (imageUrl: string, strength: string) => {
 
     return response.json();
 };
+
 const generateImage = async (prompt: string) => {
     const response = await fetch(`${BASE_URL}/generate-image`, {
         method: "POST",

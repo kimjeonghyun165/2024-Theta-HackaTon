@@ -1,12 +1,14 @@
-import { Controller, Post, Body, Get, UseGuards, Req, Res, BadRequestException, NotFoundException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, Res, BadRequestException, NotFoundException, InternalServerErrorException, UnauthorizedException, Logger } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/register.dto';
-import { VerifyEmailDto } from './dto/verify-email.dto';
+import { SendVerificationCodeDto, VerifyEmailDto } from './dto/verify-email.dto';
 import { Response } from 'express';
 import { SetPasswordDto } from './dto/password.dto';
 import { JwtAuthGuard } from './jwt/jwt-auth.guard.ts';
 import { LoginDto } from './dto/login.dto';
+import { RegisterUserDto } from './dto/register.dto';
+import { TokenTypeGuard } from 'src/common/guards/token-type.guard';
+import { TokenType } from 'src/common/decorators/token-type.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -27,21 +29,34 @@ export class AuthController {
             const redirectUrl = `${process.env.FRONTEND_URL}/auth-complete.html?token=${encodeURIComponent(jwt.access_token)}`;
             res.redirect(redirectUrl);
         } catch (error) {
-            res.status(500).send('Authentication failed');
+            Logger.error('Google OAuth2 redirect failed', error.stack, 'AuthController');
+            res.status(500).json({
+                message: 'Authentication failed',
+                error: error.message,
+                stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+            });
         }
     }
+
 
     @Post('login')
     async login(@Body() loginDto: LoginDto): Promise<{ accessToken: string }> {
         try {
             return await this.authService.login(loginDto);
         } catch (error) {
-            throw new UnauthorizedException('Invalid credentials');
+            Logger.error(`Login failed: ${error.message}`, error.stack, 'AuthController');
+            if (error instanceof UnauthorizedException) {
+                throw new UnauthorizedException('Invalid credentials');
+            } else if (error instanceof BadRequestException) {
+                throw new BadRequestException('Invalid login data');
+            } else {
+                throw new InternalServerErrorException('An unexpected error occurred. Please try again later.');
+            }
         }
     }
 
     @Post('register')
-    async register(@Body() registerDto: RegisterDto): Promise<RegisterDto> {
+    async register(@Body() registerDto: RegisterUserDto): Promise<RegisterUserDto> {
         try {
             await this.authService.register(registerDto);
             return registerDto
@@ -55,11 +70,10 @@ export class AuthController {
 
     @Post('send-verification-code')
     async sendVerificationCode(
-        @Body('email') email: string,
-        @Body('action') action: 'register' | 'resend' | 'resetPassword'
+        @Body() sendVerificationCodeDto: SendVerificationCodeDto
     ): Promise<{ success: boolean }> {
         try {
-            await this.authService.sendOrResendVerificationCode(email, action);
+            await this.authService.sendOrResendVerificationCode(sendVerificationCodeDto);
             return { success: true };
         } catch (error) {
             if (error instanceof NotFoundException) {
@@ -75,7 +89,7 @@ export class AuthController {
     @Post('verify-email')
     async verifyEmail(@Body() verifyEmailDto: VerifyEmailDto): Promise<{ success: boolean, accessToken: string }> {
         try {
-            const jwtData = await this.authService.verifyCode(verifyEmailDto.email, verifyEmailDto.code);
+            const jwtData = await this.authService.verifyCode(verifyEmailDto);
             return { success: true, accessToken: jwtData.accessToken };
         } catch (error) {
             if (error instanceof BadRequestException) {
@@ -85,7 +99,8 @@ export class AuthController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('verify')
     @Post('set-password')
     async setPassword(@Req() req, @Body() setPasswordDto: SetPasswordDto): Promise<{ success: boolean }> {
         try {

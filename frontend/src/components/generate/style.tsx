@@ -1,105 +1,44 @@
 import { useState } from "react";
-import {
-  useGenerateRealistic3DModel,
-  useGenerateLowPoly3DModel,
-} from "../../hooks/tanstackQuery/useModelApi";
 import { useModelStore } from "../../store/useModelStore";
-import { useOptionStore } from "../../store/useStore";
-import { useToast } from "../common/ToastContext";
-import { useUserStore } from "../../store/useUserStore";
 import LowPolyCard from "./style/LowPolyCard";
 import RealisticCard from "./style/RealisticCard";
 import CreditLabel from "./common/CreditLabel";
+import { useFetchUser } from "../../hooks/useUserApi";
+import {
+  useGenerateLowPoly3DModel,
+  useGenerateRealistic3DModel,
+} from "../../hooks/useGeneratingApi";
 
 const Style = () => {
-  const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
-  const { model, setModel } = useModelStore((state) => ({
-    model: state.model,
-    setModel: state.setModel,
+  const { newModel } = useModelStore((state) => ({
+    newModel: state.newModel,
   }));
-  const { jwtToken, fetchUser, user } = useUserStore((state) => ({
-    jwtToken: state.jwtToken,
-    fetchUser: state.fetchUser,
-    user: state.user,
-  }));
+  const { data: user } = useFetchUser();
+
   const [superResolution, setSuperResolution] = useState<boolean>(false);
   const [rangeValue, setRangeValue] = useState<number>(0);
   const [rangeLabel, setRangeLabel] = useState<"low" | "mid" | "high">("low");
 
-  const { setToast } = useToast();
-
-  const { mutate: generateLowPoly, isPending: isLoadingLowPoly } =
-    useGenerateLowPoly3DModel();
-  const { mutate: generateRealistic, isPending: isLoadingRealistic } =
-    useGenerateRealistic3DModel();
+  const { mutate: generateLowPoly, isPending: isPendingLowPoly } =
+    useGenerateLowPoly3DModel(rangeLabel);
+  const { mutate: generateRealistic, isPending: isPendingRealistic } =
+    useGenerateRealistic3DModel(superResolution);
 
   const handleGenerateLowPoly = () => {
-    if (model && model?.imgSelection !== null) {
-      setToast({
-        message: `lowpoly 3d asset generation in progress.\nPlease wait up to 1 minute.`,
-        type: "info",
-        position: "bottom-end",
+    if (newModel && newModel?.imgSelection !== null) {
+      generateLowPoly({
+        imageUrl: newModel.selectedImage,
+        strength: rangeLabel,
       });
-      generateLowPoly(
-        {
-          jwtToken: jwtToken,
-          imageUrl: model.selectedImage,
-          strength: rangeLabel,
-        },
-        {
-          onSuccess: (data: { model_url: string; preview_url: string }) => {
-            setModel({
-              file: data.model_url,
-              preview: data.preview_url,
-              style: { method: "lowpoly", strength: rangeLabel },
-            });
-            fetchUser();
-            setSelectedOption("option4");
-          },
-          onError: () => {
-            setToast({
-              message: `Error generating low poly model`,
-              type: "error",
-              position: "bottom-end",
-            });
-          },
-        }
-      );
     }
   };
 
   const handleGenerateRealistic = () => {
-    if (model && model?.imgSelection !== null) {
-      setToast({
-        message: `Realistic 3d asset generation in progress.\nPlease wait up to 1 minute.`,
-        type: "info",
-        position: "bottom-end",
+    if (newModel && newModel?.imgSelection !== null) {
+      generateRealistic({
+        imageUrl: newModel.selectedImage,
+        resolution: superResolution,
       });
-      generateRealistic(
-        {
-          jwtToken: jwtToken,
-          imageUrl: model.selectedImage,
-          resolution: superResolution,
-        },
-        {
-          onSuccess: (data: { model_url: string; preview_url: string }) => {
-            setModel({
-              file: data.model_url,
-              preview: data.preview_url,
-              style: { method: "realistic", superResolution: superResolution },
-            });
-            fetchUser();
-            setSelectedOption("option4");
-          },
-          onError: () => {
-            setToast({
-              message: `Error generating realistic model`,
-              type: "error",
-              position: "bottom-end",
-            });
-          },
-        }
-      );
     }
   };
 
@@ -133,8 +72,8 @@ const Style = () => {
             rangeValue={rangeValue}
             handleRangeChange={handleRangeChange}
             handleGenerate={handleGenerateLowPoly}
-            isLoading={isLoadingLowPoly}
-            isDisabled={isLoadingLowPoly || isLoadingRealistic}
+            isLoading={isPendingLowPoly}
+            isDisabled={isPendingLowPoly || isPendingRealistic}
           />
         </div>
         <div className="bottom-0 mt-7">
@@ -142,8 +81,8 @@ const Style = () => {
             superResolution={superResolution}
             setSuperResolution={setSuperResolution}
             handleGenerate={handleGenerateRealistic}
-            isLoading={isLoadingRealistic}
-            isDisabled={isLoadingRealistic || isLoadingLowPoly}
+            isLoading={isPendingRealistic}
+            isDisabled={isPendingRealistic || isPendingLowPoly}
           />
         </div>
       </div>

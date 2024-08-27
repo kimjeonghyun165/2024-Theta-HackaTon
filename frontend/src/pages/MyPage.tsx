@@ -1,9 +1,8 @@
 import { Layout } from "../components/common/layout/Layout";
 import UserProfile from "../components/myPage/UserProfile";
 import UserOwnModel from "../components/myPage/UserOwnModel";
-import { Model } from "../store/useModelStore";
 import { InfiniteQueryObserverResult } from "@tanstack/react-query";
-
+import { Model } from "../interfaces/model.interface";
 
 export interface PaginatedModels {
   pages: Model[][];
@@ -12,7 +11,9 @@ export interface PaginatedModels {
 
 export interface QueryResponse {
   data: PaginatedModels | undefined;
-  fetchNextPage: () => Promise<InfiniteQueryObserverResult<PaginatedModels, Error>>;
+  fetchNextPage: () => Promise<
+    InfiniteQueryObserverResult<PaginatedModels, Error>
+  >;
   hasNextPage: boolean | undefined;
   isFetchingNextPage: boolean;
   error: Error | null;
@@ -22,7 +23,7 @@ export interface QueryResponse {
 const MyPage: React.FC = () => {
   return (
     <Layout>
-      <section className="flex flex-col w-5/6 gap-40 mx-auto">
+      <section className="flex flex-col w-full gap-40 mx-auto max-w-5xl min-w-3xl">
         <UserProfile />
         <UserOwnModel />
       </section>

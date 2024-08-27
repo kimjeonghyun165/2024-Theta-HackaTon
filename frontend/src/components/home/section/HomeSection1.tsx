@@ -1,35 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { generateImage } from "../../../api/modelApi";
 import Anvil from "../../../assets/Anvil";
-
 import { useModelStore } from "../../../store/useModelStore";
 import { useOptionStore } from "../../../store/useStore";
-import { useUserStore } from "../../../store/useUserStore";
 import { useToast } from "../../common/ToastContext";
 import Eclipse from "../../../assets/Eclipse";
 import Loading from "../../common/Loading";
+import { useGenerateImage } from "../../../hooks/useGeneratingApi";
+import { useFetchUser } from "../../../hooks/useUserApi";
 
 const HomeSection1 = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [prompt, setPrompt] = useState("");
   const { setToast } = useToast();
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
-  const { model, setModel } = useModelStore((state) => ({
-    model: state.model,
-    setModel: state.setModel,
+  const { setNewModel } = useModelStore((state) => ({
+    setNewModel: state.setNewModel,
   }));
-  const { jwtToken, fetchUser, user } = useUserStore((state) => ({
-    jwtToken: state.jwtToken,
-    fetchUser: state.fetchUser,
-    user: state.user,
-  }));
+  const { data: user } = useFetchUser();
+  const { mutate: generateImage, isPending } = useGenerateImage();
 
   const handleGenerateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setModel({ prompt: e.target.value });
+    setPrompt(e.target.value);
   };
 
-  const handleGenerate = async () => {
+  const handleGenerate = () => {
     if (!user) {
       setToast({
         message: `You need to log in first.\nPlease log in.`,
@@ -38,32 +33,27 @@ const HomeSection1 = () => {
       });
       return;
     }
-    setIsLoading(true);
-    if (model) {
-      if (model.prompt !== "") {
-        try {
-          setToast({
-            message: `Image generation in progress. Please wait up to 1 minute.`,
-            type: "info",
-            position: "bottom-end",
-          });
-          const data = await generateImage(jwtToken, model.prompt);
-          const images = data.image_urls.map((url: any) => ({
-            url,
-            selected: false,
-          }));
-          setModel({ imgSelection: images });
-          fetchUser();
-          navigate("model/generate");
-          setSelectedOption("option2");
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setIsLoading(false);
+
+    if (prompt.trim()) {
+      generateImage(
+        { prompt },
+        {
+          onSuccess: (data) => {
+            const images = data.image_urls.map((url: any) => ({
+              url,
+              selected: false,
+            }));
+            setNewModel({ prompt, imgSelection: images });
+            navigate("model/generate");
+            setSelectedOption("option2");
+          },
+          onError: (error) => {
+            console.error("Error generating image:", error);
+          },
         }
-      } else {
-        navigate("model/generate");
-      }
+      );
+    } else {
+      navigate("model/generate");
     }
   };
 
@@ -75,7 +65,9 @@ const HomeSection1 = () => {
             <p>SMITH ALL</p>
             <p className="tracking-[.05em] mt-4">IMAGINATION</p>
           </h1>
-          <h2 className="w-full mt-8 text-base lg:text-base xl:text-3xl">THE BEST 3D MODEL GENERATIVE AI</h2>
+          <h2 className="w-full mt-8 text-base lg:text-base xl:text-3xl">
+            THE BEST 3D MODEL GENERATIVE AI
+          </h2>
         </div>
         <div className="w-1/2">
           <Anvil />
@@ -90,16 +82,16 @@ const HomeSection1 = () => {
             type="text"
             placeholder="Key In Prompt:"
             className="pl-4 rounded-full grow focus:outline-none"
-            value={model?.prompt}
+            value={prompt}
             onChange={handleGenerateChange}
-            disabled={isLoading}
+            disabled={isPending}
           />
           <button
             className="px-4 text-white rounded-full btn btn-ghost btn-lg focus:none"
             onClick={handleGenerate}
-            disabled={isLoading}
+            disabled={isPending}
           >
-            {isLoading ? <Loading size="sm" /> : "Generate"}
+            {isPending ? <Loading size="sm" /> : "Generate"}
           </button>
         </label>
       </div>

@@ -1,5 +1,7 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard.ts';
+import { TokenType } from 'src/common/decorators/token-type.decorator';
+import { TokenTypeGuard } from 'src/common/guards/token-type.guard';
 import { GenerateImageRequestDto, GenerateLowPolyModelRequestDto, GenerateRealisticModelRequestDto } from './dto/generate-model.dto';
 import { GenerateModelService } from './generate-model.service';
 
@@ -7,7 +9,8 @@ import { GenerateModelService } from './generate-model.service';
 export class GenerateModelController {
     constructor(private readonly generateModelsService: GenerateModelService) { }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('login')
     @Post('image')
     async generateImage(
         @Request() req,
@@ -17,7 +20,8 @@ export class GenerateModelController {
         return this.generateModelsService.generateImage(userId, requestDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('login')
     @Post('model-lowpoly')
     async generateLowPolyModel(
         @Request() req,
@@ -27,7 +31,8 @@ export class GenerateModelController {
         return this.generateModelsService.generateLowPolyModel(userId, requestDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('login')
     @Post('model-realistic')
     async generateRealisticModel(
         @Request() req,

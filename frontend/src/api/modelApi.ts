@@ -1,57 +1,40 @@
 import { API_BASE_URL } from "../constant/url";
-import { Model } from "../store/useModelStore";
+import { CreateModelDto, FilterModelDto, UpdateModelDto } from "../interfaces/model.interface";
 import { fetchFromApi } from "../utils/utils";
 
-export const addModel = async (model: Model, jwtToken: string | null) => {
-  return fetchFromApi(API_BASE_URL, "models/create", model, "POST", jwtToken);
+export const createModel = async (model: CreateModelDto, jwtToken: string) => {
+  return fetchFromApi(API_BASE_URL, "model/create", model, "POST", jwtToken);
 };
 
-export const updateModel = async (id: string) => {
-  return fetchFromApi(API_BASE_URL, `models/create/${id}`, {}, "PUT");
+export const updateModel = async (id: string, updateData: UpdateModelDto, jwtToken: string) => {
+  return fetchFromApi(API_BASE_URL, `model/update/${id}`, updateData, "PUT", jwtToken);
 };
 
-export const deleteModel = async (id: string) => {
-  return fetchFromApi(API_BASE_URL, `models/delete/${id}`, {}, "DELETE");
-};
-
-export const likeModel = async (id: string) => {
-  return fetchFromApi(API_BASE_URL, `models/like/${id}`, {}, "POST");
-};
-
-export const unlikeModel = async (id: string) => {
-  return fetchFromApi(API_BASE_URL, `models/unlike/${id}`, {}, "POST");
-};
-
-export const filterModel = async (
-  createdBy: string,
-  offset: number,
-  limit: number
-) => {
-  return fetchFromApi(
-    API_BASE_URL,
-    `models/create?createdBy=${createdBy}&offset=${offset}&limit=${limit}`,
-    {},
-    "GET"
-  );
-};
-
-export const fetchModels = async (offset: number = 0, limit: number = 30) => {
-  return fetchFromApi(
-    API_BASE_URL,
-    `models/list?offset=${offset}&limit=${limit}`,
-    {},
-    "GET"
-  );
+export const deleteModel = async (id: string, jwtToken: string) => {
+  return fetchFromApi(API_BASE_URL, `model/delete/${id}`, {}, "DELETE", jwtToken);
 };
 
 export const fetchModel = async (id: string) => {
-  return fetchFromApi(API_BASE_URL, `models/${id}`, {}, "GET");
+  return fetchFromApi(API_BASE_URL, `model/${id}`, {}, "GET");
+};
+
+export const filterModels = async (filterModelDto: FilterModelDto) => {
+  const queryParams = new URLSearchParams(filterModelDto as any).toString();
+
+  return fetchFromApi(
+    API_BASE_URL,
+    `model/filter?${queryParams}`,
+    {},
+    "GET"
+  );
 };
 
 export const generateImage = async (
-  jwtToken: string | null,
+  jwtToken: string,
   prompt: string
 ) => {
+  console.log(prompt)
+  console.log(API_BASE_URL)
   return fetchFromApi(
     API_BASE_URL,
     "generate/image",
@@ -64,7 +47,7 @@ export const generateImage = async (
 };
 
 export const generateLowPoly3DModel = async (
-  jwtToken: string | null,
+  jwtToken: string,
   imageUrl: string,
   strength: string
 ) => {
@@ -81,7 +64,7 @@ export const generateLowPoly3DModel = async (
 };
 
 export const generateRealistic3DModel = async (
-  jwtToken: string | null,
+  jwtToken: string,
   imageUrl: string,
   resolution: boolean
 ) => {

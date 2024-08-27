@@ -1,79 +1,75 @@
-import React, { useState } from "react";
-import { Check, Search } from "../../assets/icons";
-import ModelBox from "./userOwnModel/ModelBox";
-import { useFetchModels } from "../../hooks/tanstackQuery/useModelApi";
-import { Model } from "../../store/useModelStore";
+import { useState } from "react";
+import { Model } from "../../interfaces/model.interface";
+import { ModalKey, useModalStore } from "../../store/useStore";
+import LoadMoreButton from "./common/LoadMoreButton";
+import SearchBar from "./common/SearchBar";
+import DetailModal from "../common/modal/modelModals/DetailModal";
+import useModelSearch from "../../hooks/useModelSearch";
 
 const UserOwnModel = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error, isError } = useFetchModels(4);
-  const [isChecked, setIsChecked] = useState(false);
-  const handleScroll = async (e: React.UIEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLDivElement;
-    const bottom =
-      target.scrollHeight - target.scrollTop === target.clientHeight;
-    if (bottom && hasNextPage) {
-      fetchNextPage()
-    }
+  const [selectedModel, setSelectedModel] = useState<Model | null>(null);
+  const filterModelDto = { limit: 8 };
+  const openModal = useModalStore((state) => state.openModal);
+
+  const {
+    searchTerm,
+    filteredModels,
+    handleSearchChange,
+    handleSortChange,
+    handleScroll,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    error,
+  } = useModelSearch(filterModelDto);
+
+  const handleModelClick = (model: Model) => {
+    setSelectedModel(model);
+    openModal(ModalKey.DETAIL_MODAL);
   };
 
   return (
-    <section className="bg-[#D0D0D0]/[.07] rounded-[30px] px-20 py-20">
-      <div className="flex items-center gap-10 text-2xl xl:px-14">
-        <button
-          className="w-[51px] h-[51px] rounded-[5px] bg-[#777]/[0.2] flex justify-center items-center"
-          onClick={() => setIsChecked((prev) => !prev)}
-          aria-label="Toggle check"
-        >
-          {isChecked ? <Check /> : <div className="w-[51px]" />}
-        </button>
-        <div className="w-[704px] h-[43px] rounded-[30px] bg-[#777]/[0.2] placeholder:text-white placeholder:text-2xl flex items-center px-5">
-          <label
-            className="flex gap-3 text-xl text-white"
-            htmlFor="search-input"
-          >
-            <div
-              className="w-[25px] h-[23px] sm:hidden xl:block"
-              aria-hidden="true"
-            >
-              <Search />
-            </div>
-            Search:
-          </label>
-          <input
-            type="text"
-            id="search-input"
-            className="h-full text-white bg-transparent outline-none"
-            aria-label="Search"
+    <section className="bg-[#D0D0D0]/[.07] rounded-3xl px-14 pt-14 pb-7">
+      <div className="flex w-full items-center gap-10 text-2xl">
+        <input type="checkbox" className="checkbox" />
+        <div className="w-full flex justify-between">
+          <SearchBar
+            onChange={handleSearchChange}
+            value={searchTerm}
+            placeholder={"Search Models:"}
+            onSortChange={handleSortChange}
           />
         </div>
-        <button className="flex-1 text-center text-white" aria-label="Recent">
-          Recent ▼
-        </button>
       </div>
       <div
-        className="max-h-[500px] overflow-y-scroll grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-y-10 mt-10 myPage-scrollbar xl:gap-x-5"
+        className="min-h-[500px] max-h-[500px] justify-center mt-10 myPage-scrollbar pr-0"
         onScroll={handleScroll}
         role="list"
         aria-label="Model list"
       >
-        {data?.pages.map((page) =>
-          page.map((model: Model, index: number) => (
-            <ModelBox key={index} model={model} role="listitem">
-              <img src={model.preview} />
-            </ModelBox>
-          )
-          ))}
-        <span className="w-full col-span-1 text-2xl text-center sm:col-span-2 2xl:col-span-4">
-          {isError ? `${error}` : isFetchingNextPage ? (
-            "Loading..."
-          ) :
-            hasNextPage ?
-              null
-              :
-              "No More Models"
-          }
-        </span>
+        {filteredModels && filteredModels.length > 0 ? (
+          <div className="grid grid-cols-4 gap-8">
+            {filteredModels.map((model: Model) => (
+              <button
+                key={model._id}
+                className={`rounded-3xl flex flex-col justify-between items-center mx-auto`}
+                onClick={() => handleModelClick(model)}
+              >
+                <img src={model.preview} className="rounded-3xl" />
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-gray-500 text-lg">No Data</div>
+        )}
+        <LoadMoreButton
+          isLoading={isFetchingNextPage}
+          hasNextPage={!!hasNextPage}
+          onClick={() => fetchNextPage()}
+          error={error ? `${error}` : null}
+        />
       </div>
+      {selectedModel && <DetailModal model={selectedModel} />}
     </section>
   );
 };

@@ -2,16 +2,20 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import IconBtn from "../../IconBtn";
-import InputField from "../InputField";
-import { login } from "../../../../api/userApi";
+import InputField from "../common/InputField";
 import { Google } from "../../../../assets/login/Google";
 import { Facebook } from "../../../../assets/login/Facebook";
 import { Apple } from "../../../../assets/login/Apple";
+import { googleLogin } from "../../../../api/authApi";
+import { useLogin } from "../../../../hooks/useAuthApi";
+import { getErrorMessage } from "../../../../utils/utils";
 
 const loginSchema = z.object({
-  email: z.string({message:"There is no Email"}).email({ message: "invalid Email" }),
+  email: z
+    .string({ message: "There is no Email" })
+    .email({ message: "invalid Email" }),
   password: z
-    .string({message:"There is no Password"})
+    .string({ message: "There is no Password" })
     .min(8, { message: "Password must be at least 8 characters long" })
     .regex(
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
@@ -37,18 +41,16 @@ const LoginModal = ({
     handleSubmit,
   } = useForm<ILogin>({ resolver: zodResolver(loginSchema) });
 
-  const clickLoginButton: SubmitHandler<ILogin> = ({
-    email,
-    password,
-  }: ILogin) => {
-    console.log(email);
-    console.log(password);
+  const { mutate: login, isPending, isError, error } = useLogin();
+
+  const clickLoginButton: SubmitHandler<ILogin> = (data: ILogin) => {
+    login(data);
   };
 
   return (
     <form
       onSubmit={handleSubmit(clickLoginButton)}
-      className="flex flex-col gap-10 py-20 modal-box bg-sixteenth"
+      className="flex flex-col w-full gap-10 py-10"
     >
       <InputField
         label="Email"
@@ -68,9 +70,13 @@ const LoginModal = ({
         <button
           className="w-full mt-4 text-xl text-white rounded-full btn btn-xl"
           type="submit"
+          disabled={isPending}
         >
           Login
         </button>
+        {isError && (
+          <div className="text-red-500">{`${getErrorMessage(error)}`}</div>
+        )}
         <div className="flex justify-center gap-1 mt-5 text-xs">
           <span>Forgotten your password?</span>
           <button
@@ -88,7 +94,7 @@ const LoginModal = ({
             icon={Google}
             bgColor="bg-[#1C1C1C]/[.53]"
             size="p-2"
-            onClick={() => login()}
+            onClick={() => googleLogin()}
           />
           <IconBtn icon={Facebook} bgColor="bg-[#1C1C1C]/[.53]" size="p-2" />
           <IconBtn icon={Apple} bgColor="bg-[#1C1C1C]/[.53]" size="p-2" />

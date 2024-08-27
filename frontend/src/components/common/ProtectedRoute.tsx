@@ -1,18 +1,32 @@
-// src/components/common/ProtectedRoute.tsx
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useUserStore } from "../../store/useUserStore";
+import React, { useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuthTokenStore } from "../../store/useUserStore";
+import { isTokenExpired } from "../../utils/auth";
+import { useLogout } from "../../hooks/useLogout";
 
 interface ProtectedRouteProps {
   element: React.ReactElement;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
-  const { jwtToken } = useUserStore((state) => ({
-    jwtToken: state.jwtToken,
+  const { authToken } = useAuthTokenStore((state) => ({
+    authToken: state.authToken,
   }));
+  const navigate = useNavigate();
+  const logout = useLogout();
 
-  return jwtToken ? element : <Navigate to="/" />;
+  useEffect(() => {
+    if (authToken && isTokenExpired(authToken)) {
+      logout();
+      navigate("/");
+    }
+  }, [authToken, navigate, logout]);
+
+  return authToken && !isTokenExpired(authToken) ? (
+    element
+  ) : (
+    <Navigate to="/" />
+  );
 };
 
 export default ProtectedRoute;

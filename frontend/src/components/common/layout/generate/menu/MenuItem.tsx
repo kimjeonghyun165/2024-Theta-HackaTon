@@ -18,7 +18,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   onChange,
   Icon,
 }) => {
-  const model = useModelStore((state) => state.model);
+  const newModel = useModelStore((state) => state.newModel);
   const isSelected = selectedOption === value;
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -26,20 +26,20 @@ const MenuItem: React.FC<MenuItemProps> = ({
     let disabled = false;
     if (
       value === "option2" &&
-      (!model?.imgSelection || model.imgSelection.length === 0)
+      (!newModel?.imgSelection || newModel.imgSelection.length === 0)
     ) {
       disabled = true;
     }
 
-    if (value === "option3" && !model?.selectedImage) {
+    if (value === "option3" && !newModel?.selectedImage) {
       disabled = true;
     }
 
-    if (value === "option4" && !model?.file) {
+    if (value === "option4" && !newModel?.file) {
       disabled = true;
     }
     setIsDisabled(disabled);
-  }, [model, value]);
+  }, [newModel, value]);
 
   return (
     <li className={`w-16 m-2 menu-item ${isSelected ? "active" : ""}`}>

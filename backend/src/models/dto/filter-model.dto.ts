@@ -18,10 +18,10 @@ export class FilterModelDto {
     sortOrder?: 'asc' | 'desc';
 
     @IsOptional()
-    @IsNumber()
-    offset?: number;
+    @IsString()
+    offset?: string;
 
     @IsOptional()
-    @IsNumber()
-    limit?: number;
+    @IsString()
+    limit?: string;
 }

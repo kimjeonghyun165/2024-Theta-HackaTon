@@ -4,12 +4,15 @@ import { CreateModelDto } from './dto/create-model.dto';
 import { UpdateModelDto } from './dto/update-model.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard.ts';
 import { FilterModelDto } from './dto/filter-model.dto';
+import { TokenTypeGuard } from 'src/common/guards/token-type.guard';
+import { TokenType } from 'src/common/decorators/token-type.decorator';
 
 @Controller('model')
 export class ModelsController {
     constructor(private readonly modelsService: ModelsService) { }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('login')
     @Post('create')
     async createModel(
         @Request() req,
@@ -19,7 +22,8 @@ export class ModelsController {
         return this.modelsService.createModel(createModelDto, userId);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('login')
     @Put('update/:id')
     async updateModel(
         @Request() req,
@@ -30,7 +34,8 @@ export class ModelsController {
         return this.modelsService.updateModel(userId, id, updateModelDto);
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('login')
     @Delete('delete/:id')
     async deleteModel(
         @Request() req,
@@ -39,31 +44,11 @@ export class ModelsController {
         return this.modelsService.deleteModel(userId, id);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Patch('like/:id')
-    async likeModel(@Param('id') id: string) {
-        return this.modelsService.likeModel(id);
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Patch('unlike/:id')
-    async unlikeModel(@Param('id') id: string) {
-        return this.modelsService.unlikeModel(id);
-    }
-
     @Get('filter')
     async getFilterPublicModels(
         @Query() filterModelDto: FilterModelDto,
     ) {
         return this.modelsService.getFilterPublicModels(filterModelDto);
-    }
-
-    @Get("list") // 곧 삭제 예정
-    async getAllModels(
-        @Query('offset') offset: number = 0,
-        @Query('limit') limit: number = 30,
-    ) {
-        return this.modelsService.getAllModels(offset, limit);
     }
 
     @Get('/:id')

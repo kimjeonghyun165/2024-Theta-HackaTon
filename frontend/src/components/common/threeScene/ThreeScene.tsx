@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import setupRenderer from "./setupRenderer";
@@ -7,13 +7,13 @@ import setupScene from "./setupScene";
 import setupLights from "./setupLights";
 import loadModel from "./loadModel";
 import Loading from "../Loading"; // 로딩 컴포넌트 경로에 맞게 수정
-import { useQuery } from "@tanstack/react-query";
 
 interface ThreeSceneProps {
   backgroundColor: number;
   backgroundOpacity: number;
   showGrid: boolean;
   modelPath?: string;
+  isVisible?: boolean;
 }
 
 const ThreeScene: React.FC<ThreeSceneProps> = ({
@@ -21,15 +21,18 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
   backgroundOpacity,
   showGrid,
   modelPath,
+  isVisible,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["ThreeScene", modelPath],
-    queryFn: () => loadModelWrapper(modelPath),
-    enabled: !!modelPath, // modelPath가 있을 때만 쿼리 실행
-    staleTime: 30000,
-  });
+  useEffect(() => {
+    if (isVisible && containerRef.current) {
+      const container = containerRef.current;
+      const event = new Event("resize");
+      window.dispatchEvent(event);
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     let container: HTMLDivElement | null = null;
@@ -55,12 +58,22 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
       controls.target.set(0, 0, 0);
       controls.update();
 
-      if (data) {
-        // 모델이 성공적으로 로드되었을 때 추가 로직이 있다면 여기에 추가
-        renderer.render(scene, camera);
-      } else {
-        renderer.render(scene, camera);
-      }
+      const handleLoadModel = async () => {
+        if (modelPath) {
+          setIsLoading(true);
+          try {
+            await loadModel(scene, camera, renderer, controls, modelPath);
+          } catch (error) {
+            console.error("Error loading model:", error);
+          } finally {
+            setIsLoading(false);
+          }
+        } else {
+          renderer.render(scene, camera);
+        }
+      };
+
+      handleLoadModel();
 
       const onWindowResize = () => {
         if (container) {
@@ -70,7 +83,9 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
           renderer.render(scene, camera);
         }
       };
+
       window.addEventListener("resize", onWindowResize);
+
       const animate = () => {
         requestAnimationFrame(animate);
         controls.update();
@@ -85,35 +100,17 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
         window.removeEventListener("resize", onWindowResize);
       };
     }
-  }, [data, showGrid, backgroundColor, backgroundOpacity]);
+  }, [showGrid, modelPath, backgroundColor, backgroundOpacity]);
 
   return (
     <div ref={containerRef} className="relative w-full h-full">
       {isLoading && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-opacity-75 bg-gray-950">
-          <Loading type="spinner" size="lg" />
-        </div>
-      )}
-      {isError && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-red-500 bg-opacity-75">
-          <p>Error loading model</p>
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-opacity-75">
+          <Loading type="dots" size="lg" />
         </div>
       )}
     </div>
   );
-};
-
-const loadModelWrapper = async (modelPath?: string) => {
-  if (modelPath) {
-    const scene = new THREE.Scene(); // Load the model into the scene
-    const camera = new THREE.PerspectiveCamera();
-    const renderer = new THREE.WebGLRenderer();
-    const controls = new OrbitControls(camera, renderer.domElement);
-    await loadModel(scene, camera, renderer, controls, modelPath);
-    return { scene, camera, renderer, controls };
-  } else {
-    throw new Error("No model path provided");
-  }
 };
 
 export default ThreeScene;

@@ -1,8 +1,9 @@
 import { API_BASE_URL } from "../constant/url";
-import { User } from "../store/useUserStore";
+import { FilterModelDto } from "../interfaces/model.interface";
+import { UpdateUserDto, User } from "../interfaces/user.interface";
 import { fetchFromApi } from "../utils/utils";
 
-export const fetchUser = async (jwtToken: string | null) => {
+export const fetchUser = async (jwtToken: string): Promise<User> => {
     return fetchFromApi(
         API_BASE_URL,
         'user/account',
@@ -12,18 +13,22 @@ export const fetchUser = async (jwtToken: string | null) => {
     );
 };
 
-export const addUser = async (user: User, jwtToken: string | null) => {
-    return fetchFromApi(
-        API_BASE_URL,
-        'user/create',
-        user,
-        'POST',
-        jwtToken
-    );
+export const updateUser = async (updateUserDto: UpdateUserDto, jwtToken: string) => {
+    return fetchFromApi(API_BASE_URL, "user/update", updateUserDto, "PUT", jwtToken);
+};
+
+export const getUserModels = async (filterModelDto: FilterModelDto, jwtToken: string) => {
+    const queryParams = new URLSearchParams(filterModelDto as any).toString();
+    return fetchFromApi(API_BASE_URL, `user/my-models?${queryParams}`, {}, "GET", jwtToken);
 };
 
 
-
-export const login = () => {
-    window.location.href = `${API_BASE_URL}/auth/google/login`;
+export const setRepresentativeModel = async (modelId: string, jwtToken: string) => {
+    return fetchFromApi(API_BASE_URL, "user/set-representative-model", { modelId }, "PUT", jwtToken);
 };
+
+
+export const toggleLikeModel = async (modelId: string, jwtToken: string) => {
+    return fetchFromApi(API_BASE_URL, `user/like/${modelId}`, {}, "PATCH", jwtToken);
+};
+

@@ -1,21 +1,16 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import LoginModal from "./LoginModal";
-import SignUpModal from "./SignUpModal";
-import ResetPasswordModal from "./ResetPasswordModal";
+import SignUpModal from "./signUpModal/SignUpModal";
+import ModalLayout from "../common/Layout";
+import { ModalKey, useModalStore } from "../../../../store/useStore";
+import ResetPasswordModal from "./resetPasswordModal/ResetPasswordModal";
 
 const AccountModalOpenButton = () => {
-  const accountModalRef = useRef<HTMLDialogElement>(null);
   const [selectOption, setSelectOption] = useState<string>("Login");
-
-  const openModal = () => {
-    accountModalRef?.current?.showModal();
-  };
-
-  const closeModal = (e: React.MouseEvent) => {
-    if (e.target === accountModalRef.current) {
-      accountModalRef?.current?.close();
-    }
-  };
+  const { modals, openModal } = useModalStore((state) => ({
+    modals: state.modals,
+    openModal: state.openModal,
+  }));
 
   const renderModalContent = () => {
     switch (selectOption) {
@@ -51,23 +46,26 @@ const AccountModalOpenButton = () => {
 
   return (
     <>
-      <button className="w-[140px] text-2xl btn btn-ghost" onClick={openModal}>
+      <button
+        className="w-[140px] text-2xl btn btn-ghost"
+        onClick={() => openModal(ModalKey.LOGIN_MODAL)}
+      >
         Log-In
       </button>
-      <dialog
-        ref={accountModalRef}
-        id="login_modal"
-        className="modal backdrop-blur-md rounded-3xl"
-        onClick={closeModal}
-      >
-        <div className="w-full flex items-start justify-center mx-auto">
-          <div className="flex flex-col items-center z-10 px-4">
+      <ModalLayout
+        isVisible={modals.loginModal}
+        modalName={ModalKey.LOGIN_MODAL}
+        className="flex min-w-[500px] min-h-[550px]"
+        className2="w-full flex items-start justify-center mx-auto"
+        children2={
+          <div className="flex flex-col items-center px-4">
             {renderOptionButton("Login", "Login")}
             {renderOptionButton("SignUp", "Sign Up")}
           </div>
-          {renderModalContent()}
-        </div>
-      </dialog>
+        }
+      >
+        <div className="w-full flex items-center">{renderModalContent()}</div>
+      </ModalLayout>
     </>
   );
 };

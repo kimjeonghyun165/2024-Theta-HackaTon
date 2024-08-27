@@ -1,64 +1,44 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { addUser, fetchUser } from '../api/userApi';
 
-export interface User {
-    _id?: string;
-    username?: string;
-    email?: string;
-    plan?: string;
-    credits: number;
-    profileImg?: string;
-    models?: string[];
-    likedModels: string[];
-    status: 'active' | 'inactive' | 'banned';
+interface AuthState {
+    authToken: string;
+    setAuthToken: (token: string) => void;
+    clearAuthToken: () => void;
 }
 
-interface useUserState {
-    user: User | null;
-    jwtToken: string | null;
-    setUser: (user: User | null) => void;
-    setJwtToken: (token: string | null) => void;
-    fetchUser: () => Promise<void>;
-    addUser: (user: User) => Promise<void>;
-    clearUser: () => void;
+interface VerifyState {
+    verifyToken: string;
+    setVerifyToken: (token: string) => void;
+    clearVerifyToken: () => void;
 }
 
-export const useUserStore = create<useUserState>()(
+export const useAuthTokenStore = create<AuthState>()(
     persist(
-        (set, get) => ({
-            user: null,
-            jwtToken: null,
-            setUser: (user) => set({ user }),
-            setJwtToken: (token) => set({ jwtToken: token }),
-
-            fetchUser: async () => {
-                const { jwtToken } = get();
-                try {
-                    const user = await fetchUser(jwtToken);
-                    console.log(jwtToken)
-                    set({ user });
-                } catch (error) {
-                    set({ user: null });
-                    console.error(error);
-                }
-            },
-
-            addUser: async (user) => {
-                const { jwtToken } = get();
-                try {
-                    const newUser = await addUser(user, jwtToken);
-                    set({ user: newUser });
-                } catch (error) {
-                    console.error(error);
-                    throw error;
-                }
-            },
-
-            clearUser: () => set({ user: null, jwtToken: null }),
+        (set) => ({
+            authToken: '',
+            setAuthToken: (token) => set({ authToken: token }),
+            clearAuthToken: () => set({ authToken: '' }),
         }),
         {
-            name: 'user-storage',
+            name: 'auth-storage',
+            getStorage: () => localStorage,
+            partialize: (state) => ({ authToken: state.authToken }),
+        }
+    )
+);
+
+export const useVerifyTokenStore = create<VerifyState>()(
+    persist(
+        (set) => ({
+            verifyToken: '',
+            setVerifyToken: (token) => set({ verifyToken: token }),
+            clearVerifyToken: () => set({ verifyToken: '' }),
+        }),
+        {
+            name: 'verify-storage',
+            getStorage: () => sessionStorage,
+            partialize: (state) => ({ verifyToken: state.verifyToken }),
         }
     )
 );

@@ -3,7 +3,6 @@ import CardBody from "../common/CardBody";
 import CreditInfo from "../common/CreditInfo";
 import { Range } from "../common/range/Range";
 
-
 interface LowPolyCardProps {
   rangeValue: number;
   handleRangeChange: (value: number) => void;

@@ -1,13 +1,17 @@
 import Avatar from "../Avatar";
 import { Link } from "react-scroll";
-import { useUserStore } from "../../../store/useUserStore";
 import DropDown from "../Dropdown";
 import { useLogout } from "../../../hooks/useLogout";
 import Logo from "../../../assets/Logo";
 import AccountModalOpenButton from "../modal/accountModal/AccountModalOpenButton";
+import { useFetchUser } from "../../../hooks/useUserApi";
+import { useAuthTokenStore } from "../../../store/useUserStore";
 
 export const Header = () => {
-  const { user } = useUserStore();
+  const { authToken } = useAuthTokenStore((state) => ({
+    authToken: state.authToken,
+  }));
+  const { data: user } = useFetchUser();
   const pathName = window.location.pathname;
   const logout = useLogout();
 
@@ -60,7 +64,7 @@ export const Header = () => {
               </Link>
             </div>
           )}
-          {user ? (
+          {authToken && user ? (
             <DropDown
               buttonContent={<Avatar img={user.profileImg} />}
               items={[

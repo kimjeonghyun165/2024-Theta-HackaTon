@@ -26,13 +26,11 @@ export class UsersService {
                 profileImg
             });
             await user.save();
-        } else {
+        }
+        else {
             if (!isSsoLogin) {
                 throw new BadRequestException('Email already in use');
             }
-            user.username = username;
-            user.profileImg = profileImg;
-            await user.save();
         }
 
         return user;
@@ -72,11 +70,12 @@ export class UsersService {
             throw new NotFoundException(`User with ID ${userId} not found`);
         }
         const modelIds = user.models;
-
+        if (modelIds.length === 0) {
+            return [];
+        }
         const filter: any = { ...filterModelDto, _id: { $in: modelIds } };
 
         const models = await this.modelService.getFilteredModels(filter)
-
         return models;
     }
 

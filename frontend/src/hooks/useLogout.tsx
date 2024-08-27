@@ -1,16 +1,16 @@
+import { useAuthTokenStore } from "../store/useUserStore";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../store/useUserStore";
 
 export const useLogout = () => {
+  const { clearAuthToken } = useAuthTokenStore((state) => ({
+    clearAuthToken: state.clearAuthToken,
+  }));
   const navigate = useNavigate();
-  const { setUser, setJwtToken } = useUserStore();
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setJwtToken(null);
-    setUser(null);
+  const handleLogout = () => {
+    clearAuthToken();
     navigate("/");
   };
 
-  return logout;
+  return handleLogout;
 };

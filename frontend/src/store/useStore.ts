@@ -5,32 +5,83 @@ interface TypeState {
     setSelectedOption: (option: string) => void;
 }
 
-interface FileState {
-    fileUrl: string | '';
-    setFileUrl: (fileUrl: string | undefined) => void;
-    fetchFileUrl: (filename: string) => void;
-}
-
 export const useOptionStore = create<TypeState>((set) => ({
     selectedOption: "option1",
     setSelectedOption: (option) => set({ selectedOption: option }),
 }));
 
 
-export const useFileStore = create<FileState>((set) => ({
-    fileUrl: '',
-    setFileUrl: (fileUrl) => set({ fileUrl }),
-    fetchFileUrl: async (filename: string) => {
-        try {
-            const response = await fetch(`http://localhost:3000/files/${filename}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const blob = await response.blob();
-            const fileUrl = URL.createObjectURL(blob);
-            set({ fileUrl });
-        } catch (error) {
-            console.error('Error fetching file:', error);
-        }
+export enum ModalKey {
+    DETAIL_MODAL = 'detailModal',
+    EDIT_PROFILE_MODAL = 'editProfileModal',
+    SETTING_MODAL = 'settingModal',
+    EDIT_MODAL = 'editModal',
+    SUCCESS_MODAL = 'successModal',
+    LOGIN_MODAL = 'loginModal',
+}
+
+interface ModalState {
+    modals: { [key in ModalKey]: boolean };
+    openModal: (modalName: ModalKey) => void;
+    closeModal: (modalName: ModalKey) => void;
+}
+
+export const useModalStore = create<ModalState>((set) => ({
+    modals: {
+        [ModalKey.DETAIL_MODAL]: false,
+        [ModalKey.EDIT_PROFILE_MODAL]: false,
+        [ModalKey.SETTING_MODAL]: false,
+        [ModalKey.EDIT_MODAL]: false,
+        [ModalKey.SUCCESS_MODAL]: false,
+        [ModalKey.LOGIN_MODAL]: false,
     },
+    openModal: (modalName: ModalKey) =>
+        set((state) => ({ modals: { ...state.modals, [modalName]: true } })),
+    closeModal: (modalName: ModalKey) =>
+        set((state) => ({ modals: { ...state.modals, [modalName]: false } })),
+}));
+
+
+
+interface SignUpState {
+    currentStep: number;
+    setCurrentStep: (step: number) => void;
+    nextStep: () => void;
+    prevStep: () => void;
+    initialStep: () => void;
+}
+
+export const useSignUpStore = create<SignUpState>((set) => ({
+    currentStep: 0,
+    setCurrentStep: (step) => set({ currentStep: step }),
+    nextStep: () => set((state) => ({ currentStep: state.currentStep + 1 })),
+    prevStep: () => set((state) => ({ currentStep: state.currentStep - 1 })),
+    initialStep: () => set({ currentStep: 0 }),
+}));
+
+
+interface ResetPasswordState {
+    currentStep: number;
+    setCurrentStep: (step: number) => void;
+    nextStep: () => void;
+    prevStep: () => void;
+    initialStep: () => void;
+}
+
+export const useResetPasswordStore = create<ResetPasswordState>((set) => ({
+    currentStep: 0,
+    setCurrentStep: (step) => set({ currentStep: step }),
+    nextStep: () => set((state) => ({ currentStep: state.currentStep + 1 })),
+    prevStep: () => set((state) => ({ currentStep: state.currentStep - 1 })),
+    initialStep: () => set({ currentStep: 0 }),
+}));
+
+interface SignUpEmailState {
+    email: string;
+    setEmail: (email: string) => void;
+}
+
+export const useSignUpEmailStore = create<SignUpEmailState>((set) => ({
+    email: '',
+    setEmail: (email) => set({ email }),
 }));
