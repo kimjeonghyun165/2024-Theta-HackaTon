@@ -141,8 +141,16 @@ const EditModal: React.FC<PostPopupProps> = ({ mode, initialModel }) => {
             register={register("price")}
             isDisabled={!newModel?.listing}
           />
-          <IconBtn icon={Market} bgColor="bg-[#1C1C1C]/[.53]" />
-          <IconBtn icon={Question} bgColor="bg-[#1C1C1C]/[.53]" />
+          <IconBtn
+            icon={Market}
+            className="btn-circle p-4 bg-[#1C1C1C]/[.53]"
+            tooltip="Market"
+          />
+          <IconBtn
+            icon={Question}
+            className="btn-circle p-4 bg-[#1C1C1C]/[.53]"
+            tooltip="FAQ"
+          />
         </div>
         <ActionField isLoading={isCreating || isUpdating} />
       </form>

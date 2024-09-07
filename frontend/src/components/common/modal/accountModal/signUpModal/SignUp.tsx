@@ -2,12 +2,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  useModalStore,
   useSignUpEmailStore,
   useSignUpStore,
 } from "../../../../../store/useStore";
 import InputField from "../../common/InputField";
 import { useRegister } from "../../../../../hooks/useAuthApi";
 import { getErrorMessage } from "../../../../../utils/utils";
+import TermsModal from "../../modals/TermsModal";
 
 const signUpSchema = z.object({
   name: z
@@ -41,52 +43,64 @@ const SignUp = () => {
           nextStep();
         },
         onError: (error) => {
-          console.error("Registration failed:", error);
+          const errorMessage = getErrorMessage(error);
+          if (
+            errorMessage.includes(
+              "Please verify your email to complete the registration."
+            )
+          ) {
+            setEmail(data.email);
+            nextStep();
+          } else {
+            console.error("Registration failed:", errorMessage);
+          }
         },
       }
     );
   };
 
   return (
-    <form
-      className="flex flex-col w-full h-full justify-center gap-10"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <InputField
-        label="Name"
-        type="text"
-        placeholder="Enter your name"
-        register={register("name")}
-        errorMessage={errors.name?.message}
-      />
-      <InputField
-        label="Email"
-        type="email"
-        placeholder="Enter your email"
-        register={register("email")}
-        errorMessage={errors.email?.message}
-      />
-      <div className="flex flex-col gap-2">
-        <div className="flex text-xs items-center justify-start gap-2 pl-2">
-          <input
-            type="checkbox"
-            className="checkbox checkbox-sm border-white"
-          />
-          <p>I agree to the</p>
-          <p className="text-[#A1B0FF]">Terms & Conditions</p>
+    <>
+      <form
+        className="flex flex-col w-full h-full justify-center gap-10"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <InputField
+          label="Name"
+          type="text"
+          placeholder="Enter your name"
+          register={register("name")}
+          errorMessage={errors.name?.message}
+        />
+        <InputField
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
+          register={register("email")}
+          errorMessage={errors.email?.message}
+        />
+        <div className="flex flex-col gap-2">
+          <div className="flex text-xs items-center justify-start gap-2 pl-2">
+            <input
+              type="checkbox"
+              className="checkbox checkbox-sm border-white"
+            />
+            <p>I agree to the</p>
+            <TermsModal />
+          </div>
+          <button
+            className="w-full text-xl text-white rounded-full btn btn-xl"
+            type="submit"
+            disabled={isPending}
+          >
+            Sign Up
+          </button>
         </div>
-        <button
-          className="w-full text-xl text-white rounded-full btn btn-xl"
-          type="submit"
-          disabled={isPending}
-        >
-          Sign Up
-        </button>
-      </div>
-      {isError && (
-        <div className="text-red-500">Error: {getErrorMessage(error)}</div>
-      )}
-    </form>
+        {isError && (
+          <div className="text-red-500">Error: {getErrorMessage(error)}</div>
+        )}
+      </form>
+    </>
   );
 };
 

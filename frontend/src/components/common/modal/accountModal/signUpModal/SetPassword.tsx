@@ -23,8 +23,9 @@ const SetPassword = () => {
     error,
   } = useSetPassword();
   const initialStep = useSignUpStore((state) => state.initialStep);
-  const { closeModal } = useModalStore((state) => ({
+  const { closeModal, openModal } = useModalStore((state) => ({
     closeModal: state.closeModal,
+    openModal: state.openModal,
   }));
 
   const {
@@ -39,6 +40,7 @@ const SetPassword = () => {
     setPasswordMutation(data);
     closeModal(ModalKey.LOGIN_MODAL);
     initialStep();
+    openModal(ModalKey.SUCCESS_MODAL);
   };
 
   return (

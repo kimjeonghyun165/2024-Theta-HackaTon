@@ -25,7 +25,6 @@ type VerifyEmailFormData = z.infer<typeof verifyEmailSchema>;
 
 const SendAndVerifyEmail = () => {
   const setCurrentStep = useResetPasswordStore((state) => state.setCurrentStep);
-  const currentStep = useResetPasswordStore((state) => state.currentStep);
   const setSignUpEmail = useSignUpEmailStore((state) => state.setEmail);
   const email = useSignUpEmailStore((state) => state.email);
   const setVerifyToken = useVerifyTokenStore((state) => state.setVerifyToken);

@@ -1,12 +1,13 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchUser, getUserModels, setRepresentativeModel, toggleLikeModel, updateUser } from '../api/userApi';
+import { fetchUser, getUserModels, setRepresentativeModel, submitSurvey, toggleLikeModel, updateUser } from '../api/userApi';
 import { FilterModelDto } from '../interfaces/model.interface';
-import { UpdateUserDto, User } from '../interfaces/user.interface';
+import { SurveyDto, UpdateUserDto, User } from '../interfaces/user.interface';
+import { ModalKey, useModalStore } from '../store/useStore';
 import { useAuthTokenStore } from '../store/useUserStore';
 
 export const useFetchUser = () => {
     const jwtToken = useAuthTokenStore((state) => state.authToken);
-
+    console.log(jwtToken)
     return useQuery<User>({
         queryKey: ['userAccount'],
         queryFn: () => fetchUser(jwtToken),
@@ -69,6 +70,26 @@ export const useToggleLikeModel = () => {
         mutationFn: (modelId: string) => toggleLikeModel(modelId, jwtToken),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['userAccount'] });
+        },
+    });
+};
+
+
+export const useSurveyResponse = () => {
+    const queryClient = useQueryClient();
+    const jwtToken = useAuthTokenStore((state) => state.authToken);
+    const closeModal = useModalStore((state) => state.closeModal)
+
+    return useMutation({
+        mutationFn: (surveyDto: SurveyDto) => {
+            return submitSurvey(surveyDto, jwtToken);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['userAccount'] });
+            closeModal(ModalKey.SURVEY_MODAL);
+        },
+        onError: (error) => {
+            console.error("Error submitting survey:", error);
         },
     });
 };

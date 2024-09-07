@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Put, Body, Param, Request, UseGuards, HttpCode, HttpStatus, Query, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, Request, UseGuards, HttpCode, HttpStatus, Query, Patch, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard.ts';
 import { FilterModelDto } from 'src/models/dto/filter-model.dto';
 import { TokenTypeGuard } from 'src/common/guards/token-type.guard';
 import { TokenType } from 'src/common/decorators/token-type.decorator';
+import { SurveyDto } from './dto/survey.dto';
 
 @Controller('user')
 export class UsersController {
@@ -43,7 +44,7 @@ export class UsersController {
     @Put('set-representative-model')
     async setRepresentativeModel(@Request() req, @Body('modelId') modelId: string) {
         const userId = req.user.userId;
-        return this.usersService.setRepresentativeModel(userId, modelId);
+        return this.usersService.setProfileImg(userId, modelId);
     }
 
     @UseGuards(JwtAuthGuard, TokenTypeGuard)
@@ -52,6 +53,18 @@ export class UsersController {
     async toggleLikeModel(@Param('id') id: string, @Request() req) {
         const userId = req.user.userId;
         return this.usersService.toggleLikeModel(userId, id);
+    }
+
+    @UseGuards(JwtAuthGuard, TokenTypeGuard)
+    @TokenType('login')
+    @Patch('survey/complete')
+    async completeSurvey(@Request() req, @Body() surveyDto: SurveyDto) {
+        try {
+            const userId = req.user.userId;
+            return this.usersService.completeSurvey(userId, surveyDto);
+        } catch (e) {
+            console.log(e)
+        }
     }
 }
 

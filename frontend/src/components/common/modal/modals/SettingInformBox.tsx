@@ -101,7 +101,7 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
                     {
                       <IconBtn
                         icon={icons[subtitle as IconKeys]}
-                        bgColor="bg-fifth/[.2] hover:bg-black"
+                        className="bg-fifth/[.2] btn-circle p-3"
                       />
                     }
                   </div>
@@ -115,7 +115,7 @@ function SettingInformBox({ title, items }: SettingInformBoxProps) {
             {type !== "select" && icons[subtitle as IconKeys] && (
               <IconBtn
                 icon={icons[subtitle as IconKeys]}
-                bgColor="bg-fifth/[.2] hover:bg-black"
+                className="bg-fifth/[.2] btn-circle p-3"
               />
             )}
           </li>

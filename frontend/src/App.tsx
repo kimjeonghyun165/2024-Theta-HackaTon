@@ -19,6 +19,9 @@ import Market from "./pages/Market";
 import { isTokenExpired } from "./utils/auth";
 import { useLogout } from "./hooks/useLogout";
 import { useFetchUser } from "./hooks/useUserApi";
+import GenerateCustomization from "./pages/GenerateCustomization";
+import { useModalStore, ModalKey } from "./store/useStore";
+import SurveyModal from "./components/common/modal/modals/SurveyModal";
 
 const queryClient = new QueryClient();
 
@@ -28,9 +31,10 @@ const App: React.FC = () => {
     setAuthToken: state.setAuthToken,
   }));
 
-  const { refetch: fetchUser } = useFetchUser();
+  const { refetch: fetchUser, data: user } = useFetchUser();
   const logout = useLogout();
   const navigate = useNavigate();
+  const openModal = useModalStore((state) => state.openModal);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -51,7 +55,7 @@ const App: React.FC = () => {
       }
     };
     checkTokenExpiration();
-    const intervalId = setInterval(checkTokenExpiration, 600000);
+    const intervalId = setInterval(checkTokenExpiration, 1800000);
     return () => clearInterval(intervalId);
   }, [authToken, logout]);
 
@@ -61,16 +65,32 @@ const App: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (user && user.isSurveyCompleted === false) {
+      openModal(ModalKey.SURVEY_MODAL);
+    }
+  }, [user, openModal]);
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route
-        path="/model/generate"
-        element={<ProtectedRoute element={<Generate3DModel />} />}
-      />
-      <Route path="/myPage" element={<ProtectedRoute element={<MyPage />} />} />
-      <Route path="/market" element={<Market />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/model/generate"
+          element={<ProtectedRoute element={<Generate3DModel />} />}
+        />
+        <Route
+          path="/model/generate/customization"
+          element={<ProtectedRoute element={<GenerateCustomization />} />}
+        />
+        <Route
+          path="/myPage"
+          element={<ProtectedRoute element={<MyPage />} />}
+        />
+        <Route path="/market" element={<Market />} />
+      </Routes>
+      <SurveyModal />
+    </>
   );
 };
 

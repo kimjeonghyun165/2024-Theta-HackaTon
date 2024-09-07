@@ -1,12 +1,14 @@
-
 import { Body_1, Body_2 } from "../../../assets/generate/customization/Body";
-import { Dumbbell_1, Dumbbell_2 } from "../../../assets/generate/customization/Dumbbell";
+import {
+  Dumbbell_1,
+  Dumbbell_2,
+} from "../../../assets/generate/customization/Dumbbell";
 import { Range } from "../common/range/Range";
 
 const Shape = () => {
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-xl font-semibold">Shape</p>
+    <div className="flex flex-col gap-3">
+      <p className="text-xl  font-semibold height-normal:text-lg">Shape</p>
       <div className="flex items-center justify-around gap-4 px-4">
         <div className="w-[10%]">
           <Body_1 />
@@ -16,7 +18,7 @@ const Shape = () => {
           <Body_2 />
         </div>
       </div>
-      <div className="flex items-center justify-around gap-4 px-4">
+      <div className="flex items-center justify-around mt-2 gap-4 px-4">
         <div className="w-[10%]">
           <Dumbbell_1 />
         </div>

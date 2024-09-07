@@ -1,15 +1,39 @@
-import { IsString, IsOptional, IsNumber, IsEnum, IsArray, IsMongoId, IsUrl, IsBoolean, IsObject, IsNotEmpty, MinLength, Matches } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsEnum, IsArray, IsMongoId, IsUrl, IsBoolean, IsObject, IsNotEmpty, MinLength, Matches, ValidateNested, Min } from 'class-validator';
 import { Types } from 'mongoose';
+import { Type } from 'class-transformer';
+import { SurveyDto } from './survey.dto';
 
-class VerificationCodeDetailsDto {
+export class VerificationCodeDetailsUpdateDto {
     @IsString()
-    readonly code: string;
+    @IsOptional()
+    code?: string;
 
-    @IsNumber()
-    readonly expiresIn: number;
+    @IsOptional()
+    expiresIn?: number;
 
     @IsString()
-    readonly hmac: string;
+    @IsOptional()
+    hmac?: string;
+}
+
+export class LoginMethodUpdateDto {
+    @IsEnum(['email', 'google', 'facebook', 'apple'])
+    @IsOptional()
+    method?: 'email' | 'google' | 'facebook' | 'apple';
+
+    @IsString()
+    @IsOptional()
+    password?: string;
+
+
+    @IsBoolean()
+    @IsOptional()
+    isEmailVerified?: boolean;
+
+    @ValidateNested()
+    @IsOptional()
+    @Type(() => VerificationCodeDetailsUpdateDto)
+    verificationCodeDetails?: VerificationCodeDetailsUpdateDto;
 }
 
 export class UpdateUserDto {
@@ -27,11 +51,12 @@ export class UpdateUserDto {
 
     @IsOptional()
     @IsBoolean()
-    readonly isEmailVerified?: boolean;
+    readonly isSurveyCompleted?: boolean;
 
+    @ValidateNested()
     @IsOptional()
-    @IsObject()
-    readonly verificationCodeDetails?: VerificationCodeDetailsDto;
+    @Type(() => LoginMethodUpdateDto)
+    readonly loginMethod?: LoginMethodUpdateDto;
 
     @IsOptional()
     @IsString()
@@ -39,15 +64,12 @@ export class UpdateUserDto {
 
     @IsOptional()
     @IsNumber()
+    @Min(0)
     readonly credits?: number;
 
     @IsOptional()
     @IsUrl()
     readonly profileImg?: string;
-
-    @IsOptional()
-    @IsUrl()
-    readonly representativeModel?: string;
 
     @IsOptional()
     @IsArray()
@@ -60,6 +82,26 @@ export class UpdateUserDto {
     readonly likedModels?: Types.ObjectId[];
 
     @IsOptional()
-    @IsEnum(['active', 'inactive', 'banned'])
-    readonly status?: 'active' | 'inactive' | 'banned';
+    @IsEnum(['pending', 'active', 'inactive', 'banned'])
+    readonly status?: 'pending' | 'active' | 'inactive' | 'banned';
+
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => SurveyDto)
+    readonly survey?: SurveyDto;
+
+    @IsOptional()
+    @IsArray()
+    @IsMongoId({ each: true })
+    readonly purchasedModels?: Types.ObjectId[];
+
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    readonly totalLikesReceived?: number;
+
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    readonly totalSales?: number;
 }

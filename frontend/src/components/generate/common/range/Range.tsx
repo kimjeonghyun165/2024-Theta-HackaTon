@@ -36,7 +36,7 @@ const Range: React.FC<SliderProps> = ({
 
   return (
     <div className="relative w-full flex flex-col items-center">
-      <div className="relative w-full h-1 bg-white rounded-lg">
+      <div className="relative w-full h-1 height-small:h-[3px] bg-white rounded-lg">
         <div
           className={`w-full absolute flex justify-between -translate-y-[0.375rem] ${paddingX}`}
         >
@@ -49,7 +49,7 @@ const Range: React.FC<SliderProps> = ({
           step={step}
           value={value}
           onChange={handleChange}
-          className="absolute w-full h-1 bg-transparent appearance-none"
+          className="absolute w-full h-1  bg-transparent appearance-none"
         />
       </div>
       {showValue && <div className="mt-2 text-center text-white">{value}</div>}

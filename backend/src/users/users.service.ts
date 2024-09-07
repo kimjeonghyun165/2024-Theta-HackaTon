@@ -5,6 +5,7 @@ import { FilterModelDto } from 'src/models/dto/filter-model.dto';
 import { ModelsService } from 'src/models/models.service';
 import { Model } from 'src/models/schema/model.schema';
 import { CreateUserDto } from './dto/create-user.dto';
+import { SurveyDto } from './dto/survey.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
 
@@ -15,33 +16,66 @@ export class UsersService {
         @InjectModel(User.name) private userModel: MongooseModel<User>,
         private readonly modelService: ModelsService) { }
 
-    async findOrCreateUser(createUserDto: CreateUserDto, isSsoLogin = true): Promise<User> {
-        const { username, email, profileImg } = createUserDto;
-        let user = await this.userModel.findOne({ email }).exec();
 
-        if (!user) {
-            user = new this.userModel({
-                username,
-                email,
-                profileImg
-            });
-            await user.save();
-        }
-        else {
-            if (!isSsoLogin) {
-                throw new BadRequestException('Email already in use');
+    async findOrCreateUser(
+        createUserDto: CreateUserDto,
+        isSsoLogin: boolean,
+        provider: 'google' | 'facebook' | 'apple' | 'email'
+    ): Promise<any> {
+        const { email } = createUserDto;
+        let user = await this.findByEmail(email)
+
+        if (user) {
+            if (user.status === 'pending') {
+                if (user.loginMethod.method === 'email' && !user.loginMethod.password && provider === 'email') {
+                    return
+                }
+                else if (user.loginMethod.method !== provider) {
+                    throw new BadRequestException(`This email is already registered with ${user.loginMethod.method}. Please use ${user.loginMethod.method} to log in.`);
+                }
+                return user;
             }
-        }
 
-        return user;
+            if (user.status === 'active') {
+                if (user.loginMethod.method !== provider) {
+                    throw new BadRequestException(`This email is already registered with ${user.loginMethod.method}. Please use ${user.loginMethod.method} to log in.`);
+                }
+                return user;
+            }
+
+            throw new BadRequestException('Your account is not active. Please contact support.');
+        } else {
+            return this.createUser(createUserDto, isSsoLogin, provider);
+        }
     }
 
+    async createUser(createUserDto: CreateUserDto, isSsoLogin: boolean = true, loginProvider: string): Promise<User> {
+        const { username, email, profileImg } = createUserDto;
+        const newUser = new this.userModel({
+            username,
+            email,
+            profileImg,
+            loginMethod: {
+                method: loginProvider,
+                isEmailVerified: isSsoLogin ? true : false,
+            },
+            status: 'pending',
+            isSurveyComplete: false
+        });
+        return newUser.save();
+    }
 
-    async updateUser(userId: string | Types.ObjectId, updateUserDto: UpdateUserDto): Promise<User> {
-        const user = await this.userModel.findByIdAndUpdate(userId, updateUserDto, { new: true }).exec();
+    async updateUser(userId: string | Types.ObjectId, updateUserDto: any): Promise<User> {
+        const user = await this.userModel.findByIdAndUpdate(
+            userId,
+            updateUserDto,
+            { new: true }
+        ).exec();
+
         if (!user) {
             throw new NotFoundException(`User with ID ${userId} not found`);
         }
+
         return user;
     }
 
@@ -54,7 +88,7 @@ export class UsersService {
     }
 
     async findByEmailforPassword(email: string): Promise<User> {
-        const user = await this.userModel.findOne({ email }).select('+password').exec();
+        const user = await this.userModel.findOne({ email }).select('+loginMethod.password').exec();
         if (!user) {
             throw new NotFoundException('User not found');
         }
@@ -65,7 +99,7 @@ export class UsersService {
         userId: string,
         filterModelDto: FilterModelDto
     ): Promise<Model[]> {
-        const user = await this.userModel.findById(userId).exec();
+        const user = await this.findOneById(userId)
         if (!user) {
             throw new NotFoundException(`User with ID ${userId} not found`);
         }
@@ -80,7 +114,7 @@ export class UsersService {
     }
 
 
-    async setRepresentativeModel(userId: string, modelId: string): Promise<User> {
+    async setProfileImg(userId: string, modelId: string): Promise<User> {
         const user = await this.userModel.findById(userId).exec();
         const modelObjectId = new Types.ObjectId(modelId);
 
@@ -93,7 +127,7 @@ export class UsersService {
 
         const modeldoc = await this.modelService.getModelById(modelId)
 
-        return this.updateUser(userId, { representativeModel: modeldoc.preview })
+        return this.updateUser(userId, { profileImg: modeldoc.preview })
     }
 
 
@@ -116,7 +150,6 @@ export class UsersService {
         }
     }
 
-
     async deductCredits(userId: string, amount: number): Promise<User> {
         const user = await this.findOneById(userId);
 
@@ -131,4 +164,21 @@ export class UsersService {
 
         return updatedUser;
     }
+
+    async completeSurvey(userId: string, surveyDto: SurveyDto): Promise<User> {
+        const updateUserDto: UpdateUserDto = {
+            survey: surveyDto,
+            status: 'active',
+            isSurveyCompleted: true
+        };
+
+        const user = await this.updateUser(userId, updateUserDto);
+        if (user.status === 'active' && user.isSurveyCompleted) {
+            await this.addCredits(userId, 250);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
 }

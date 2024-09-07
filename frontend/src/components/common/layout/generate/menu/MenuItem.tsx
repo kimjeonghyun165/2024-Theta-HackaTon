@@ -22,24 +22,24 @@ const MenuItem: React.FC<MenuItemProps> = ({
   const isSelected = selectedOption === value;
   const [isDisabled, setIsDisabled] = useState(false);
 
-  useEffect(() => {
-    let disabled = false;
-    if (
-      value === "option2" &&
-      (!newModel?.imgSelection || newModel.imgSelection.length === 0)
-    ) {
-      disabled = true;
-    }
+  // useEffect(() => {
+  //   let disabled = false;
+  //   if (
+  //     value === "option2" &&
+  //     (!newModel?.imgSelection || newModel.imgSelection.length === 0)
+  //   ) {
+  //     disabled = true;
+  //   }
 
-    if (value === "option3" && !newModel?.selectedImage) {
-      disabled = true;
-    }
+  //   if (value === "option3" && !newModel?.selectedImage) {
+  //     disabled = true;
+  //   }
 
-    if (value === "option4" && !newModel?.file) {
-      disabled = true;
-    }
-    setIsDisabled(disabled);
-  }, [newModel, value]);
+  //   if (value === "option4" && !newModel?.file) {
+  //     disabled = true;
+  //   }
+  //   setIsDisabled(disabled);
+  // }, [newModel, value]);
 
   return (
     <li className={`w-16 m-2 menu-item ${isSelected ? "active" : ""}`}>

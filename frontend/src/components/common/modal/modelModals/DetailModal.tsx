@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Check, DownArrow, Market, Question } from "../../../../assets/icons";
 import { Model } from "../../../../interfaces/model.interface";
+import { useModelStore } from "../../../../store/useModelStore";
 import { ModalKey, useModalStore } from "../../../../store/useStore";
 import IconBtn from "../../IconBtn";
 import ThreeScene from "../../threeScene/ThreeScene";
@@ -13,11 +15,14 @@ interface ModelBoxProps {
 }
 
 const DetailModal: React.FC<ModelBoxProps> = ({ model }) => {
+  const navigate = useNavigate();
   const { modals, openModal, closeModal } = useModalStore((state) => ({
     modals: state.modals,
     openModal: state.openModal,
     closeModal: state.closeModal,
   }));
+
+  const setEditModel = useModelStore((state) => state.setEditModel);
 
   const handleDownload = () => {
     const link = document.createElement("a");
@@ -26,6 +31,11 @@ const DetailModal: React.FC<ModelBoxProps> = ({ model }) => {
       link.download = model.title + ".fbx";
       link.click();
     }
+  };
+
+  const handleCustomButton = () => {
+    setEditModel(model);
+    navigate("/model/generate/customization");
   };
 
   const handleEditButton = () => {
@@ -72,17 +82,30 @@ const DetailModal: React.FC<ModelBoxProps> = ({ model }) => {
                 price :
                 {model.price === null ? " No Listing" : model.price + " $"}
               </div>
-              <IconBtn icon={Market} bgColor="bg-[#1C1C1C]/[.53]" />
-              <IconBtn icon={Question} bgColor="bg-[#1C1C1C]/[.53]" />
+              <IconBtn
+                icon={Market}
+                className="btn-circle p-4 bg-[#1C1C1C]/[.53]"
+                tooltip="Market"
+              />
+              <IconBtn
+                icon={Question}
+                className="btn-circle p-4 bg-[#1C1C1C]/[.53]"
+                tooltip="FAQ"
+              />
             </div>
             <div className="flex items-center justify-around gap-6">
               <IconBtn
                 icon={DownArrow}
-                bgColor="bg-black/[.53]"
+                className="btn-circle p-4 bg-[#1C1C1C]/[.53]"
                 onClick={handleDownload}
+                tooltip="Download as fbx"
+                tooltipPosition="bottom"
               />
               <div className="w-full mt-0 modal-action">
-                <button className="btn w-1/2 bg-black/[.53] rounded-full text-white">
+                <button
+                  className="btn w-1/2 bg-black/[.53] rounded-full text-white"
+                  onClick={handleCustomButton}
+                >
                   Customize
                 </button>
                 <button

@@ -1,11 +1,12 @@
-import React from "react";
-
 interface SwapIconButtonProps {
   swapOnIcon: React.FC;
   swapOffIcon: React.FC;
   bgColor: string;
   isSwapped: boolean;
   onSwap: () => void;
+  tooltipOn?: string;
+  tooltipOff?: string;
+  tooltipPosition?: "left" | "right" | "top" | "bottom";
 }
 
 const SwapIconBtn: React.FC<SwapIconButtonProps> = ({
@@ -14,18 +15,30 @@ const SwapIconBtn: React.FC<SwapIconButtonProps> = ({
   bgColor,
   isSwapped,
   onSwap,
-}) => (
-  <label
-    className={`btn btn-circle swap swap-rotate border-none p-3 ${bgColor}`}
-  >
-    <input type="checkbox" checked={isSwapped} onChange={onSwap} />
-    <div className="swap-off">
-      <SwapOffIcon />
+  tooltipOn,
+  tooltipOff,
+  tooltipPosition = "top",
+}) => {
+  const tooltipText = isSwapped ? tooltipOn : tooltipOff;
+  const tooltipClass = tooltipText
+    ? `tooltip font-normal tooltip-${tooltipPosition}`
+    : "";
+
+  return (
+    <div className={`relative ${tooltipClass}`} data-tip={tooltipText}>
+      <label
+        className={`swap swap-rotate btn btn-circle border-none p-3 ${bgColor}`}
+      >
+        <input type="checkbox" checked={isSwapped} onChange={onSwap} />
+        <div className="swap-off">
+          <SwapOffIcon />
+        </div>
+        <div className="swap-on">
+          <SwapOnIcon />
+        </div>
+      </label>
     </div>
-    <div className="swap-on">
-      <SwapOnIcon />
-    </div>
-  </label>
-);
+  );
+};
 
 export default SwapIconBtn;

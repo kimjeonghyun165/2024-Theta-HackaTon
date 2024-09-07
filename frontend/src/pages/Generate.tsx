@@ -18,8 +18,8 @@ const Generate3DModel: React.FC = () => {
 
   return (
     <Layout>
-      <div className="flex justify-around w-full gap-4">
-        <div className="relative w-2/5 h-full max-w-lg overflow-hidden">
+      <div className="flex justify-around w-full gap-4 h-[85vh]">
+        <div className="relative w-full max-w-lg">
           <AnimatedContent isVisible={selectedOption === "option1"}>
             <Prompt />
           </AnimatedContent>
@@ -42,7 +42,11 @@ const Generate3DModel: React.FC = () => {
           />
         </div>
         <EditModal mode={"create"} />
-        <SuccessModal isVisible={modals.successModal} />
+        <SuccessModal
+          isVisible={modals.successModal}
+          message={"The model was successfully created!"}
+          refreshUrl={"/model/generate"}
+        />
       </div>
     </Layout>
   );

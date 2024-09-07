@@ -8,6 +8,7 @@ import { ModalKey, useModalStore } from "../../../../store/useStore";
 import ModalLayout from "../common/Layout";
 import LoadMoreButton from "../../../myPage/common/LoadMoreButton";
 import SearchBar from "../../../myPage/common/SearchBar";
+import Anvil3 from "../../../../assets/Anvil3";
 
 const EditProfileModal = () => {
   const [selectedModel, setSelectedModel] = useState<Model | null>(null);
@@ -71,28 +72,48 @@ const EditProfileModal = () => {
               onSortChange={handleSortChange}
             />
           </div>
-          <div className="max-h-[300px] min-h-[300px] w-full justify-center mt-10 overflow-scroll">
-            <div className="grid grid-cols-4 gap-8">
-              {filteredModels?.map((model: Model) => (
-                <button
-                  key={model._id}
-                  className={`rounded-3xl flex flex-col justify-between items-center mx-auto ${
-                    selectedModel?._id === model._id
-                      ? "border-4 border-blue-500"
-                      : "bg-[#777777]/[0.2]"
-                  }`}
-                  onClick={() => setSelectedModel(model)}
-                >
-                  <img src={model.preview} className="rounded-3xl" />
-                </button>
-              ))}
-            </div>
-            <LoadMoreButton
-              isLoading={isFetchingNextPage}
-              hasNextPage={!!hasNextPage}
-              onClick={() => fetchNextPage()}
-              error={error ? `${error}` : null}
-            />
+          <div className="">
+            {filteredModels && filteredModels.length > 0 ? (
+              <div className="max-h-[300px] min-h-[300px] w-full justify-center overflow-scroll mt-10">
+                <div className="grid grid-cols-4 gap-8">
+                  {filteredModels.map((model: Model) => (
+                    <button
+                      key={model._id}
+                      className={`rounded-3xl flex flex-col justify-between items-center mx-auto ${
+                        selectedModel?._id === model._id
+                          ? "border-4 border-blue-500"
+                          : "bg-[#777777]/[0.2]"
+                      }`}
+                      onClick={() => setSelectedModel(model)}
+                    >
+                      <img
+                        src={model.preview}
+                        className="rounded-3xl"
+                        alt="model preview"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="max-h-[300px] min-h-[300px] flex items-center justify-center">
+                <div className="flex flex-col justify-center items-center text-center text-white text-lg gap-2">
+                  <div className="w-2/5">
+                    <Anvil3 />
+                  </div>
+                  <p>There’s nothing here yet</p>
+                  <p>Strike the anvil and forge your imagination</p>
+                </div>
+              </div>
+            )}
+            {filteredModels && filteredModels.length > 4 && (
+              <LoadMoreButton
+                isLoading={isFetchingNextPage}
+                hasNextPage={!!hasNextPage}
+                onClick={() => fetchNextPage()}
+                error={error ? `${error}` : null}
+              />
+            )}
           </div>
         </div>
       </ModalLayout>

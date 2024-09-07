@@ -28,7 +28,7 @@ export class TokenTypeGuard implements CanActivate {
         const token = authHeader.split(' ')[1];
         const decodedToken = this.jwtService.decode(token);
 
-        if (!decodedToken || decodedToken['type'] !== requiredType) {
+        if (!decodedToken || decodedToken['type'] !== requiredType || decodedToken['status'] === "banned") {
             throw new UnauthorizedException('Invalid token type');
         }
 

@@ -43,7 +43,7 @@ const HomeSection1 = () => {
               url,
               selected: false,
             }));
-            setNewModel({ prompt, imgSelection: images });
+            setNewModel({ prompt: prompt, imgSelection: images });
             navigate("model/generate");
             setSelectedOption("option2");
           },
@@ -61,15 +61,15 @@ const HomeSection1 = () => {
     <section className="relative flex flex-col gap-24">
       <div className="flex items-center justify-around">
         <div className="flex flex-col gap-6 ml-6 font-bold 2xl:ml-12 md:pl-16">
-          <h1 className="text-4xl lg:text-5xl xl:text-7xl tracking-[1rem] w-full">
+          <h1 className="text-4xl lg:text-5xl xl:text-7xl height-small:text-6xl height-small:tracking-[1.1rem] tracking-[1.33rem] tra w-full">
             <p>SMITH ALL</p>
             <p className="tracking-[.05em] mt-4">IMAGINATION</p>
           </h1>
-          <h2 className="w-full mt-8 text-base lg:text-base xl:text-3xl">
+          <h2 className="w-full mt-8 text-base lg:text-base xl:text-3xl height-small:text-3xl">
             THE BEST 3D MODEL GENERATIVE AI
           </h2>
         </div>
-        <div className="w-1/2">
+        <div className="w-1/2 height-small:w-[40%]">
           <Anvil />
         </div>
         <div className="absolute w-[1100px] -bottom-[500px] -z-20">

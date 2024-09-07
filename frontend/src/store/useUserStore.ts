@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { SurveyDto } from '../interfaces/user.interface';
 
 interface AuthState {
     authToken: string;
@@ -12,7 +13,6 @@ interface VerifyState {
     setVerifyToken: (token: string) => void;
     clearVerifyToken: () => void;
 }
-
 export const useAuthTokenStore = create<AuthState>()(
     persist(
         (set) => ({
@@ -42,3 +42,28 @@ export const useVerifyTokenStore = create<VerifyState>()(
         }
     )
 );
+
+export const useSurveyStore = create<{
+    surveyData: SurveyDto;
+    setSurveyData: (data: Partial<SurveyDto>) => void;
+}>((set) => ({
+    surveyData: {
+        country: '',
+        occupation: [],
+        companyIndustry: [],
+        usageOfAnvilAI: [],
+        companySize: '',
+        otherOccupation: '',
+        otherIndustry: '',
+        teamSize: undefined,
+        teamSharesAccount: undefined,
+        otherUsageOfAnvilAI: '',
+    },
+    setSurveyData: (data) =>
+        set((state) => ({
+            surveyData: {
+                ...state.surveyData,
+                ...data,
+            },
+        })),
+}));

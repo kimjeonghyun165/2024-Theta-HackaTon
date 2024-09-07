@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import EditProfileModal from "../common/modal/modelModals/EditProfileModal";
 import Plan from "./userProfile/Plan";
 import Edit from "../../assets/icons/Edit";
 import SettingModal from "../common/modal/modals/SettingModal";
 import AchievementsBoxes from "./userProfile/AchievementsBoxes";
 import { useFetchUser, useUpdateUser } from "../../hooks/useUserApi";
 import { UpdateUserDto } from "../../interfaces/user.interface";
+import EditProfileModal from "../common/modal/modals/EditProfileModal";
 
 const UserProfile = () => {
   const { data: user } = useFetchUser();
@@ -45,7 +45,7 @@ const UserProfile = () => {
     <section className="flex gap-10 bg-[#D0D0D0]/[.07] rounded-3xl px-14 py-20">
       <div className="rounded-3xl flex flex-1 justify-end w-full relative overflow-hidden">
         <img
-          src={user?.representativeModel}
+          src={user?.profileImg}
           alt="Model Image"
           className="absolute w-full h-full bg-MyPageProfileBackground"
         />
@@ -82,7 +82,7 @@ const UserProfile = () => {
         <div className="flex flex-col mt-4 gap-5 w-full">
           <h3 className="text-xl">Achievements</h3>
           <AchievementsBoxes>
-            GENERATION: {user?.models?.length}, LIKES: 101, SALES: 1K
+            GENERATION: {user?.models?.length}, LIKES: 0, SALES: 0
           </AchievementsBoxes>
         </div>
         <div className="flex flex-col mt-20 gap-7 lg:flex-row">

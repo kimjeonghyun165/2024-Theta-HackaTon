@@ -1,4 +1,5 @@
 import React from "react";
+import Loading from "../../common/Loading";
 
 interface LoadMoreProps {
   isLoading: boolean;
@@ -18,17 +19,21 @@ const LoadMoreButton: React.FC<LoadMoreProps> = ({
   }
 
   if (isLoading) {
-    return <div className="text-center mt-4">Loading...</div>;
+    return (
+      <div className="mt-4 flex justify-center">
+        <Loading type="dots" />
+      </div>
+    );
   }
 
   if (!hasNextPage) {
-    return <div className="text-center mt-4">No More Models</div>;
+    return <div className="text-center mt-4"></div>;
   }
 
   return (
     <div className="w-full text-center mt-4">
       <button className="btn btn-ghost" onClick={onClick}>
-        Load More
+        Load More +
       </button>
     </div>
   );

@@ -8,20 +8,20 @@ import {
   useGenerateLowPoly3DModel,
   useGenerateRealistic3DModel,
 } from "../../hooks/useGeneratingApi";
+import { useModelCreateLoadingStore } from "../../store/useStore";
 
 const Style = () => {
   const { newModel } = useModelStore((state) => ({
     newModel: state.newModel,
   }));
   const { data: user } = useFetchUser();
-
+  const { isLoading } = useModelCreateLoadingStore();
   const [superResolution, setSuperResolution] = useState<boolean>(false);
   const [rangeValue, setRangeValue] = useState<number>(0);
   const [rangeLabel, setRangeLabel] = useState<"low" | "mid" | "high">("low");
 
-  const { mutate: generateLowPoly, isPending: isPendingLowPoly } =
-    useGenerateLowPoly3DModel(rangeLabel);
-  const { mutate: generateRealistic, isPending: isPendingRealistic } =
+  const { mutate: generateLowPoly } = useGenerateLowPoly3DModel(rangeLabel);
+  const { mutate: generateRealistic } =
     useGenerateRealistic3DModel(superResolution);
 
   const handleGenerateLowPoly = () => {
@@ -61,28 +61,28 @@ const Style = () => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-between py-10 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
-      <div className="flex flex-col w-full gap-3 px-16">
+    <div className="flex flex-col h-full  w-[90%] items-center py-10 height-small:pb-2 max-w-2xl bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
+      <div className="flex flex-col w-full gap-3 px-12">
         <div className="flex justify-end w-full">
           <CreditLabel credits={user?.credits ?? 0} />
         </div>
-        <div className="text-2xl font-semibold text-left text-white">style</div>
+        <div className="text-xl font-semibold text-left text-white">style</div>
         <div>
           <LowPolyCard
             rangeValue={rangeValue}
             handleRangeChange={handleRangeChange}
             handleGenerate={handleGenerateLowPoly}
-            isLoading={isPendingLowPoly}
-            isDisabled={isPendingLowPoly || isPendingRealistic}
+            isLoading={isLoading}
+            isDisabled={isLoading}
           />
         </div>
-        <div className="bottom-0 mt-7">
+        <div className="mt-8">
           <RealisticCard
             superResolution={superResolution}
             setSuperResolution={setSuperResolution}
             handleGenerate={handleGenerateRealistic}
-            isLoading={isPendingRealistic}
-            isDisabled={isPendingRealistic || isPendingLowPoly}
+            isLoading={isLoading}
+            isDisabled={isLoading}
           />
         </div>
       </div>

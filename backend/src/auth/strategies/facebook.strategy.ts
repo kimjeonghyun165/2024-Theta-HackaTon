@@ -1,28 +1,33 @@
+import { Injectable, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, VerifyCallback } from 'passport-google-oauth20';
+import { Strategy, VerifyFunction } from 'passport-facebook';
 
+@Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     constructor() {
         super({
-            clientID: process.env.GOOGLE_CLIENT_ID, //페이스북 환경변수로 바꿔야함. 인증안됨 지금은.
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: 'http://localhost:3060/api/auth/oauth2/redirect/facebook',
-            scope: ['email', 'profile'],
+            clientID: process.env.FACEBOOK_CLIENT_ID,
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+            callbackURL: process.env.BACKEND_URL + 'api/auth/facebook/redirect',
+            profileFields: ['name', 'emails', 'photos'],
+            scope: ['email'],
         });
     }
 
-    async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) {
+    async validate(accessToken: string, refreshToken: string, profile: any, done: Function): Promise<any> {
         try {
             const { name, emails, photos } = profile;
             const user = {
                 email: emails[0].value,
-                firstName: name.familyName,
-                lastName: name.givenName,
+                firstName: name.givenName,
+                lastName: name.familyName,
                 photo: photos[0].value,
+                email_verified: !!emails[0].value,
             };
             done(null, user);
-        } catch (error) {
-            done(error);
+        }
+        catch (error) {
+            done(error)
         }
     }
 }

@@ -6,7 +6,7 @@ import InputField from "../common/InputField";
 import { Google } from "../../../../assets/login/Google";
 import { Facebook } from "../../../../assets/login/Facebook";
 import { Apple } from "../../../../assets/login/Apple";
-import { googleLogin } from "../../../../api/authApi";
+import { facebookLogin, googleLogin } from "../../../../api/authApi";
 import { useLogin } from "../../../../hooks/useAuthApi";
 import { getErrorMessage } from "../../../../utils/utils";
 
@@ -92,12 +92,15 @@ const LoginModal = ({
         <div className="flex justify-around">
           <IconBtn
             icon={Google}
-            bgColor="bg-[#1C1C1C]/[.53]"
-            size="p-2"
+            className="bg-[#1C1C1C]/[.53] p-2 btn-circle"
             onClick={() => googleLogin()}
           />
-          <IconBtn icon={Facebook} bgColor="bg-[#1C1C1C]/[.53]" size="p-2" />
-          <IconBtn icon={Apple} bgColor="bg-[#1C1C1C]/[.53]" size="p-2" />
+          <IconBtn
+            icon={Facebook}
+            className="bg-[#1C1C1C]/[.53] p-2 btn-circle"
+            onClick={() => facebookLogin()}
+          />
+          <IconBtn icon={Apple} className="bg-[#1C1C1C]/[.53] p-2 btn-circle" />
         </div>
       </div>
     </form>

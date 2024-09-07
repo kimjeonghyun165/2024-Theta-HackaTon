@@ -56,9 +56,9 @@ const AccountModalOpenButton = () => {
         isVisible={modals.loginModal}
         modalName={ModalKey.LOGIN_MODAL}
         className="flex min-w-[500px] min-h-[550px]"
-        className2="w-full flex items-start justify-center mx-auto"
+        className2="w-full flex items-start justify-center"
         children2={
-          <div className="flex flex-col items-center px-4">
+          <div className="flex flex-col items-center px-4 ">
             {renderOptionButton("Login", "Login")}
             {renderOptionButton("SignUp", "Sign Up")}
           </div>

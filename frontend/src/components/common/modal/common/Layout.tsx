@@ -4,6 +4,7 @@ import { ModalKey, useModalStore } from "../../../../store/useStore";
 interface ModalProps {
   isVisible: boolean;
   modalName: ModalKey;
+  closeBtn?: boolean;
   children: React.ReactNode;
   children2?: React.ReactNode;
   className?: string;
@@ -13,6 +14,7 @@ interface ModalProps {
 const ModalLayout: React.FC<ModalProps> = ({
   isVisible,
   modalName,
+  closeBtn = true,
   children,
   children2,
   className,
@@ -31,15 +33,26 @@ const ModalLayout: React.FC<ModalProps> = ({
   useEffect(() => {
     const modal = modalRef.current;
 
-    if (modal) {
-      modal.addEventListener("close", handleClose);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+      }
+    };
 
+    if (modal) {
       if (isVisible) {
         modal.showModal();
+        modal.addEventListener("keydown", handleKeyDown);
       } else {
         modal.close();
       }
     }
+
+    return () => {
+      if (modal) {
+        modal.removeEventListener("keydown", handleKeyDown);
+      }
+    };
   }, [isVisible, handleClose]);
 
   return (
@@ -49,13 +62,15 @@ const ModalLayout: React.FC<ModalProps> = ({
         <div
           className={`modal-box flex p-10 h-full bg-sixteenth bg-opacity-80 rounded-3xl ${className}`}
         >
-          <button
-            type="button"
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            onClick={handleClose}
-          >
-            ✕
-          </button>
+          {closeBtn && (
+            <button
+              type="button"
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={handleClose}
+            >
+              ✕
+            </button>
+          )}
           {children}
         </div>
       </div>

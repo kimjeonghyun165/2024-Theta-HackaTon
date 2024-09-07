@@ -24,12 +24,12 @@ const LowPolyCard: React.FC<LowPolyCardProps> = ({
         <div className="w-1/2 pr-6">
           <LowPoly />
         </div>
-        <h2 className="pr-4 text-3xl font-extrabold">LOW POLY</h2>
+        <h2 className="pr-4 text-2xl font-extrabold">LOW POLY</h2>
       </div>
       <CardBody className="bg-[#A1B0FF]/[.17]">
-        <div className="w-full pb-12 flex flex-col bg-[#A1B0FF]/[.07] rounded-3xl items-end">
+        <div className="w-full pb-8 flex flex-col bg-[#A1B0FF]/[.07] rounded-3xl items-end">
           <div className="flex flex-col items-start w-1/2 gap-2 mt-3">
-            <label className="block text-lg font-medium">Polygon Count</label>
+            <label className="block text-md font-medium">Polygon Count</label>
             <div className="flex justify-between w-full pr-8 text-xs">
               <div>Low</div>
               <div>High</div>
@@ -49,9 +49,9 @@ const LowPolyCard: React.FC<LowPolyCardProps> = ({
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-between px-8 py-4 pr-0">
+        <div className="flex items-center justify-between px-8 py-4 pr-0 height-small:py-2">
           <div>
-            <ul className="text-sm list-disc">
+            <ul className="text-xs list-disc">
               <li>Fast Generation</li>
               <li className="mt-1">
                 Optimized Model For <br /> Game Development

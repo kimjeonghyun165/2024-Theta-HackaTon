@@ -31,18 +31,21 @@ const ActionField: React.FC<ActionProps> = ({ isLoading }) => {
   };
 
   return (
-    <div className="flex items-center justify-around gap-6">
+    <div className="flex  items-center justify-around space-x-6">
       <SwapIconBtn
         swapOnIcon={Earth}
         swapOffIcon={Lock}
-        bgColor={"bg-black/[.53]"}
+        bgColor={"bg-[#1C1C1C]/[.53]"}
         isSwapped={newModel?.visibility === "public"}
         onSwap={togglePublic}
+        tooltipOn="Make the model public"
+        tooltipOff="Make the model private"
       />
       <IconBtn
         icon={DownArrow}
-        bgColor="bg-black/[.53]"
+        className="btn-circle p-4 bg-[#1C1C1C]/[.53]"
         onClick={handleDownload}
+        tooltip="fbx & texture download"
       />
       <div className="w-full mt-0 modal-action">
         <button

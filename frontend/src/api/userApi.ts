@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "../constant/url";
 import { FilterModelDto } from "../interfaces/model.interface";
-import { UpdateUserDto, User } from "../interfaces/user.interface";
+import { SurveyDto, UpdateUserDto, User } from "../interfaces/user.interface";
 import { fetchFromApi } from "../utils/utils";
 
 export const fetchUser = async (jwtToken: string): Promise<User> => {
@@ -22,13 +22,15 @@ export const getUserModels = async (filterModelDto: FilterModelDto, jwtToken: st
     return fetchFromApi(API_BASE_URL, `user/my-models?${queryParams}`, {}, "GET", jwtToken);
 };
 
-
 export const setRepresentativeModel = async (modelId: string, jwtToken: string) => {
     return fetchFromApi(API_BASE_URL, "user/set-representative-model", { modelId }, "PUT", jwtToken);
 };
 
-
 export const toggleLikeModel = async (modelId: string, jwtToken: string) => {
     return fetchFromApi(API_BASE_URL, `user/like/${modelId}`, {}, "PATCH", jwtToken);
 };
+
+export const submitSurvey = async (surveyDto: SurveyDto, jwtToken: string) => {
+    return fetchFromApi(API_BASE_URL, "user/survey/complete", surveyDto, "PATCH", jwtToken)
+}
 

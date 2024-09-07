@@ -20,8 +20,8 @@ const Customization = () => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-between py-10 px-16 max-w-2xl w-full bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
-      <div className="flex flex-col items-center w-full gap-2">
+    <div className="flex h-full w-[90%] flex-col items-center justify-between py-10 px-14 max-w-2xl bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
+      <div className="flex flex-col items-center w-full gap-8">
         <div className="flex justify-end w-full">
           <CreditLabel credits={user?.credits ?? 0} />
         </div>
@@ -41,12 +41,12 @@ const Customization = () => {
       </div>
       <div className="flex items-center justify-around w-3/4 gap-1 mt-4">
         <div
-          className="btn btn-lg bg-fifth/[.13] rounded-2xl w-full"
+          className="btn btn-lg height-small:btn-md bg-fifth/[.13] rounded-2xl w-full"
           onClick={handleOpenModal}
         >
           Post
         </div>
-        <div className="btn btn-sm btn-circle p-1 bg-fifth/[.13]">
+        <div className="btn btn-sm height-small:p-2 btn-circle p-1 bg-fifth/[.13]">
           <RefreshArrow />
         </div>
       </div>

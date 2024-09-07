@@ -25,7 +25,7 @@ export class AuthController {
     @UseGuards(AuthGuard('google'))
     async googleAuthRedirect(@Req() req, @Res() res: Response) {
         try {
-            const jwt = await this.authService.googleLogin(req.user);
+            const jwt = await this.authService.ssoLogin(req.user, 'google');
             const redirectUrl = `${process.env.FRONTEND_URL}/auth-complete.html?token=${encodeURIComponent(jwt.access_token)}`;
             res.redirect(redirectUrl);
         } catch (error) {
@@ -37,6 +37,29 @@ export class AuthController {
             });
         }
     }
+
+    @Get('facebook/login')
+    @UseGuards(AuthGuard('facebook'))
+    async facebookLogin() {
+    }
+
+    @Get('facebook/redirect')
+    @UseGuards(AuthGuard('facebook'))
+    async facebookAuthRedirect(@Req() req, @Res() res: Response) {
+        try {
+            const jwt = await this.authService.ssoLogin(req.user, 'facebook');
+            const redirectUrl = `${process.env.FRONTEND_URL}/auth-complete.html?token=${encodeURIComponent(jwt.access_token)}`;
+            res.redirect(redirectUrl);
+        } catch (error) {
+            Logger.error('Facebook OAuth2 redirect failed', error.stack, 'AuthController');
+            res.status(500).json({
+                message: 'Authentication failed',
+                error: error.message,
+                stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+            });
+        }
+    }
+
 
 
     @Post('login')

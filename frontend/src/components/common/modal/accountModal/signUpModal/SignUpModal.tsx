@@ -2,10 +2,12 @@ import AnimatedContent from "../../../../generate/common/AnimatedContent";
 import SignUp from "./SignUp";
 import VerifyEmail from "./VerifyEmail";
 import SetPassword from "./SetPassword";
-import { useSignUpStore } from "../../../../../store/useStore";
+import { useModalStore, useSignUpStore } from "../../../../../store/useStore";
+import SuccessModal from "../../successModal/SuccessModal";
 
 const SignUpModal = () => {
   const { currentStep } = useSignUpStore();
+  const modals = useModalStore((state) => state.modals);
 
   return (
     <div className="relative overflow-hidden w-full h-full">
@@ -24,6 +26,11 @@ const SignUpModal = () => {
       <AnimatedContent isVisible={currentStep === 2} direction="right">
         <SetPassword />
       </AnimatedContent>
+      <SuccessModal
+        isVisible={modals.successModal}
+        message={"Welcome aboard!\nYour account has been successfully created."}
+        refreshUrl={"/"}
+      />
     </div>
   );
 };

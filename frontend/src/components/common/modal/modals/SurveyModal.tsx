@@ -1,0 +1,133 @@
+import { useEffect, useRef, useState } from "react";
+import { surveyQuestions } from "../../../../constant/survey";
+import { useSurveyResponse } from "../../../../hooks/useUserApi";
+import { ModalKey, useModalStore } from "../../../../store/useStore";
+import { useSurveyStore } from "../../../../store/useUserStore";
+import SelectDropdown from "../../dropdown/SelectDropdown";
+import ModalLayout from "../common/Layout";
+
+const SurveyModal = () => {
+  const { modals } = useModalStore((state) => ({
+    modals: state.modals,
+  }));
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedCompanySize, setSelectedCompanySize] =
+    useState<string>("Only me");
+  const shouldShowConditionalQuestions = selectedCompanySize !== "Only me";
+  const { surveyData, setSurveyData } = useSurveyStore();
+  const { mutate: surveyResponse } = useSurveyResponse();
+
+  const handleSubmitSurvey = async () => {
+    surveyResponse(surveyData);
+  };
+
+  const handleSelectChange = (subtitle: string, value: string | string[]) => {
+    switch (subtitle) {
+      case "Country":
+        setSurveyData({ country: value as string });
+        break;
+      case "Occupation":
+        setSurveyData({ occupation: value as string[] });
+        break;
+      case "Company Industry":
+        setSurveyData({ companyIndustry: value as string[] });
+        break;
+      case "Usage of ANVIL AI":
+        setSurveyData({ usageOfAnvilAI: value as string[] });
+        break;
+      case "Company Size":
+        setSurveyData({ companySize: value as string });
+        setSelectedCompanySize(value as string);
+        break;
+      case "Size of your Team":
+        setSurveyData({ teamSize: value as string });
+        break;
+      case "Do your team shares this account?":
+        setSurveyData({ teamSharesAccount: Boolean(value) });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const resizeObserver = new ResizeObserver(() => {
+        scrollToBottom();
+      });
+
+      resizeObserver.observe(containerRef.current);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, []);
+
+  return (
+    <ModalLayout
+      isVisible={modals.surveyModal}
+      modalName={ModalKey.SURVEY_MODAL}
+      closeBtn={false}
+      className={"min-h-[600px] min-w-[650px]"}
+    >
+      <div className="flex flex-col items-start w-full gap-3">
+        <p className="font-bold text-lg">
+          Shape the Future with Your Insights!
+        </p>
+        <p className="text-xs">
+          Complete a Quick Survey to Unlock Tailored AI Solutions and Receive
+          Free Credits.
+        </p>
+        <div
+          className="flex items-center overflow-y-auto h-full w-full"
+          ref={containerRef}
+        >
+          <div>
+            {surveyQuestions.map((question, index) => {
+              if (
+                question.condition === "Company Size" &&
+                !shouldShowConditionalQuestions
+              ) {
+                return null;
+              }
+
+              return (
+                <div className="my-4" key={index}>
+                  <div className="ml-5 mb-1 text-sm">{question.subtitle}</div>
+                  <SelectDropdown
+                    subtitle={question.subtitle}
+                    options={question.options}
+                    placeHolder={question.placeHolder}
+                    isSearch={question.isSearch}
+                    isMulti={question.isMulti}
+                    value={[]}
+                    onChange={(value) =>
+                      handleSelectChange(question.subtitle, value)
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="flex justify-center items-center w-full">
+          <div
+            className="btn text-white w-2/3 rounded-full"
+            onClick={handleSubmitSurvey}
+          >
+            Get Free Credit and Start!
+          </div>
+        </div>
+      </div>
+    </ModalLayout>
+  );
+};
+
+export default SurveyModal;

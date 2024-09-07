@@ -6,6 +6,10 @@ export const googleLogin = () => {
     window.location.href = `${API_BASE_URL}/auth/google/login`;
 };
 
+export const facebookLogin = () => {
+    window.location.href = `${API_BASE_URL}/auth/facebook/login`;
+};
+
 export const login = async (login: Login) => {
     return fetchFromApi(API_BASE_URL, "auth/login", login, "POST")
 }

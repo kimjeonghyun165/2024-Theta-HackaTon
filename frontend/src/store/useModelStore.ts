@@ -1,7 +1,9 @@
 import { create } from "zustand";
-import { CreateModelDto } from "../interfaces/model.interface";
+import { CreateModelDto, Model } from "../interfaces/model.interface";
 
 interface useModelState {
+  editModel: Model | null,
+  setEditModel: (model: Model) => void,
   newModel: CreateModelDto;
   setNewModel: (model: Partial<CreateModelDto>) => void;
 }
@@ -20,9 +22,13 @@ export const useModelStore = create<useModelState>((set) => ({
     listing: false,
     price: null,
   },
-
   setNewModel: (model) =>
     set((state) => ({
       newModel: { ...state.newModel, ...model },
+    })),
+  editModel: null,
+  setEditModel: (model: Model) =>
+    set((state) => ({
+      editModel: { ...state.editModel, ...model },
     })),
 }));

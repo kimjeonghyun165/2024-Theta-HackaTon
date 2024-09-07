@@ -18,8 +18,9 @@ type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 const ResetPassword = () => {
   const setCurrentStep = useResetPasswordStore((state) => state.setCurrentStep);
   const { mutate: setPassword, isPending, isError, error } = useSetPassword();
-  const { closeModal } = useModalStore((state) => ({
+  const { closeModal, openModal } = useModalStore((state) => ({
     closeModal: state.closeModal,
+    openModal: state.openModal,
   }));
 
   const {
@@ -37,6 +38,7 @@ const ResetPassword = () => {
         onSuccess: () => {
           closeModal(ModalKey.LOGIN_MODAL);
           setCurrentStep(0);
+          openModal(ModalKey.SUCCESS_MODAL);
         },
         onError: (error) => {
           if (error) window.location.reload();

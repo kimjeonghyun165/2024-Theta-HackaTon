@@ -33,7 +33,7 @@ const AnimatedContent: React.FC<
   return (
     <animated.div
       style={springProps}
-      className="absolute w-full h-full flex flex-col justify-center"
+      className="absolute w-full h-full flex flex-col justify-center items-start"
     >
       {children}
     </animated.div>

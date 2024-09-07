@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import { emailTemplates } from 'src/common/constants/mailOptions';
 
 @Injectable()
 export class EmailService {
@@ -18,13 +19,13 @@ export class EmailService {
         });
     }
 
-    async sendVerificationCode(to: string, code: string): Promise<void> {
+    async sendVerificationCode(to: string, code: string, action: string): Promise<void> {
 
         const mailOptions = {
-            from: 'googoo.nft@gmail.com',
+            from: 'anvil.supply@gmail.com',
             to,
-            subject: 'Email Verification',
-            html: `<p>Your verification code is: <strong>${code.split('.')[0]}</strong></p>`,
+            subject: action === "register" ? emailTemplates.signup.subject : emailTemplates.resetPassword.subject,
+            html: action === "register" ? emailTemplates.signup.html(code.split('.')[0]) : emailTemplates.resetPassword.html(code.split('.')[0])
         };
 
         await this.transporter.sendMail(mailOptions);

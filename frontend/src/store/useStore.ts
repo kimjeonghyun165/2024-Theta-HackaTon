@@ -18,6 +18,8 @@ export enum ModalKey {
     EDIT_MODAL = 'editModal',
     SUCCESS_MODAL = 'successModal',
     LOGIN_MODAL = 'loginModal',
+    TERMS_MODAL = 'termsModal',
+    SURVEY_MODAL = 'surveyModal'
 }
 
 interface ModalState {
@@ -34,6 +36,8 @@ export const useModalStore = create<ModalState>((set) => ({
         [ModalKey.EDIT_MODAL]: false,
         [ModalKey.SUCCESS_MODAL]: false,
         [ModalKey.LOGIN_MODAL]: false,
+        [ModalKey.TERMS_MODAL]: false,
+        [ModalKey.SURVEY_MODAL]: false,
     },
     openModal: (modalName: ModalKey) =>
         set((state) => ({ modals: { ...state.modals, [modalName]: true } })),
@@ -84,4 +88,15 @@ interface SignUpEmailState {
 export const useSignUpEmailStore = create<SignUpEmailState>((set) => ({
     email: '',
     setEmail: (email) => set({ email }),
+}));
+
+
+interface ModelCreateLoadingState {
+    isLoading: boolean;
+    setIsLoading: (loading: boolean) => void;
+}
+
+export const useModelCreateLoadingStore = create<ModelCreateLoadingState>((set) => ({
+    isLoading: false,
+    setIsLoading: (loading) => set({ isLoading: loading }),
 }));
