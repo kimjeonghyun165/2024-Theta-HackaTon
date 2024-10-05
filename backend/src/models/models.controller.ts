@@ -2,7 +2,7 @@ import { Controller, Post, Body, Param, UseGuards, Request, Get, Query, Put, Del
 import { ModelsService } from './models.service';
 import { CreateModelDto } from './dto/create-model.dto';
 import { UpdateModelDto } from './dto/update-model.dto';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard.ts';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { FilterModelDto } from './dto/filter-model.dto';
 import { TokenTypeGuard } from 'src/common/guards/token-type.guard';
 import { TokenType } from 'src/common/decorators/token-type.decorator';

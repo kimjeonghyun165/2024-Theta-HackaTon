@@ -96,7 +96,7 @@ const EditProfileModal = () => {
                 </div>
               </div>
             ) : (
-              <div className="max-h-[300px] min-h-[300px] flex items-center justify-center">
+              <div className="max-h-[300px] min-h-[300px] flex items-center justify-center opacity-70">
                 <div className="flex flex-col justify-center items-center text-center text-white text-lg gap-2">
                   <div className="w-2/5">
                     <Anvil3 />

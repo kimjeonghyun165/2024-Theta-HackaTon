@@ -1,4 +1,5 @@
 import { settingsData } from "../../../../constant/setting";
+import { useDeleteUser } from "../../../../hooks/useUserApi";
 import { ModalKey, useModalStore } from "../../../../store/useStore";
 import ModalLayout from "../common/Layout";
 import SettingInformBox from "./SettingInformBox";
@@ -8,6 +9,8 @@ const SettingModal = () => {
     modals: state.modals,
     openModal: state.openModal,
   }));
+
+  const { mutate: deleteUser } = useDeleteUser();
   return (
     <>
       <button
@@ -31,6 +34,12 @@ const SettingModal = () => {
                 items={section.items}
               />
             ))}
+            <div
+              className="btn btn-ghost text-white"
+              onClick={() => deleteUser()}
+            >
+              Delete ID
+            </div>
           </div>
         </div>
       </ModalLayout>

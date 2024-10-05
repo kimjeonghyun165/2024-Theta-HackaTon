@@ -33,8 +33,6 @@ export const generateImage = async (
   jwtToken: string,
   prompt: string
 ) => {
-  console.log(prompt)
-  console.log(API_BASE_URL)
   return fetchFromApi(
     API_BASE_URL,
     "generate/image",

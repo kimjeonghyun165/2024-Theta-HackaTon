@@ -4,7 +4,7 @@ import { SimpleRange } from "../common/range/Range";
 const Balloon = () => {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-xl font-semibold height-normal:text-lg">Balloon</p>
+      <p className="text-title-small">Balloon</p>
       <div className="px-4">
         <div className="flex items-center justify-around gap-4">
           <SimpleRange min={0} max={100} step={1} />

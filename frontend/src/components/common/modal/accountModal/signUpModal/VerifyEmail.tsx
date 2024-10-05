@@ -45,12 +45,8 @@ const VerifyEmail = () => {
       sendCode(
         { email: email, action: "register" },
         {
-          onSuccess: () => {
-            console.log("Verification code sent");
-          },
-          onError: (error) => {
-            console.error("Failed to send verification code:", error);
-          },
+          onSuccess: () => {},
+          onError: () => {},
         }
       );
     }

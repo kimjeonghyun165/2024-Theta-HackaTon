@@ -15,7 +15,7 @@ import { GenerateModelModule } from './generate-model/generate-model.module';
     UsersModule,
     AuthModule,
     ModelsModule,
-    GenerateModelModule
+    GenerateModelModule,
   ],
   controllers: [],
   providers: [],

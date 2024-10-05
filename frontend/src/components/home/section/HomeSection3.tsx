@@ -27,7 +27,6 @@ const HomeSection3 = () => {
         observer.unobserve(anvilRef.current);
       }
     };
-    console.log(anvilRef);
   }, []);
 
   return (

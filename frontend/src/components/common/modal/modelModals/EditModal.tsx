@@ -94,7 +94,7 @@ const EditModal: React.FC<PostPopupProps> = ({ mode, initialModel }) => {
       isVisible={modals.editModal}
       modalName={ModalKey.EDIT_MODAL}
       className={"min-w-[950px]"}
-      className2={"h-3/5"}
+      className2={"h-4/5"}
     >
       <div className="w-1/2 h-full">
         {(initialModel?.file || newModel.file) && (

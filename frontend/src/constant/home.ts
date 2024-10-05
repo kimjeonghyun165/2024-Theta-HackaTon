@@ -36,21 +36,21 @@ export const profiles = [
 export const plans = [
     {
         name: "TRIAL",
-        credits: "250 Credits",
+        credits: "150 Credits",
         license: "Non-Commercial License",
         price: "Free",
         button: "TRY FOR FREE",
     },
     {
         name: "SILVER",
-        credits: "1,000 Credits",
+        credits: "3,000 Credits",
         license: "Commercial License",
         price: "USD 15 / month",
         button: "SUBSCRIBE",
     },
     {
         name: "GOLD",
-        credits: "5,000 Credits",
+        credits: "13,000 Credits",
         license: "Commercial License",
         price: "USD 60 / month",
         button: "SUBSCRIBE",
@@ -68,7 +68,7 @@ export const plans = [
         credits: "UNLIMITED Credits",
         license: "Commercial License",
         button: "LEAVE AN INQUIRY",
-        details: ["* Faster Generation", "* Installation of Own Server", "* Unlimited Function and more"]
+        details: ["• Faster Generation", "• Installation of Own Server", "• Unlimited Function and more"]
     },
 ];
 

@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Anvil from "../../../assets/Anvil";
 import { useModelStore } from "../../../store/useModelStore";
-import { useOptionStore } from "../../../store/useStore";
-import { useToast } from "../../common/ToastContext";
+import {
+  useModalStore,
+  useOptionStore,
+  ModalKey,
+} from "../../../store/useStore";
 import Eclipse from "../../../assets/Eclipse";
 import Loading from "../../common/Loading";
 import { useGenerateImage } from "../../../hooks/useGeneratingApi";
@@ -12,7 +15,6 @@ import { useFetchUser } from "../../../hooks/useUserApi";
 const HomeSection1 = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
-  const { setToast } = useToast();
   const setSelectedOption = useOptionStore((state) => state.setSelectedOption);
   const { setNewModel } = useModelStore((state) => ({
     setNewModel: state.setNewModel,
@@ -23,14 +25,11 @@ const HomeSection1 = () => {
   const handleGenerateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
   };
+  const openModal = useModalStore((state) => state.openModal);
 
   const handleGenerate = () => {
     if (!user) {
-      setToast({
-        message: `You need to log in first.\nPlease log in.`,
-        type: "info",
-        position: "bottom-end",
-      });
+      openModal(ModalKey.LOGIN_MODAL);
       return;
     }
 
@@ -69,7 +68,7 @@ const HomeSection1 = () => {
             THE BEST 3D MODEL GENERATIVE AI
           </h2>
         </div>
-        <div className="w-1/2 height-small:w-[40%]">
+        <div className="w-1/2 height-small:w-[34%]">
           <Anvil />
         </div>
         <div className="absolute w-[1100px] -bottom-[500px] -z-20">

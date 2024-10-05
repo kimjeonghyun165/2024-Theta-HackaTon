@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useSurveyStore } from "../store/useUserStore";
 
 interface UseDropdownProps {
     options: string[];
@@ -11,6 +12,7 @@ export const useDropdown = ({ options, value, isMulti, onChange }: UseDropdownPr
     const [selectedValues, setSelectedValues] = useState<string[]>(
         Array.isArray(value) ? value : [value]
     );
+    const setOpenState = useSurveyStore((state) => state.setOpenState)
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
@@ -34,6 +36,7 @@ export const useDropdown = ({ options, value, isMulti, onChange }: UseDropdownPr
     const toggleDropdown = (e: React.MouseEvent) => {
         e.stopPropagation();
         setDropdownOpen((prevState) => !prevState);
+        setOpenState()
     };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

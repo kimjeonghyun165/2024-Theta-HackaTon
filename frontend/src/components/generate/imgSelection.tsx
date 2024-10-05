@@ -96,7 +96,7 @@ const ImgSelection = () => {
       </div>
       <div className="flex items-center justify-around w-3/4 gap-1">
         <button
-          className="btn btn-lg height-small:btn-md bg-fifth/[.13] rounded-2xl w-full"
+          className="generate-button "
           onClick={handleSelect}
           disabled={isLoading}
         >

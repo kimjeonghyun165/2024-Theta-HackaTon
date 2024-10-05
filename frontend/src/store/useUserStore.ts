@@ -44,9 +44,13 @@ export const useVerifyTokenStore = create<VerifyState>()(
 );
 
 export const useSurveyStore = create<{
+    openState: boolean;
+    setOpenState: () => void;
     surveyData: SurveyDto;
     setSurveyData: (data: Partial<SurveyDto>) => void;
 }>((set) => ({
+    openState: false,
+    setOpenState: () => set((state) => ({ openState: !state.openState })),
     surveyData: {
         country: '',
         occupation: [],

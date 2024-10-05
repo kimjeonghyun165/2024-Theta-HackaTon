@@ -5,20 +5,58 @@ import { ModalKey, useModalStore } from "../../../../store/useStore";
 import { useSurveyStore } from "../../../../store/useUserStore";
 import SelectDropdown from "../../dropdown/SelectDropdown";
 import ModalLayout from "../common/Layout";
+import { z } from "zod";
+
+const surveySchema = z
+  .object({
+    country: z.string().nonempty("Country is required"),
+    occupation: z.array(z.string()).nonempty("Occupation is required"),
+    companyIndustry: z
+      .array(z.string())
+      .nonempty("Company industry is required"),
+    usageOfAnvilAI: z
+      .array(z.string())
+      .nonempty("Usage of ANVIL AI is required"),
+    companySize: z.string().nonempty("Company size is required"),
+    teamSize: z.string().optional(),
+    teamSharesAccount: z.boolean().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.companySize !== "Only me") {
+        return data.teamSize && data.teamSharesAccount !== undefined;
+      }
+      return true;
+    },
+    {
+      message:
+        "Team size and sharing account information are required for companies larger than 'Only me'.",
+      path: ["teamSize"],
+    }
+  );
 
 const SurveyModal = () => {
   const { modals } = useModalStore((state) => ({
     modals: state.modals,
   }));
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedCompanySize, setSelectedCompanySize] =
     useState<string>("Only me");
   const shouldShowConditionalQuestions = selectedCompanySize !== "Only me";
-  const { surveyData, setSurveyData } = useSurveyStore();
+  const { openState, surveyData, setSurveyData } = useSurveyStore();
   const { mutate: surveyResponse } = useSurveyResponse();
 
-  const handleSubmitSurvey = async () => {
-    surveyResponse(surveyData);
+  const handleSubmitSurvey = () => {
+    const result = surveySchema.safeParse(surveyData);
+    if (result.success) {
+      setErrorMessage(null);
+      surveyResponse(surveyData);
+    } else {
+      setErrorMessage(
+        "Please complete all required fields before submitting the survey."
+      );
+    }
   };
 
   const handleSelectChange = (subtitle: string, value: string | string[]) => {
@@ -68,7 +106,7 @@ const SurveyModal = () => {
         resizeObserver.disconnect();
       };
     }
-  }, []);
+  }, [surveyQuestions, shouldShowConditionalQuestions, openState]);
 
   return (
     <ModalLayout
@@ -86,7 +124,7 @@ const SurveyModal = () => {
           Free Credits.
         </p>
         <div
-          className="flex items-center overflow-y-auto h-full w-full"
+          className="flex items-start overflow-y-auto h-full w-full no-scrollbar"
           ref={containerRef}
         >
           <div>
@@ -117,13 +155,16 @@ const SurveyModal = () => {
             })}
           </div>
         </div>
-        <div className="flex justify-center items-center w-full">
+        <div className="flex flex-col justify-center items-center w-full">
           <div
             className="btn text-white w-2/3 rounded-full"
             onClick={handleSubmitSurvey}
           >
             Get Free Credit and Start!
           </div>
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-1">{errorMessage}</div>
+          )}
         </div>
       </div>
     </ModalLayout>

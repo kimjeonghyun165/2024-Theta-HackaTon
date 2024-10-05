@@ -9,9 +9,7 @@ const mirrors = [Mirror_1, Mirror_2, Mirror_3];
 const Mirror = () => {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-xl font-semibold text-center height-normal:text-lg">
-        Mirror
-      </p>
+      <p className="text-title-small text-center">Mirror</p>
       <div className="flex justify-between gap-4">
         {mirrors.map((Component, index) => (
           <div

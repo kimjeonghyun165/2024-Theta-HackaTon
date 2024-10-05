@@ -28,7 +28,6 @@ const ThreeScene: React.FC<ThreeSceneProps> = ({
 
   useEffect(() => {
     if (isVisible && containerRef.current) {
-      const container = containerRef.current;
       const event = new Event("resize");
       window.dispatchEvent(event);
     }

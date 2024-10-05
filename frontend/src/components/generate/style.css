@@ -1,0 +1,11 @@
+.generate-button {
+  @apply btn btn-lg bg-fifth/[.13] rounded-2xl w-full text-white;
+}
+
+@screen height-small {
+  .generate-button {
+    @apply btn-md;
+  }
+}
+
+

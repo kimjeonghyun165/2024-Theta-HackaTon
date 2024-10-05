@@ -30,7 +30,9 @@ const PriceCard: React.FC<PriceCardProps> = ({
           <h3 className="text-2xl font-semibold text-white">{name}</h3>
           <span>
             <h4 className="mt-2 text-lg font-semibold text-white">{credits}</h4>
-            <h4 className="mt-2 text-lg text-white font-extralight">{license}</h4>
+            <h4 className="mt-2 text-lg text-white font-extralight">
+              {license}
+            </h4>
             {price && (
               <h4 className="mt-4 text-lg font-bold text-white">{price}</h4>
             )}
@@ -46,7 +48,10 @@ const PriceCard: React.FC<PriceCardProps> = ({
           </span>
         </div>
       </div>
-      <div className="w-full mt-4 text-lg text-white btn bg-fourth rounded-xl" aria-label={button}>
+      <div
+        className="w-full mt-4 text-lg text-white btn bg-fourth rounded-xl"
+        aria-label={button}
+      >
         {button}
       </div>
     </div>

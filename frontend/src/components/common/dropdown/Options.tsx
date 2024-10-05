@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSurveyStore } from "../../../store/useUserStore";
 import SearchInput from "./SearchInput";
 

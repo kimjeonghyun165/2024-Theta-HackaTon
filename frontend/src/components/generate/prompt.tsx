@@ -48,7 +48,7 @@ const Prompt = () => {
           model"
         </div>
         <button
-          className="btn btn-lg w-2/3 bg-fifth/[.13] mt-4 rounded-3xl height-small:btn-md"
+          className="generate-button"
           onClick={handleGenerate}
           disabled={isLoading}
         >

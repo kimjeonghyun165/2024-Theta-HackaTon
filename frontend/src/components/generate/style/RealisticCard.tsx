@@ -23,7 +23,7 @@ const RealisticCard: React.FC<RealisticCardProps> = ({
   return (
     <div className="relative w-full max-w-3xl pt-8 pr-0 text-white card">
       <div className="absolute flex justify-between -top-2">
-        <h2 className="pl-4 text-2xl height-small:text-xl font-extrabold tracking-wider">
+        <h2 className="pl-4 text-2xl font-extrabold tracking-wider">
           REALISTIC
         </h2>
         <div className="flex justify-center w-1/2">
@@ -43,7 +43,7 @@ const RealisticCard: React.FC<RealisticCardProps> = ({
         </div>
         <div className="flex items-center justify-between px-8 py-4 pr-0 height-small:py-2">
           <div>
-            <ul className="text-xs list-disc">
+            <ul className="text-body-sub list-disc">
               <li>High Quality</li>
               <li className="mt-1">
                 Moderate Speed

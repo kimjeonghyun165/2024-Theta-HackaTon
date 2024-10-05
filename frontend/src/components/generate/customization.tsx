@@ -7,6 +7,7 @@ import Mirror from "./customization/Mirror";
 import Balloon from "./customization/Balloon";
 import { useFetchUser } from "../../hooks/useUserApi";
 import { ModalKey, useModalStore } from "../../store/useStore";
+import "./style.css";
 
 const Customization = () => {
   const { data: user } = useFetchUser();
@@ -20,8 +21,8 @@ const Customization = () => {
   };
 
   return (
-    <div className="flex h-full w-[90%] flex-col items-center justify-between py-10 px-14 max-w-2xl bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
-      <div className="flex flex-col items-center w-full gap-8">
+    <div className="flex h-full w-[90%] flex-col items-center justify-between py-10 px-14 max-w-2xl bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto no-scrollbar">
+      <div className="flex flex-col items-center w-full gap-8 height-small:gap-4">
         <div className="flex justify-end w-full">
           <CreditLabel credits={user?.credits ?? 0} />
         </div>
@@ -40,10 +41,7 @@ const Customization = () => {
         </div>
       </div>
       <div className="flex items-center justify-around w-3/4 gap-1 mt-4">
-        <div
-          className="btn btn-lg height-small:btn-md bg-fifth/[.13] rounded-2xl w-full"
-          onClick={handleOpenModal}
-        >
+        <div className="generate-button" onClick={handleOpenModal}>
           Post
         </div>
         <div className="btn btn-sm height-small:p-2 btn-circle p-1 bg-fifth/[.13]">

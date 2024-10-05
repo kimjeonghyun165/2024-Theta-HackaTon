@@ -63,7 +63,7 @@ const UserOwnModel = () => {
             </div>
           </div>
         ) : (
-          <div className="min-h-[500px] max-h-[500px] flex items-center justify-center">
+          <div className="min-h-[500px] max-h-[500px] flex items-center justify-center opacity-70">
             <div className="flex flex-col justify-center items-center text-center text-white text-lg gap-2">
               <div className="w-2/3">
                 <Anvil3 />

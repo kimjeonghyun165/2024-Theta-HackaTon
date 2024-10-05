@@ -17,7 +17,6 @@ const Toast: React.FC<ToastProps> = ({
     const timer = setTimeout(onClose, 5000);
     return () => clearTimeout(timer);
   }, [onClose]);
-  console.log(type);
   const positionClass = () => {
     switch (position) {
       case "top-start":
@@ -34,7 +33,7 @@ const Toast: React.FC<ToastProps> = ({
   };
 
   return (
-    <div className={`toast ${positionClass()}`}>
+    <div className={`toast z-50 ${positionClass()}`}>
       <div className={`alert alert-${type}`}>
         <span>{message}</span>
         <button

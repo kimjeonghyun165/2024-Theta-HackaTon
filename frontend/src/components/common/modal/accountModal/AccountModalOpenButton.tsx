@@ -55,7 +55,7 @@ const AccountModalOpenButton = () => {
       <ModalLayout
         isVisible={modals.loginModal}
         modalName={ModalKey.LOGIN_MODAL}
-        className="flex min-w-[500px] min-h-[550px]"
+        className="flex min-w-[500px] min-h-[650px]"
         className2="w-full flex items-start justify-center"
         children2={
           <div className="flex flex-col items-center px-4 ">
@@ -64,7 +64,9 @@ const AccountModalOpenButton = () => {
           </div>
         }
       >
-        <div className="w-full flex items-center">{renderModalContent()}</div>
+        <div className="w-full flex items-center overflow-auto no-scrollbar">
+          {renderModalContent()}
+        </div>
       </ModalLayout>
     </>
   );

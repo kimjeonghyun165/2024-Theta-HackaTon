@@ -3,9 +3,13 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
       extend: {
+        fontSize: {
+          'xxs': '10px',
+        },  
         screens:{
+          'height-xsmall': {'raw': '(max-height: 700px)'},
           'height-small': {'raw': '(max-height: 800px)'},
-          'height-normal' : {'raw': '(max-height: 910px)'},
+          'height-normal' : {'raw': '(max-height: 900px)'},
           'height-large': {'raw': '(min-height: 1000px)'}
         },
         boxShadow: {

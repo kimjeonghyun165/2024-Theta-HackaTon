@@ -1,27 +1,45 @@
 import { IsOptional, IsString, IsEnum, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
+
+enum Visibility {
+  PRIVATE = 'private',
+  PUBLIC = 'public',
+}
+
+enum SortBy {
+  CREATED_AT = 'createdAt',
+  LIKE = 'like',
+}
+
+enum SortOrder {
+  ASC = 'asc',
+  DESC = 'desc',
+}
 
 export class FilterModelDto {
-    @IsOptional()
-    @IsString()
-    createdBy?: string;
+  @IsOptional()
+  @IsString()
+  createdBy?: string;
 
-    @IsOptional()
-    @IsEnum(['private', 'public'])
-    visibility?: 'private' | 'public';
+  @IsOptional()
+  @IsEnum(Visibility)
+  visibility?: Visibility;
 
-    @IsOptional()
-    @IsString()
-    sortBy?: 'createdAt' | 'like';
+  @IsOptional()
+  @IsEnum(SortBy)
+  sortBy?: SortBy;
 
-    @IsOptional()
-    @IsString()
-    sortOrder?: 'asc' | 'desc';
+  @IsOptional()
+  @IsEnum(SortOrder)
+  sortOrder?: SortOrder;
 
-    @IsOptional()
-    @IsString()
-    offset?: string;
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  offset?: number;
 
-    @IsOptional()
-    @IsString()
-    limit?: string;
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  limit?: number;
 }

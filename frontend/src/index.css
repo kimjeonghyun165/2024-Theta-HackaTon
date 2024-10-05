@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
 :root {
   font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -27,4 +30,79 @@ html {
 
 dialog {
   scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+display: none;
+}
+
+.no-scrollbar {
+-ms-overflow-style: none; 
+scrollbar-width: none;
+}
+
+.text-title-main {
+  @apply text-3xl font-bold leading-tight;
+}
+
+.text-title-sub {
+  @apply text-2xl font-bold leading-snug;
+}
+
+.text-title-small {
+  @apply text-xl font-semibold leading-snug;
+}
+
+.text-body-main {
+  @apply text-lg leading-relaxed;
+}
+
+.text-body-base {
+  @apply text-base leading-relaxed;
+}
+
+.text-caption {
+  @apply text-sm;
+}
+
+@media (max-height: 900px) {
+  .text-title-main {
+    @apply text-2xl;
+  }
+  .text-title-sub {
+    @apply text-xl;
+  }
+  .text-title-small {
+    @apply text-lg;
+  }
+  .text-body-main {
+    @apply text-base;
+  }
+  .text-body-sub {
+    @apply text-sm;
+  }
+  .text-caption {
+    @apply text-xs;
+  }
+}
+
+@media (max-height: 750px) {
+  .text-title-main {
+    @apply text-xl;
+  }
+  .text-title-sub {
+    @apply text-lg;
+  }
+  .text-title-small {
+    @apply text-base;
+  }
+  .text-body-main {
+    @apply text-sm;
+  }
+  .text-body-sub {
+    @apply text-xs;
+  }
+  .text-caption {
+    @apply text-xxs;
+  }
 }

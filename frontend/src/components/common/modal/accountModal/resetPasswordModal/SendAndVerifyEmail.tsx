@@ -56,16 +56,11 @@ const SendAndVerifyEmail = () => {
 
   const handleSendCode = () => {
     if (currentEmail) {
-      console.log(currentEmail);
       sendCode(
         { email: currentEmail, action: "resetPassword" },
         {
-          onSuccess: () => {
-            console.log("Verification code sent");
-          },
-          onError: (error) => {
-            console.error("Failed to send verification code:", error);
-          },
+          onSuccess: () => {},
+          onError: () => {},
         }
       );
     }
@@ -128,7 +123,7 @@ const SendAndVerifyEmail = () => {
       </form>
       <div className="text-center text-xs">
         <p>Do you have any question? Contact</p>
-        <p className="text-[#A1B0FF]">support_anvilai@gmail.com</p>
+        <p className="text-[#A1B0FF]">faqanvilai@gmail.com</p>
       </div>
     </div>
   );

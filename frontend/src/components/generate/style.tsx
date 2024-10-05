@@ -61,12 +61,11 @@ const Style = () => {
   };
 
   return (
-    <div className="flex flex-col h-full  w-[90%] items-center py-10 height-small:pb-2 max-w-2xl bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto">
-      <div className="flex flex-col w-full gap-3 px-12">
+    <div className="flex flex-col h-full w-[90%] items-center py-10 height-small:pb-2 max-w-2xl bg-[#D0D0D0]/[.07] rounded-3xl overflow-auto no-scrollbar">
+      <div className="flex flex-col w-full gap-6 px-12 height-small:gap-4">
         <div className="flex justify-end w-full">
           <CreditLabel credits={user?.credits ?? 0} />
         </div>
-        <div className="text-xl font-semibold text-left text-white">style</div>
         <div>
           <LowPolyCard
             rangeValue={rangeValue}

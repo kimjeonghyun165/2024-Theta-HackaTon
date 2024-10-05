@@ -50,7 +50,7 @@ const LoginModal = ({
   return (
     <form
       onSubmit={handleSubmit(clickLoginButton)}
-      className="flex flex-col w-full gap-10 py-10"
+      className="flex flex-col w-full gap-10"
     >
       <InputField
         label="Email"

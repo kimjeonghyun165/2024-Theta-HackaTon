@@ -34,3 +34,7 @@ export const submitSurvey = async (surveyDto: SurveyDto, jwtToken: string) => {
     return fetchFromApi(API_BASE_URL, "user/survey/complete", surveyDto, "PATCH", jwtToken)
 }
 
+export const deleteUser = async (jwtToken: string) => {
+    return fetchFromApi(API_BASE_URL, "user/delete", {}, "DELETE", jwtToken)
+}
+

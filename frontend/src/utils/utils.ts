@@ -29,7 +29,6 @@ export const fetchFromApi = async (
   return response.json();
 };
 
-
 export const createPasswordSchema = () => {
   return z
     .object({
@@ -51,7 +50,6 @@ export const createPasswordSchema = () => {
     });
 };
 
-
 export const getErrorMessage = (error: Error): string => {
   if (!error) {
     return "An unexpected error occurred.";
@@ -62,8 +60,8 @@ export const getErrorMessage = (error: Error): string => {
   try {
     const parsedError = JSON.parse(errorMessage);
 
-    if (parsedError && typeof parsedError === 'object') {
-      const { statusCode, message, error: errorType } = parsedError;
+    if (parsedError && typeof parsedError === "object") {
+      const { statusCode, message } = parsedError;
 
       switch (statusCode) {
         case 400:

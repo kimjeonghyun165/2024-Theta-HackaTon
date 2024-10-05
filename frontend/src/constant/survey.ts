@@ -1,3 +1,5 @@
+import countryList from "react-select-country-list";
+
 export enum Occupation {
     ARTIST_3D = '3D Artist',
     ASSET_DESIGNER = '3D Asset Designer',
@@ -63,7 +65,7 @@ export enum UsageOfAnvilAI {
 export const surveyQuestions = [
     {
         subtitle: "Country",
-        options: ["Korea", "Japan", "United States", "Other"],
+        options: countryList().getData().map((country) => country.label),
         placeHolder: "Select Country",
         isSearch: true,
         isMulti: false,

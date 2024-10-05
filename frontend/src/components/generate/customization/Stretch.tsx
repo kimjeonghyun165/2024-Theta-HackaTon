@@ -6,13 +6,13 @@ const stretchs = ["Wider", "Thicker", "Taller"];
 const Stretch = () => {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-xl font-semibold height-normal:text-lg">Stretch</p>
+      <p className="text-title-small">Stretch</p>
       <div className="px-4">
         <div className="flex justify-between gap-4">
           {stretchs.map((component, index) => (
             <div
               key={index}
-              className="w-1/4 text-base rounded-full btn btn-ghost height-normal:btn-sm"
+              className="w-1/4 text-body-base rounded-full btn btn-ghost height-normal:btn-sm"
             >
               {component}
             </div>
